@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' as material;
 import 'package:flutter/material.dart' hide ThemeExtension;
+import 'package:google_fonts/google_fonts.dart';
 
 @immutable
 class ThemeExtension extends material.ThemeExtension<ThemeExtension> {
@@ -79,7 +80,7 @@ class AppTheme {
       brightness: brightness,
       surface: isDark ? darkBackground : lightBackground,
     );
-    final textTheme = _textTheme(scheme);
+    final textTheme = GoogleFonts.nunitoTextTheme(_textTheme(scheme));
     final shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(12));
     final buttonStyle = _buttonStyle();
 
@@ -94,7 +95,7 @@ class AppTheme {
       splashFactory: InkSparkle.splashFactory,
       visualDensity: VisualDensity.standard,
       materialTapTargetSize: MaterialTapTargetSize.padded,
-      fontFamily: 'Roboto',
+      fontFamily: 'Nunito',
       textTheme: textTheme,
       primaryTextTheme: textTheme,
       iconTheme: IconThemeData(color: scheme.onSurfaceVariant, size: 24),

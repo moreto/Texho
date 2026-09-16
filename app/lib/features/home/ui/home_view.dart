@@ -17,15 +17,22 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Home')),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('Tema', style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 16),
-            SegmentedButton<ThemeMode>(
+      appBar: AppBar(title: const Text('Home')),
+      body: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: ElevatedButton(
+                onPressed: () async {
+                  await widget.viewModel.cepCommand.execute();
+                },
+                child: const Text('Get CEP'),
+              ),
+            ),
+          ),
+          SafeArea(
+            minimum: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+            child: SegmentedButton<ThemeMode>(
               segments: const [
                 ButtonSegment(
                   value: ThemeMode.system,
@@ -40,15 +47,8 @@ class _HomeViewState extends State<HomeView> {
                 context.read<ThemeModeController>().setMode(selection.first);
               },
             ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () async {
-                await widget.viewModel.cepCommand.execute();
-              },
-              child: Text('Get CEP'),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
