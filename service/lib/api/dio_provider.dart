@@ -1,7 +1,12 @@
 import 'dart:convert';
 
+import 'package:commons/log.dart';
+import 'package:commons/result.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:service/api/enum.dart';
+import 'package:service/api/http_service_exception_model.dart';
+import 'package:service/api/service_exception.dart';
 
 import 'api_core.dart';
 import 'header.dart';
@@ -109,12 +114,12 @@ class DioProvider {
       var elapsedSeconds = stopWatch.elapsed.inSeconds;
       var elapsedMilliseconds = stopWatch.elapsed.inMilliseconds;
 
-      TexhoLog.print(
+      Log.print(
         '${_apiCore.endpoint}, s: $elapsedSeconds, ms: $elapsedMilliseconds',
         title: 'Provider ${verb.name.toUpperCase()} $status',
       );
-      if (body != null) TexhoLog.printJson(body, title: 'Provider Body');
-      if (pathParam != null) TexhoLog.print(pathParam.toString(), title: 'Provider Param');
+      if (body != null) Log.printJson(body, title: 'Provider Body');
+      if (pathParam != null) Log.print(pathParam.toString(), title: 'Provider Param');
       // Log.printJson(resp.toString().substring(0, 500), titulo: 'Provider Response');
     }
   }
