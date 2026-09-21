@@ -10,14 +10,14 @@ class HomeViewmodel extends ChangeNotifier {
   HomeViewmodel(HomeUseCase homeUseCase) : _homeUseCase = homeUseCase {
     Log.print(super.runtimeType);
   }
-
+  TextEditingController cepController = TextEditingController(text: '73252200');
   final HomeUseCase _homeUseCase;
 
   late final Command0 cepCommand = Command0(_get);
 
   Future<Result<CepModel>> _get() async {
     notifyListeners();
-    final useCaseResult = await _homeUseCase.get();
+    final useCaseResult = await _homeUseCase.get(cepController.text);
 
     switch (useCaseResult) {
       case Ok<CepModel>():

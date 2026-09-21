@@ -11,8 +11,8 @@ class HomeUseCase {
 
   final HomeRepository _homeRepository;
 
-  Future<Result<CepModel>> get() async {
-    final serviceResult = await _homeRepository.get();
+  Future<Result<CepModel>> get(String cep) async {
+    final serviceResult = await _homeRepository.get(cep);
     switch (serviceResult) {
       case Ok<CepModel>():
         return Result.ok(serviceResult.value);

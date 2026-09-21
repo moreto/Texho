@@ -2,6 +2,26 @@ import 'package:flutter/material.dart' as material;
 import 'package:flutter/material.dart' hide ThemeExtension;
 import 'package:google_fonts/google_fonts.dart';
 
+enum AppFont {
+  nunito('Nunito'),
+  barlow('Barlow'),
+  dosis('Dosis'),
+  adventPro('Advent Pro'),
+  gruppo('Gruppo'),
+  jura('Jura'),
+  istokWeb('Istok Web'),
+  georama('Georama'),
+  economica('Economica'),
+  daysOne('Days One'),
+  basic('Basic'),
+  caudex('Caudex'),
+  overlockSc('Overlock SC');
+
+  const AppFont(this.label);
+
+  final String label;
+}
+
 @immutable
 class ThemeExtension extends material.ThemeExtension<ThemeExtension> {
   const ThemeExtension({
@@ -70,17 +90,17 @@ class AppTheme {
   static const lightBackground = Color(0xFFF8FAFC);
   static const darkBackground = Color(0xFF101719);
 
-  static ThemeData get lightTheme => _buildTheme(Brightness.light);
-  static ThemeData get darkTheme => _buildTheme(Brightness.dark);
+  static ThemeData lightTheme({AppFont font = AppFont.overlockSc}) => _buildTheme(Brightness.light, font);
+  static ThemeData darkTheme({AppFont font = AppFont.overlockSc}) => _buildTheme(Brightness.dark, font);
 
-  static ThemeData _buildTheme(Brightness brightness) {
+  static ThemeData _buildTheme(Brightness brightness, AppFont font) {
     final isDark = brightness == Brightness.dark;
     final scheme = ColorScheme.fromSeed(
       seedColor: seedColor,
       brightness: brightness,
       surface: isDark ? darkBackground : lightBackground,
     );
-    final textTheme = GoogleFonts.nunitoTextTheme(_textTheme(scheme));
+    final textTheme = _fontTextTheme(font, scheme);
     final shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(12));
     final buttonStyle = _buttonStyle();
 
@@ -95,7 +115,7 @@ class AppTheme {
       splashFactory: InkSparkle.splashFactory,
       visualDensity: VisualDensity.standard,
       materialTapTargetSize: MaterialTapTargetSize.padded,
-      fontFamily: 'Nunito',
+      fontFamily: font.label,
       textTheme: textTheme,
       primaryTextTheme: textTheme,
       iconTheme: IconThemeData(color: scheme.onSurfaceVariant, size: 24),
@@ -232,6 +252,25 @@ class AppTheme {
         ),
       ],
     );
+  }
+
+  static TextTheme _fontTextTheme(AppFont font, ColorScheme scheme) {
+    final base = _textTheme(scheme);
+    return switch (font) {
+      AppFont.nunito => GoogleFonts.nunitoTextTheme(base),
+      AppFont.barlow => GoogleFonts.barlowTextTheme(base),
+      AppFont.dosis => GoogleFonts.dosisTextTheme(base),
+      AppFont.adventPro => GoogleFonts.adventProTextTheme(base),
+      AppFont.gruppo => GoogleFonts.gruppoTextTheme(base),
+      AppFont.jura => GoogleFonts.juraTextTheme(base),
+      AppFont.istokWeb => GoogleFonts.istokWebTextTheme(base),
+      AppFont.georama => GoogleFonts.georamaTextTheme(base),
+      AppFont.economica => GoogleFonts.economicaTextTheme(base),
+      AppFont.daysOne => GoogleFonts.daysOneTextTheme(base),
+      AppFont.basic => GoogleFonts.basicTextTheme(base),
+      AppFont.caudex => GoogleFonts.caudexTextTheme(base),
+      AppFont.overlockSc => GoogleFonts.overlockScTextTheme(base),
+    };
   }
 
   static TextTheme _textTheme(ColorScheme scheme) {

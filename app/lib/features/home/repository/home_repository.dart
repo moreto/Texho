@@ -6,9 +6,11 @@ import 'package:service/api/enum.dart';
 import '../../../data/model/cep_model.dart';
 
 class HomeRepository {
-  Future<Result<CepModel>> get() async {
+  Future<Result<CepModel>> get(String cep) async {
     try {
-      final response = await DioProvider.of(ApiCore.cep).request(verb: Verb.get);
+      String parameter = '/$cep/json/';
+
+      final response = await DioProvider.of(ApiCore.cep).request(verb: Verb.get, pathParam: parameter);
       switch (response) {
         case Ok<Map<String, dynamic>>():
           return Result.ok(CepModel.fromJson(response.value));

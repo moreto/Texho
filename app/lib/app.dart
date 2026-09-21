@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
         builder: (context, themeController, child) {
           return MaterialApp.router(
             // scrollBehavior: AppCustomScrollBehavior(),
-            theme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
+            theme: AppTheme.lightTheme(font: themeController.font),
+            darkTheme: AppTheme.darkTheme(font: themeController.font),
             themeMode: themeController.mode,
             routerConfig: router(),
             // localizationsDelegates: AppLocalizations.localizationsDelegates,
