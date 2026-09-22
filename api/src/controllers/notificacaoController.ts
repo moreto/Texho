@@ -1,25 +1,31 @@
 import { Request, Response } from "express";
 import { LogTypes } from "../commons/enum";
-import { NotificacaoModel } from "../models/notificacaoModel";
+import { ConvertNotificacaoModel, NotificacaoModel } from "../models/notificacaoModel";
 import { NotificacaoRepository } from "../repositories/notificacaoRepository";
+import { LogDbRepository } from "../repositories/logDbRepository";
+
 
 
 export default class NotificacaoController {
     async notificar(request: Request, response: Response) {
         try {
             const repository = new NotificacaoRepository();
+            const logRepository = new LogDbRepository();
 
-            const notificaco: NotificacaoModel = {
-                notiId: 0,
-                notiData: new Date(),
-                logId: 0,
-                notiTipo: LogTypes.ERROR,
-                usuaId: 1,
-                notiTexto: 'erroMessage',
-                notiErro: 'erroStack',
-            };
+            let model = ConvertNotificacaoModel.toNotificacaoModel(JSON.stringify(request.body));
 
-            let retorno = await repository.post(notificaco);
+            if(model.notiErro != null && model.notiErro != undefined && model.notiErro != "") {
+              let logId =  await logRepository.post({
+                    logTipo: LogTypes.ERROR,
+                    objeto: model.notiErro,
+                    usuaId: model.usuaId,
+                    texto: model.notiTexto
+                });
+
+                model.logId = logId.logId;
+            }   
+
+            let retorno = await repository.post(model);
 
             return response.status(200).send(retorno);
         } catch (err: unknown) {

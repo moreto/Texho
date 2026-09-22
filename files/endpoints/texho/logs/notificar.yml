@@ -1,0 +1,26 @@
+info:
+  name: notificar
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{HOST}}/api/v1/notificacao"
+  body:
+    type: json
+    data: |-
+      {
+        "notiTipo": "tipo",
+        "notiTexto": "texto",
+        "notiErro": "notiErro",
+        "usuaId": 1,
+        "logId": 1
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

@@ -19,8 +19,8 @@ class NotificacaoRepository {
   async post(model: NotificacaoModel) {
     try {
       let query = {
-        text: "INSERT INTO notificacao (noti_texto, noti_tipo, usua_id, log_id, noti_erro) VALUES ($1, $2, $3, $4, $5) RETURNING noti_id as id;",
-        values: [model.notiTexto, model.notiTipo, model.usuaId, model.logId, model.notiErro],
+        text: "INSERT INTO notificacao (noti_texto, noti_tipo, usua_id, log_id) VALUES ($1, $2, $3, $4) RETURNING noti_id as id;",
+        values: [model.notiTexto, model.notiTipo, model.usuaId, model.logId],
       };
       const result = await Database.DbQuery(query);
       const json = JSON.stringify(result);

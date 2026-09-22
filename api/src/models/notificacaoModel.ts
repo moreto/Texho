@@ -1,9 +1,3 @@
-// To parse this data:
-//
-//   import { Convert, NotificacaoModel } from "./file";
-//
-//   const notificacaoModel = Convert.toNotificacaoModel(json);
-
 export interface NotificacaoModel {
   notiId: number;
   notiData: Date;

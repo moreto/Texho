@@ -8,22 +8,11 @@ const rootController = new RootController();
 const notificacaoController = new NotificacaoController();
 
 // Rota principal para informações do sistema
-defaultRoutes.get("", async (req, res) => {
-    await rootController.root(req, res);
-});
+// defaultRoutes.get("", async (req, res) => {
+//     await rootController.root(req, res);
+// });
 
-defaultRoutes.get("/info",
-    async (req, res, next) => {
-        await authorize(req, res, next)
-    }, async (req, res) => {
-        await rootController.root(req, res);
-    });
-
-// Adicione outras rotas aqui conforme necessário
-// Exemplo: router.get("/outra-rota", (req, res) => controller.metodo(req, res));
-
-defaultRoutes.get("/notificar", async (req, res) => {
-    await notificacaoController.notificar(req, res);
-});
+defaultRoutes.get("", rootController.root);
+defaultRoutes.post("/api/v1/notificacao", notificacaoController.notificar);
 
 export default defaultRoutes;

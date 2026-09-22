@@ -1,6 +1,6 @@
 {
-  "name": "mm_api",
-  "version": "0.0.0",
+  "name": "texho_api",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
