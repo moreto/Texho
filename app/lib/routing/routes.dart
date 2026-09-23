@@ -7,4 +7,5 @@ abstract final class Routes {
   static const about = '/about';
   static const home = '/home';
   static const login = '/login';
+  static const treeView = '/tree-view';
 }
