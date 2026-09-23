@@ -2,7 +2,8 @@ import express, { NextFunction, Request, Response } from 'express';
 import morgan from "morgan";
 
 
-import defaultRoutes from './routes/default';
+import defaultRoutes from './routes/defaultRoutes';
+import organizacaoRoutes from './routes/organizacaoRoutes';
 
 
 const app = express()
@@ -12,6 +13,7 @@ app.use(morgan(":url :method :response-time :user-agent"));
 
 // Rotas
 app.use(defaultRoutes);
+app.use(organizacaoRoutes);
 
 interface ErrorWithStack extends Error {
     stack?: string;
