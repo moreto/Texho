@@ -28,7 +28,6 @@ class _LoginViewState extends State<LoginView> {
         automaticallyImplyLeading: false,
         elevation: 0,
         centerTitle: true,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(

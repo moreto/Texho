@@ -121,13 +121,13 @@ class AppTheme {
       iconTheme: IconThemeData(color: scheme.onSurfaceVariant, size: 24),
       primaryIconTheme: IconThemeData(color: scheme.onPrimary, size: 24),
       appBarTheme: AppBarTheme(
-        backgroundColor: scheme.surface,
-        foregroundColor: scheme.onSurface,
+        backgroundColor: isDark ? scheme.surface : scheme.primary,
+        foregroundColor: isDark ? scheme.onSurface : scheme.onPrimary,
         elevation: 0,
         scrolledUnderElevation: 1,
         centerTitle: false,
-        surfaceTintColor: scheme.surfaceTint,
-        titleTextStyle: textTheme.titleLarge,
+        surfaceTintColor: Colors.transparent,
+        titleTextStyle: textTheme.titleLarge?.copyWith(color: isDark ? scheme.onSurface : scheme.onPrimary),
         toolbarHeight: 64,
       ),
       cardTheme: CardThemeData(
