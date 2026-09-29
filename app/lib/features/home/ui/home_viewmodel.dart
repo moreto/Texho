@@ -1,3 +1,4 @@
+import 'package:app/data/model/traducao_model.dart';
 import 'package:commons/log.dart';
 import 'package:commons/result.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class HomeViewmodel extends ChangeNotifier {
   final HomeUseCase _homeUseCase;
 
   late final Command0 cepCommand = Command0(_get);
+  late final Command0 traducaoCommand = Command0(_getTraducao);
 
   Future<Result<CepModel>> _get() async {
     notifyListeners();
@@ -25,6 +27,28 @@ class HomeViewmodel extends ChangeNotifier {
         break;
 
       case Error<CepModel>(:final error):
+        Log.print(error, name: 'Texho', title: 'Erro');
+    }
+
+    notifyListeners();
+
+    return useCaseResult;
+  }
+
+  Future<Result<List<TraducaoModel>>> _getTraducao() async {
+    notifyListeners();
+    final useCaseResult = await _homeUseCase.getTraducao();
+
+    switch (useCaseResult) {
+      case Ok<List<TraducaoModel>>():
+        Log.print(
+          useCaseResult.value.map((translation) => translation.toJson()).toList(),
+          name: 'Texho',
+          title: 'Sucesso',
+        );
+        break;
+
+      case Error<List<TraducaoModel>>(:final error):
         Log.print(error, name: 'Texho', title: 'Erro');
     }
 

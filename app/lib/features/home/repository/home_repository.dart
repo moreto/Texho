@@ -12,10 +12,12 @@ class HomeRepository {
 
       final response = await DioProvider.of(ApiCore.cep).request(verb: Verb.get, pathParam: parameter);
       switch (response) {
-        case Ok<Map<String, dynamic>>():
-          return Result.ok(CepModel.fromJson(response.value));
-        case Error<Map<String, dynamic>>():
-          return Result.error(response.error);
+        case Ok(value: final value) when value is Map:
+          return Result.ok(CepModel.fromJson(Map<String, dynamic>.from(value)));
+        case Error(error: final error):
+          return Result.error(error);
+        default:
+          return Result.error(Exception('Resposta da API em formato inválido.'));
       }
     } catch (ex) {
       return Result.error(ex is Exception ? ex : Exception(ex.toString()));

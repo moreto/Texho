@@ -41,6 +41,7 @@ class _HomeViewState extends State<HomeView> {
                     ElevatedButton(
                       onPressed: () async {
                         await widget.viewModel.cepCommand.execute();
+                        await widget.viewModel.traducaoCommand.execute();
                       },
                       child: const Text('Busca CEP'),
                     ),

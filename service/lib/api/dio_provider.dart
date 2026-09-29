@@ -33,7 +33,7 @@ class DioProvider {
     }
   }
 
-  Future<Result<Map<String, dynamic>>> request({
+  Future<Result<dynamic>> request({
     required Verb verb,
     dynamic pathParam,
     dynamic queryParam,
@@ -93,7 +93,7 @@ class DioProvider {
           );
           break;
       }
-      return Result.ok(Map<String, dynamic>.from(_response.data as Map));
+      return Result.ok(_response.data);
     } on DioException catch (e) {
       if (e.type == DioExceptionType.cancel) {
         return Result.ok({});
@@ -131,13 +131,13 @@ class DioProvider {
     }
   }
 
-  Future<void> _receiveProgress(count, total) async {
+  Future<void> _receiveProgress(int count, int total) async {
     bytes.addAll({
       'download': {'count': count, 'total': total},
     });
   }
 
-  Future<void> _sendProgress(count, total) async {
+  Future<void> _sendProgress(int count, int total) async {
     bytes.addAll({
       'upload': {'count': count, 'total': total},
     });
