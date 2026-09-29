@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../config/theme_controller.dart';
+import '../../../l10n/app_localizations.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key, required this.viewModel});
@@ -19,8 +20,9 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
+    final strings = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
+      appBar: AppBar(title: Text(strings.translate('home'))),
       body: Column(
         children: [
           Expanded(
@@ -34,7 +36,10 @@ class _HomeViewState extends State<HomeView> {
                     Expanded(
                       child: TextField(
                         controller: widget.viewModel.cepController,
-                        decoration: InputDecoration(labelText: 'CEP', hintText: 'Digite o CEP'),
+                        decoration: InputDecoration(
+                          labelText: strings.translate('CEP'),
+                          hintText: strings.translate('Digite o CEP'),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -43,7 +48,7 @@ class _HomeViewState extends State<HomeView> {
                         await widget.viewModel.cepCommand.execute();
                         await widget.viewModel.traducaoCommand.execute();
                       },
-                      child: const Text('Busca CEP'),
+                      child: Text(strings.translate('Busca CEP')),
                     ),
                   ],
                 ),
@@ -54,7 +59,7 @@ class _HomeViewState extends State<HomeView> {
             onPressed: () async {
               context.go(Routes.login);
             },
-            child: const Text('Login'),
+            child: Text(strings.translate('login')),
           ),
           SafeArea(
             minimum: const EdgeInsets.fromLTRB(16, 12, 16, 12),
@@ -63,7 +68,7 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 DropdownButtonFormField<AppFont>(
                   initialValue: context.watch<ThemeModeController>().font,
-                  decoration: const InputDecoration(labelText: 'Fonte'),
+                  decoration: InputDecoration(labelText: strings.translate('Fonte')),
                   items: [for (final font in AppFont.values) DropdownMenuItem(value: font, child: Text(font.label))],
                   onChanged: (font) {
                     if (font != null) context.read<ThemeModeController>().setFont(font);
@@ -72,14 +77,22 @@ class _HomeViewState extends State<HomeView> {
                 const SizedBox(height: 12),
                 SegmentedButton<ThemeMode>(
                   expandedInsets: EdgeInsets.zero,
-                  segments: const [
+                  segments: [
                     ButtonSegment(
                       value: ThemeMode.system,
                       icon: Icon(Icons.brightness_auto_outlined),
-                      label: Text('Sistema'),
+                      label: Text(strings.translate('Sistema')),
                     ),
-                    ButtonSegment(value: ThemeMode.light, icon: Icon(Icons.light_mode_outlined), label: Text('Claro')),
-                    ButtonSegment(value: ThemeMode.dark, icon: Icon(Icons.dark_mode_outlined), label: Text('Escuro')),
+                    ButtonSegment(
+                      value: ThemeMode.light,
+                      icon: Icon(Icons.light_mode_outlined),
+                      label: Text(strings.translate('Claro')),
+                    ),
+                    ButtonSegment(
+                      value: ThemeMode.dark,
+                      icon: Icon(Icons.dark_mode_outlined),
+                      label: Text(strings.translate('Escuro')),
+                    ),
                   ],
                   selected: {context.watch<ThemeModeController>().mode},
                   onSelectionChanged: (selection) {
@@ -87,6 +100,20 @@ class _HomeViewState extends State<HomeView> {
                   },
                 ),
               ],
+            ),
+          ),
+          SafeArea(
+            minimum: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+            child: DropdownButtonFormField<Locale?>(
+              initialValue: context.watch<ThemeModeController>().locale,
+              decoration: InputDecoration(labelText: strings.translate('Idioma')),
+              items: [
+                DropdownMenuItem(value: null, child: Text(strings.translate('Sistema'))),
+                DropdownMenuItem(value: Locale('pt', 'BR'), child: Text('Português')),
+                DropdownMenuItem(value: Locale('es', 'ES'), child: Text('Español')),
+                DropdownMenuItem(value: Locale('en', 'US'), child: Text('English')),
+              ],
+              onChanged: context.read<ThemeModeController>().setLocale,
             ),
           ),
         ],

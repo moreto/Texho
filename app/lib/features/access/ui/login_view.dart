@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../routing/routes.dart';
 import 'login_viewmodel.dart';
 
@@ -16,13 +17,12 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final TextEditingController _email = TextEditingController(
-    text: 'mmoreto@gmail.com',
-  );
+  final TextEditingController _email = TextEditingController(text: 'mmoreto@gmail.com');
   final TextEditingController _password = TextEditingController(text: '112233');
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -40,11 +40,8 @@ class _LoginViewState extends State<LoginView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 32),
-                Text('Login', style: Theme.of(context).textTheme.headlineLarge),
-                Text(
-                  'Efetue o Login',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
+                Text(strings.translate('login'), style: Theme.of(context).textTheme.headlineLarge),
+                Text(strings.translate('efetueLogin'), style: Theme.of(context).textTheme.bodyLarge),
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _email,
@@ -53,11 +50,8 @@ class _LoginViewState extends State<LoginView> {
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(8),
                     counterText: '',
-                    label: Text(
-                      'eMail',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    hintText: 'Informe o eMail',
+                    label: Text(strings.translate('email'), style: Theme.of(context).textTheme.bodyLarge),
+                    hintText: strings.translate('informeEmail'),
                     prefixIcon: Icon(
                       // MdiIcons.emailOutline,
                       Icons.email,
@@ -67,7 +61,7 @@ class _LoginViewState extends State<LoginView> {
                   style: Theme.of(context).textTheme.labelMedium,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Informe o eMail';
+                      return strings.translate('Informe o eMail');
                     }
                     return null;
                   },
@@ -80,11 +74,8 @@ class _LoginViewState extends State<LoginView> {
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     counterText: '',
-                    label: Text(
-                      'Senha',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    hintText: 'Informe a Senha',
+                    label: Text(strings.translate('Senha'), style: Theme.of(context).textTheme.bodyLarge),
+                    hintText: strings.translate('Informe a Senha'),
                     prefixIcon: Icon(
                       // MdiIcons.formTextboxPassword,
                       Icons.password,
@@ -111,7 +102,7 @@ class _LoginViewState extends State<LoginView> {
                           padding: const EdgeInsets.only(right: 8),
                           child: GestureDetector(
                             child: Text(
-                              'Esqueceu',
+                              strings.translate('Esqueceu'),
                               // style: Theme.of(context).textTheme.displaySmall,
                             ),
                             onTap: () {
@@ -125,7 +116,7 @@ class _LoginViewState extends State<LoginView> {
                   style: Theme.of(context).textTheme.labelMedium,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Informe a Senha';
+                      return strings.translate('Informe a Senha');
                     }
                     return null;
                   },
@@ -140,7 +131,7 @@ class _LoginViewState extends State<LoginView> {
                         onPressed: () {
                           context.push(Routes.home);
                         },
-                        child: Text('LOGIN'),
+                        child: Text(strings.translate('LOGIN')),
                       ),
                     ),
                   ],

@@ -1,9 +1,11 @@
 import 'package:components/components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'config/providers.dart';
 import 'config/theme_controller.dart';
+import 'l10n/app_localizations.dart';
 import 'routing/router.dart';
 
 class MyApp extends StatelessWidget {
@@ -20,10 +22,15 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.lightTheme(font: themeController.font),
             darkTheme: AppTheme.darkTheme(font: themeController.font),
             themeMode: themeController.mode,
+            locale: themeController.locale,
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
             routerConfig: router(),
-            // localizationsDelegates: AppLocalizations.localizationsDelegates,
-            // supportedLocales: AppLocalizations.supportedLocales,
-            // locale: localeModel.locale,
           );
         },
       ),

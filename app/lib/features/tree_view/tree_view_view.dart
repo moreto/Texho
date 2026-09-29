@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import 'tree_view_viewmodel.dart';
 
 class TreeViewView extends StatefulWidget {
@@ -14,8 +15,9 @@ class TreeViewView extends StatefulWidget {
 class _TreeViewViewState extends State<TreeViewView> {
   @override
   Widget build(BuildContext context) {
+    final strings = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
+      appBar: AppBar(title: Text(strings.translate('home'))),
       body: Column(children: [
 
         ],
