@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:commons/api_core.dart';
 import 'package:commons/log.dart';
 import 'package:commons/result.dart';
 import 'package:dio/dio.dart';
@@ -8,7 +9,6 @@ import 'package:service/api/enum.dart';
 import 'package:service/api/http_service_exception_model.dart';
 import 'package:service/api/service_exception.dart';
 
-import 'api_core.dart';
 import 'header.dart';
 
 class DioProvider {

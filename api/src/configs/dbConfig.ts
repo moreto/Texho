@@ -51,7 +51,7 @@ export default new Pool({
   user: "casaos",
   password: "casaos",
   port: 5432,
-  database: "orgnzr",
+  database: "texho",
   // ssl: { rejectUnauthorized: false },
   max: 10,
   connectionTimeoutMillis: 10000,

@@ -1,6 +1,8 @@
 import 'package:app/features/home/ui/home_viewmodel.dart';
+import 'package:app/routing/routes.dart';
 import 'package:components/components.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../config/theme_controller.dart';
@@ -46,6 +48,12 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
             ),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              context.go(Routes.login);
+            },
+            child: const Text('Login'),
           ),
           SafeArea(
             minimum: const EdgeInsets.fromLTRB(16, 12, 16, 12),
