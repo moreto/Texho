@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { TraducaoRepository } from "../../repositories/traducao/organizacaoLocalRepository";
 
-
 class TraducaoController {
     async get(request: Request, response: Response) {
         try {

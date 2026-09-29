@@ -27,7 +27,12 @@ export class Log {
         }
     }
 
-    static async erro(erro: unknown, mensagem: string, logTipo: string, usuaId: number) {
+    static async erro(
+        erro: unknown,
+        mensagem: string,
+        logTipo: string,
+        usuaId: number,
+    ) {
         try {
             let erroStack = "";
             let erroMessage = "";
@@ -52,8 +57,8 @@ export class Log {
                 logTipo: logTipo,
                 objeto: erro,
                 texto: mensagem,
-                usuaId: usuaId
-            }
+                usuaId: usuaId,
+            };
 
             const logId = await repository.post(logModel);
 

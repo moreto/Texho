@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import { OrganizacaoLocalRepository } from "../../repositories/organizacao/organizacaoLocalRepository";
 
-
- class OrganizacaoLocalController {
+class OrganizacaoLocalController {
     async getTreeById(request: Request, response: Response) {
         try {
             const repository = new OrganizacaoLocalRepository();
-            const idParam = Array.isArray(request.params.id) ? request.params.id[0] : request.params.id;
+            const idParam = Array.isArray(request.params.id)
+                ? request.params.id[0]
+                : request.params.id;
             const id = Number(idParam);
 
             if (Number.isNaN(id)) {
@@ -21,7 +22,7 @@ import { OrganizacaoLocalRepository } from "../../repositories/organizacao/organ
         }
     }
 
-        async get(request: Request, response: Response) {
+    async get(request: Request, response: Response) {
         try {
             const repository = new OrganizacaoLocalRepository();
 
@@ -34,4 +35,4 @@ import { OrganizacaoLocalRepository } from "../../repositories/organizacao/organ
     }
 }
 
-export { OrganizacaoLocalController };    
+export { OrganizacaoLocalController };

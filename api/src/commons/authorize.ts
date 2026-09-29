@@ -44,7 +44,11 @@ function parseJwt(token: string) {
     return JSON.parse(payload.toString());
 }
 
-async function authorize(request: Request, response: Response, next: NextFunction) {
+async function authorize(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+) {
     // const token = request.headers[Config.accessToken]?.toString();
     // const user = request.headers[Config.userId]?.toString();
 
@@ -64,8 +68,7 @@ async function authorize(request: Request, response: Response, next: NextFunctio
     //         }
     //     });
     // }
-    return response.status(401).send({ message: 'Something went wrong!' });
+    return response.status(401).send({ message: "Something went wrong!" });
 }
 
 export { authorize, decodeToken, generateToken, parseJwt };
-

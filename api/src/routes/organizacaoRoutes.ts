@@ -4,6 +4,9 @@ import { OrganizacaoLocalController } from "../controllers/organizacao/organizaz
 const organizacaoRoutes = Router();
 const organizacaoLocalController = new OrganizacaoLocalController();
 
-organizacaoRoutes.get("/api/v1/organizacao/:id", organizacaoLocalController.getTreeById);
+organizacaoRoutes.get(
+    "/api/v1/organizacao/:id",
+    organizacaoLocalController.getTreeById,
+);
 organizacaoRoutes.get("/api/v1/organizacao", organizacaoLocalController.get);
 export default organizacaoRoutes;

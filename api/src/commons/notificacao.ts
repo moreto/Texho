@@ -2,7 +2,6 @@
 // import { NotificacaoModel } from "../models/notificacaoModel";
 // import { NotificacaoRepository } from "../repositories/notificacaoRepository";
 
-
 // export class Notificacao {
 //   static async notificar(notificacao: NotificacaoModel) {
 //     try {

@@ -1,13 +1,11 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 
+import defaultRoutes from "./routes/defaultRoutes";
+import organizacaoRoutes from "./routes/organizacaoRoutes";
 
-import defaultRoutes from './routes/defaultRoutes';
-import organizacaoRoutes from './routes/organizacaoRoutes';
-
-
-const app = express()
-app.use(express.json())
+const app = express();
+app.use(express.json());
 
 app.use(morgan(":url :method :response-time :user-agent"));
 
@@ -19,9 +17,11 @@ interface ErrorWithStack extends Error {
     stack?: string;
 }
 
-app.use((err: ErrorWithStack, req: Request, res: Response, next: NextFunction) => {
-    console.error(err.stack);
-    res.status(500).send({ message: 'Something went wrong!' });
-});
+app.use(
+    (err: ErrorWithStack, req: Request, res: Response, next: NextFunction) => {
+        console.error(err.stack);
+        res.status(500).send({ message: "Something went wrong!" });
+    },
+);
 
 export { app };

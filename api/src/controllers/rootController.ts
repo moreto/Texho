@@ -3,11 +3,11 @@ import { Log } from "../commons/log";
 import * as Config from "../configs/config.json";
 
 class RootController {
-    constructor() { }
+    constructor() {}
 
     async root(request: Request, response: Response) {
-        var pjson = require("../../package.json");
-        let onLine = "";
+        const pjson = require("../../package.json");
+        const onLine = "";
 
         const log = {
             name: pjson.name,

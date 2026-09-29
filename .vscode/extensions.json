@@ -6,7 +6,8 @@
   "recommendations": [
     "dart-code.dart-code",
     "dart-code.flutter",
-    "sbenp.prettier-vscode",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
     "aaron-bond.better-comments",
     "naumovs.color-highlight",
     "compassak.intellij-idea-new-ui",

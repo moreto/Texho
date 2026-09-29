@@ -5,8 +5,8 @@
 //   const organizacaoLocalModel = Convert.toOrganizacaoLocalModel(json);
 
 export interface OrganizacaoLocalModel {
-    id:       number;
-    nome:     string;
+    id: number;
+    nome: string;
     children: OrganizacaoLocalModel[];
 }
 
@@ -16,7 +16,9 @@ export class Convert {
         return JSON.parse(json);
     }
 
-    public static organizacaoLocalModelToJson(value: OrganizacaoLocalModel): string {
+    public static organizacaoLocalModelToJson(
+        value: OrganizacaoLocalModel,
+    ): string {
         return JSON.stringify(value);
     }
 }

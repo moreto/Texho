@@ -11,7 +11,6 @@ export interface LogBodyModel {
     usuaId: number;
 }
 
-
 // Converts JSON strings to/from your types
 export class ConvertLogBodyModel {
     public static toLogBodyModel(json: string): LogBodyModel {
