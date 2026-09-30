@@ -1,3 +1,4 @@
+import 'package:app/features/access/ui/register_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import '../features/access/ui/login_viewmodel.dart';
@@ -9,4 +10,5 @@ List<ChangeNotifierProvider<dynamic>> configProviders() => [
   ChangeNotifierProvider<ThemeModeController>(create: (_) => ThemeModeController()),
   ChangeNotifierProvider<HomeViewmodel>.value(value: locator<HomeViewmodel>()),
   ChangeNotifierProvider<LoginViewmodel>.value(value: locator<LoginViewmodel>()),
+  ChangeNotifierProvider<RegisterViewmodel>.value(value: locator<RegisterViewmodel>()),
 ];

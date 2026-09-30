@@ -1,3 +1,4 @@
+import 'package:app/features/access/ui/register_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 
 import '../features/access/ui/login_viewmodel.dart';
@@ -16,4 +17,5 @@ void configDependencies() {
   );
   locator.registerFactory<HomeViewmodel>(() => HomeViewmodel(locator<HomeUseCase>()));
   locator.registerFactory<LoginViewmodel>(() => LoginViewmodel());
+  locator.registerFactory<RegisterViewmodel>(() => RegisterViewmodel());
 }

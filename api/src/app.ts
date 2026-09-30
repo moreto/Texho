@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 
+import acessoRoutes from "./routes/accessRoutes";
 import defaultRoutes from "./routes/defaultRoutes";
 import organizacaoRoutes from "./routes/organizacaoRoutes";
 
@@ -12,6 +13,7 @@ app.use(morgan(":url :method :response-time :user-agent"));
 // Rotas
 app.use(defaultRoutes);
 app.use(organizacaoRoutes);
+app.use(acessoRoutes);
 
 interface ErrorWithStack extends Error {
     stack?: string;

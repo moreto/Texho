@@ -22,7 +22,12 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     final strings = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(strings.translate('home'))),
+      appBar: AppBar(
+        title: Text(strings.translate('home')),
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        centerTitle: true,
+      ),
       body: Column(
         children: [
           Expanded(
@@ -74,7 +79,7 @@ class _HomeViewState extends State<HomeView> {
                     if (font != null) context.read<ThemeModeController>().setFont(font);
                   },
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 SegmentedButton<ThemeMode>(
                   expandedInsets: EdgeInsets.zero,
                   segments: [
@@ -99,21 +104,19 @@ class _HomeViewState extends State<HomeView> {
                     context.read<ThemeModeController>().setMode(selection.first);
                   },
                 ),
+                const SizedBox(height: 16),
+                DropdownButtonFormField<Locale?>(
+                  initialValue: context.watch<ThemeModeController>().locale,
+                  decoration: InputDecoration(labelText: strings.translate('Idioma')),
+                  items: [
+                    DropdownMenuItem(value: null, child: Text(strings.translate('Sistema'))),
+                    DropdownMenuItem(value: Locale('pt', 'BR'), child: Text('Português')),
+                    DropdownMenuItem(value: Locale('es', 'ES'), child: Text('Español')),
+                    DropdownMenuItem(value: Locale('en', 'US'), child: Text('English')),
+                  ],
+                  onChanged: context.read<ThemeModeController>().setLocale,
+                ),
               ],
-            ),
-          ),
-          SafeArea(
-            minimum: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            child: DropdownButtonFormField<Locale?>(
-              initialValue: context.watch<ThemeModeController>().locale,
-              decoration: InputDecoration(labelText: strings.translate('Idioma')),
-              items: [
-                DropdownMenuItem(value: null, child: Text(strings.translate('Sistema'))),
-                DropdownMenuItem(value: Locale('pt', 'BR'), child: Text('Português')),
-                DropdownMenuItem(value: Locale('es', 'ES'), child: Text('Español')),
-                DropdownMenuItem(value: Locale('en', 'US'), child: Text('English')),
-              ],
-              onChanged: context.read<ThemeModeController>().setLocale,
             ),
           ),
         ],

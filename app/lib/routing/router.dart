@@ -1,3 +1,5 @@
+import 'package:app/features/access/ui/register_view.dart';
+import 'package:app/features/access/ui/register_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -31,6 +33,14 @@ GoRouter router() => GoRouter(
       builder: (context, state) {
         final viewModel = context.read<LoginViewmodel>();
         return LoginView(viewModel: viewModel);
+      },
+    ),
+
+    GoRoute(
+      path: Routes.registro,
+      builder: (context, state) {
+        final viewModel = context.read<RegisterViewmodel>();
+        return RegisterView(viewModel: viewModel);
       },
     ),
 
