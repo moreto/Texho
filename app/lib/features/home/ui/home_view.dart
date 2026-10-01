@@ -22,12 +22,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     final strings = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(strings.translate('home')),
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(strings.translate('home')), elevation: 0, centerTitle: true),
       body: Column(
         children: [
           Expanded(
@@ -62,7 +57,7 @@ class _HomeViewState extends State<HomeView> {
           ),
           ElevatedButton(
             onPressed: () async {
-              context.go(Routes.login);
+              context.push(Routes.login);
             },
             child: Text(strings.translate('login')),
           ),

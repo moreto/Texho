@@ -24,12 +24,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     final strings = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(strings.translate('login')),
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(strings.translate('login')), elevation: 0, centerTitle: true),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(16),

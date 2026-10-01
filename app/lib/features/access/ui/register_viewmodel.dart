@@ -13,7 +13,7 @@ class RegisterViewmodel extends ChangeNotifier {
   }
 
   final AccessUseCase _accessUseCase;
-  final TextEditingController email = TextEditingController(text: 'mmoreto@gmail.com');
+  final TextEditingController email = TextEditingController(text: 'mmoreto@msn.com');
   final TextEditingController password = TextEditingController(text: '123');
   final TextEditingController confirmPassword = TextEditingController(text: '123');
 
@@ -22,7 +22,10 @@ class RegisterViewmodel extends ChangeNotifier {
   Future<Result<AccessModel>> _register() async {
     notifyListeners();
 
-    AccessBodyModel accessBodyModel = AccessBodyModel(email: email.text, senha: password.text);
+    String encrypted = await Encrypt().encryptString(password.text, kCryptKeyB64);
+    Log.print(encrypted);
+
+    AccessBodyModel accessBodyModel = AccessBodyModel(email: email.text, senha: encrypted);
     final useCaseResult = await _accessUseCase.register(accessBodyModel);
     switch (useCaseResult) {
       case Ok<AccessModel>():

@@ -8,6 +8,8 @@ import 'config/theme_controller.dart';
 import 'l10n/app_localizations.dart';
 import 'routing/router.dart';
 
+final _appRouter = router();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            routerConfig: router(),
+            routerConfig: _appRouter,
           );
         },
       ),

@@ -1,5 +1,9 @@
 import 'package:commons/result.dart';
+import 'package:components/components/dialog/dialog_bottom_sheet_warning/dialog_bottom_sheet_warning.dart';
+import 'package:components/components/dialog/dialog_bottom_sheet_warning/dialog_bottom_sheet_warning_status.dart';
+import 'package:components/components/dialog/dialog_bottom_sheet_warning/dialog_bottom_sheet_warning_type_buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:service/api/service_exception.dart';
 
 import '../../../l10n/app_localizations.dart';
@@ -46,8 +50,20 @@ class _RegisterViewState extends State<RegisterView> {
         msgError = exception is HttpServiceException ? exception.message ?? exception.toString() : exception.toString();
       }
 
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).translate(msgError))));
+      // ScaffoldMessenger.of(context)
+      //     .showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).translate(msgError))));
+
+      DialogBottomSheetWarning(
+        dialogWarning: DialogWarning(
+          title: 'Erro',
+          titleButtonPrimary: 'Ok',
+          isDismissible: false,
+          typeButtonsDialog: DialogBottomSheetTypeButtons.singleButton,
+          description: AppLocalizations.of(context).translate(msgError),
+          statusDialog: DialogBottomSheetStatus.statusCritical,
+          onPressedPrimary: () => context.pop(),
+        ),
+      ).showModal(context);
 
       widget.viewModel.registerCommand.clearResult();
     } else if (widget.viewModel.registerCommand.completed) {
@@ -60,12 +76,7 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     final strings = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(strings.translate('registro')),
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(strings.translate('registro')), elevation: 0, centerTitle: true),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(16),

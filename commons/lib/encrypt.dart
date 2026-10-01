@@ -1,21 +1,25 @@
-import 'package:encrypt/encrypt.dart' as encrypt;
+import 'dart:convert';
+
+import 'package:cryptography/cryptography.dart';
 
 class Encrypt {
-  String encryptText(String plainText, String keyString) {
-    final key = encrypt.Key.fromUtf8(keyString.padRight(32, '0')); // chave de 32 bytes
-    final iv = encrypt.IV.fromLength(16); // vetor de inicialização
-    final encrypter = encrypt.Encrypter(encrypt.AES(key));
+  final _aes = AesGcm.with256bits();
 
-    final encrypted = encrypter.encrypt(plainText, iv: iv);
-    return encrypted.base64;
+  Future<String> encryptString(String plainText, String base64Key) async {
+    final secretKey = SecretKey(base64Decode(base64Key));
+    final box = await _aes.encrypt(
+      utf8.encode(plainText),
+      secretKey: secretKey, // o nonce aleatório de 12 bytes é gerado automaticamente
+    );
+    // nonce + ciphertext + mac
+    return base64Encode(box.concatenation());
   }
 
-  String decryptText(String encryptedText, String keyString) {
-    final key = encrypt.Key.fromUtf8(keyString.padRight(32, '0'));
-    final iv = encrypt.IV.fromLength(16);
-    final encrypter = encrypt.Encrypter(encrypt.AES(key));
-
-    final decrypted = encrypter.decrypt64(encryptedText, iv: iv);
-    return decrypted;
+  // (opcional) para decriptar no próprio Flutter
+  Future<String> decryptString(String payload, String base64Key) async {
+    final secretKey = SecretKey(base64Decode(base64Key));
+    final box = SecretBox.fromConcatenation(base64Decode(payload), nonceLength: 12, macLength: 16);
+    final clear = await _aes.decrypt(box, secretKey: secretKey);
+    return utf8.decode(clear);
   }
 }

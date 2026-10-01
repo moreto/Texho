@@ -1,9 +1,23 @@
+import bcrypt from "bcrypt";
 import { Request, Response } from "express";
+import { decryptString } from "../../commons/encrypt";
+import { Log } from "../../commons/log";
 import { Util } from "../../commons/util";
 import { ConvertAcessoBodyModel } from "../../models/acesso/acessoBodyModel";
 import { AcessoRepository } from "../../repositories/accesso/acessoRepository";
 
 class AcessoController {
+    SALT_ROUNDS = 12; // custo: cada +1 dobra o tempo de hash
+
+    async hashPassword(password: string): Promise<string> {
+        // o salt é gerado automaticamente e embutido no hash resultante
+        return bcrypt.hash(password, this.SALT_ROUNDS);
+    }
+
+    async verifyPassword(password: string, hash: string): Promise<boolean> {
+        return bcrypt.compare(password, hash);
+    }
+
     async registro(request: Request, response: Response) {
         try {
             if (Util.isEmpty(request.body)) {
@@ -22,6 +36,16 @@ class AcessoController {
                 });
             }
 
+            Log.print(model.senha);
+            const decripted = decryptString(
+                model.senha,
+                "5oAaa+hIOTQzGUxHYn8o6mHfQqEi9PXb4kBGpCQ+fn0=",
+            );
+
+            const hash = await this.hashPassword(decripted);
+            Log.print(hash);
+            model.senha = hash;
+
             const repository = new AcessoRepository();
 
             let retorno = await repository.check(model);
@@ -38,6 +62,7 @@ class AcessoController {
 
             return response.status(200).send(retorno);
         } catch (err: unknown) {
+            Log.printErro(err);
             return response.status(513).send(err);
         }
     }

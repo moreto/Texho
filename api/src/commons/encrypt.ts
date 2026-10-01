@@ -1,33 +1,41 @@
-import * as crypto from "crypto";
+import crypto from "crypto";
 
-export class Encrypt {
-    static encryptText(text: string, keyString: string): string {
-        const key = crypto.createHash("sha256").update(keyString).digest();
-        const iv = Buffer.alloc(16, 0); // vetor de inicialização
-        const cipher = crypto.createCipheriv("aes-256-cbc", key, iv);
+const IV_LENGTH = 12;
+const TAG_LENGTH = 16;
 
-        let encrypted = cipher.update(text, "utf8", "base64");
-        encrypted += cipher.final("base64");
-        return encrypted;
-    }
+export function encryptString(plainText: string, base64Key: string): string {
+    const iv = crypto.randomBytes(IV_LENGTH);
+    const cipher = crypto.createCipheriv(
+        "aes-256-gcm",
+        Buffer.from(base64Key, "base64"),
+        iv,
+    );
 
-    static decryptText(encryptedText: string, keyString: string): string {
-        const key = crypto.createHash("sha256").update(keyString).digest();
-        const iv = Buffer.alloc(16, 0);
-        const decipher = crypto.createDecipheriv("aes-256-cbc", key, iv);
+    const encrypted = Buffer.concat([
+        cipher.update(plainText, "utf8"),
+        cipher.final(),
+    ]);
 
-        let decrypted = decipher.update(encryptedText, "base64", "utf8");
-        decrypted += decipher.final("utf8");
-        return decrypted;
-    }
+    return Buffer.concat([iv, encrypted, cipher.getAuthTag()]).toString(
+        "base64",
+    );
+}
 
-    // // Exemplo de uso
-    // const secret = "minhaSenhaSuperSecreta";
-    // const key = "chave123";
+export function decryptString(payload: string, base64Key: string): string {
+    const data = Buffer.from(payload, "base64");
+    const iv = data.subarray(0, IV_LENGTH);
+    const tag = data.subarray(data.length - TAG_LENGTH);
+    const ciphertext = data.subarray(IV_LENGTH, data.length - TAG_LENGTH);
 
-    // const encrypted = encryptText(secret, key);
-    // console.log("Criptografado:", encrypted);
+    const decipher = crypto.createDecipheriv(
+        "aes-256-gcm",
+        Buffer.from(base64Key, "base64"),
+        iv,
+    );
+    decipher.setAuthTag(tag);
 
-    // const decrypted = decryptText(encrypted, key);
-    // console.log("Decriptografado:", decrypted);
+    return Buffer.concat([
+        decipher.update(ciphertext),
+        decipher.final(), // lança erro se a tag for inválida
+    ]).toString("utf8");
 }
