@@ -14,7 +14,7 @@ const traducaoController = new TraducaoController();
 // });
 
 defaultRoutes.get("", rootController.root);
-defaultRoutes.get("/v1/traducao", traducaoController.get);
+defaultRoutes.get("/api/v1/traducao", traducaoController.get);
 defaultRoutes.post("/v1/notificacao", notificacaoController.notificar);
 
 export default defaultRoutes;

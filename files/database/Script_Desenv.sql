@@ -1,7 +1,7 @@
 -- gen_random_uuid()
 
 CREATE TRIGGER trgUpdateAt
-BEFORE UPDATE ON empresa
+BEFORE UPDATE ON traducao
 FOR EACH ROW
 EXECUTE FUNCTION updatedAt();
 
@@ -23,13 +23,8 @@ select * from public.notificacao c
 SELECT * FROM public.usuario;
 SELECT * FROM empresa e ;
 
+INSERT INTO usuario (usua_email, usua_senha, usua_uuid)
+VALUES('', '', '');
 
 
-
-INSERT INTO public.empresa
-(empr_uuid, empr_nome, created_at, updated_at)
-VALUES(gen_random_uuid(), 'mmoreto.com.br', CURRENT_TIMESTAMP, null);
-
-UPDATE public.empresa
-SET empr_nome='mmoreto.com.br'
-WHERE empr_id=1;
+SELECT u.usua_id, u.usua_uuid, u.usua_email FROM usuario u WHERE u.usua_ativo = true and u.usua_email = 'mmoreto@gmail.com' AND u.usua_senha = '123';

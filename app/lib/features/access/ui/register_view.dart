@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../l10n/app_localizations.dart';
-import '../../../routing/routes.dart';
 import 'register_viewmodel.dart';
 
 class RegisterView extends StatefulWidget {
@@ -16,9 +14,6 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  final TextEditingController _email = TextEditingController(text: 'mmoreto@gmail.com');
-  final TextEditingController _password = TextEditingController(text: '123');
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +39,7 @@ class _RegisterViewState extends State<RegisterView> {
                 Text(strings.translate('efetueRegistro'), style: Theme.of(context).textTheme.bodyLarge),
                 const SizedBox(height: 16),
                 TextFormField(
-                  controller: _email,
+                  controller: widget.viewModel.email,
                   maxLength: 90,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
@@ -69,7 +64,7 @@ class _RegisterViewState extends State<RegisterView> {
                 const SizedBox(height: 16),
                 TextFormField(
                   obscureText: true,
-                  controller: _password,
+                  controller: widget.viewModel.password,
                   maxLength: 12,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -112,7 +107,7 @@ class _RegisterViewState extends State<RegisterView> {
                 const SizedBox(height: 16),
                 TextFormField(
                   obscureText: true,
-                  controller: _password,
+                  controller: widget.viewModel.confirmPassword,
                   maxLength: 12,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -160,7 +155,7 @@ class _RegisterViewState extends State<RegisterView> {
                       width: MediaQuery.sizeOf(context).width / 2 - 24,
                       child: ElevatedButton(
                         onPressed: () {
-                          context.push(Routes.home);
+                          widget.viewModel.registerCommand.execute();
                         },
                         child: Text(strings.translate('registro')),
                       ),

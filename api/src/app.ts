@@ -22,7 +22,7 @@ interface ErrorWithStack extends Error {
 app.use(
     (err: ErrorWithStack, req: Request, res: Response, next: NextFunction) => {
         console.error(err.stack);
-        res.status(500).send({ message: "Something went wrong!" });
+        res.status(500).send({ message: "erroGeral" });
     },
 );
 

@@ -1,36 +1,38 @@
 import { Request, Response } from "express";
+import { Util } from "../../commons/util";
 import { ConvertAcessoBodyModel } from "../../models/acesso/acessoBodyModel";
 import { AcessoRepository } from "../../repositories/accesso/acessoRepository";
 
 class AcessoController {
     async registro(request: Request, response: Response) {
         try {
-            const body: unknown = request.body;
-            if (typeof body !== "object" || body === null) {
-                return response.status(401).send({
-                    message: "Email e senha são obrigatórios.",
+            if (Util.isEmpty(request.body)) {
+                return response.status(410).send({
+                    message: "emailSenhaObrigatorios",
                 });
             }
 
-            const { email, senha } = body as Record<string, unknown>;
-            if (
-                typeof email !== "string" ||
-                email.trim() === "" ||
-                typeof senha !== "string" ||
-                senha.trim() === ""
-            ) {
-                return response.status(402).send({
-                    message: "Email e senha são obrigatórios.",
+            const model = ConvertAcessoBodyModel.toAcessoBodyModel(
+                JSON.stringify(request.body),
+            );
+
+            if (Util.isEmpty(model.email) || Util.isEmpty(model.senha)) {
+                return response.status(411).send({
+                    message: "emailSenhaObrigatorios",
                 });
             }
 
             const repository = new AcessoRepository();
 
-            const model = ConvertAcessoBodyModel.toAcessoBodyModel(
-                JSON.stringify(body),
-            );
+            let retorno = await repository.check(model);
 
-            let retorno = await repository.register(model);
+            if (retorno.emailExiste) {
+                return response.status(412).send({
+                    message: "emailJaCadastrado",
+                });
+            }
+
+            retorno = await repository.register(model);
 
             retorno = await repository.get(model);
 
