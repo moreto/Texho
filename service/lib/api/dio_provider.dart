@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:commons/api_core.dart';
 import 'package:commons/log.dart';
 import 'package:commons/result.dart';
@@ -98,15 +96,24 @@ class DioProvider {
       if (e.type == DioExceptionType.cancel) {
         return Result.ok({});
       }
-      _response = e.response ?? _response;
-
-      HttpServiceExceptionModel responseModel = HttpServiceExceptionModel.fromJson(json.decode(_response.toString()));
+      final response = e.response;
+      _response =
+          response ??
+          Response(requestOptions: e.requestOptions, statusCode: 500, data: {'status': 500, 'message': 'erroGenerico'});
+      final responseData = response?.data;
+      final responseModel = responseData is Map
+          ? HttpServiceExceptionModel.fromJson(Map<String, dynamic>.from(responseData))
+          : null;
 
       throw HttpServiceException(
-        code: _response.statusCode,
+        code: response?.statusCode,
         exception: e,
-        message: responseModel.message,
-        debugMessage: _response.data,
+        message: responseModel?.message ?? _messageForException(e.type),
+        debugMessage: responseData == null
+            ? null
+            : responseData is Map
+            ? Map<String, dynamic>.from(responseData)
+            : {'response': responseData},
       );
     } finally {
       int status = _response.statusCode ?? 500;
@@ -146,5 +153,19 @@ class DioProvider {
   Map<dynamic, dynamic> _nonNull(Map body) {
     body.removeWhere((key, value) => value == null || value == '');
     return body;
+  }
+
+  String _messageForException(DioExceptionType type) {
+    return switch (type) {
+      DioExceptionType.connectionTimeout => 'Tempo limite excedido ao conectar ao servidor.',
+      DioExceptionType.sendTimeout => 'Tempo limite excedido ao enviar a requisição.',
+      DioExceptionType.receiveTimeout => 'Tempo limite excedido ao receber resposta do servidor.',
+      DioExceptionType.transformTimeout => 'Tempo limite excedido ao processar a resposta do servidor.',
+      DioExceptionType.badCertificate => 'Certificado de segurança do servidor inválido.',
+      DioExceptionType.badResponse => 'O servidor retornou uma resposta inválida.',
+      DioExceptionType.connectionError => 'Não foi possível conectar ao servidor.',
+      DioExceptionType.unknown => 'Ocorreu um erro inesperado na comunicação com o servidor.',
+      DioExceptionType.cancel => 'A requisição foi cancelada.',
+    };
   }
 }

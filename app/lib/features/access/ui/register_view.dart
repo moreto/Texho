@@ -1,4 +1,6 @@
+import 'package:commons/result.dart';
 import 'package:flutter/material.dart';
+import 'package:service/api/service_exception.dart';
 
 import '../../../l10n/app_localizations.dart';
 import 'register_viewmodel.dart';
@@ -14,6 +16,45 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.viewModel.registerCommand.addListener(_onResult);
+  }
+
+  @override
+  void didUpdateWidget(covariant RegisterView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    oldWidget.viewModel.registerCommand.removeListener(_onResult);
+    widget.viewModel.registerCommand.addListener(_onResult);
+  }
+
+  @override
+  void dispose() {
+    widget.viewModel.registerCommand.removeListener(_onResult);
+    super.dispose();
+  }
+
+  void _onResult() {
+    if (widget.viewModel.registerCommand.error) {
+      String msgError = 'err';
+
+      final resultCommand = widget.viewModel.registerCommand.result;
+      if (resultCommand is Error) {
+        final exception = resultCommand.error;
+        msgError = exception is HttpServiceException ? exception.message ?? exception.toString() : exception.toString();
+      }
+
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).translate(msgError))));
+
+      widget.viewModel.registerCommand.clearResult();
+    } else if (widget.viewModel.registerCommand.completed) {
+      // widget.viewModel.statusCoreBankingCommand.clearResult();
+      // redirect
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
