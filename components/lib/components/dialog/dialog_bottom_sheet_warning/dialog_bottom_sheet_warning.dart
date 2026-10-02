@@ -87,7 +87,7 @@ class _DialogBottomSheetWarningBodyState extends State<DialogBottomSheetWarningB
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           widget.dialog.typeDialog == DialogBottomSheetType.compact
-              ? Flexible(child: Text(widget.dialog.title))
+              ? Flexible(child: Text(widget.dialog.title, style: Theme.of(context).textTheme.headlineSmall))
               : Container(),
           IconButton(
             visualDensity: VisualDensity.compact,
