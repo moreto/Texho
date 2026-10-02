@@ -102,7 +102,7 @@ class _RegisterViewState extends State<RegisterView> {
                     prefixIcon: Icon(
                       // MdiIcons.emailOutline,
                       Icons.email,
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   style: Theme.of(context).textTheme.labelMedium,
@@ -126,7 +126,7 @@ class _RegisterViewState extends State<RegisterView> {
                     prefixIcon: Icon(
                       // MdiIcons.formTextboxPassword,
                       Icons.password,
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                     suffixIcon: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -138,7 +138,7 @@ class _RegisterViewState extends State<RegisterView> {
                             child: Icon(
                               // MdiIcons.eye,
                               Icons.remove_red_eye_outlined,
-                              color: Theme.of(context).primaryColor,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                             onTap: () {
                               // Get.toNamed(Routes.esqueceu);
@@ -169,7 +169,7 @@ class _RegisterViewState extends State<RegisterView> {
                     prefixIcon: Icon(
                       // MdiIcons.formTextboxPassword,
                       Icons.password,
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                     suffixIcon: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -181,7 +181,7 @@ class _RegisterViewState extends State<RegisterView> {
                             child: Icon(
                               // MdiIcons.eye,
                               Icons.remove_red_eye_outlined,
-                              color: Theme.of(context).primaryColor,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                             onTap: () {
                               // Get.toNamed(Routes.esqueceu);

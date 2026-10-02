@@ -50,7 +50,7 @@ class _LoginViewState extends State<LoginView> {
                     prefixIcon: Icon(
                       // MdiIcons.emailOutline,
                       Icons.email,
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   style: Theme.of(context).textTheme.labelMedium,
@@ -74,7 +74,7 @@ class _LoginViewState extends State<LoginView> {
                     prefixIcon: Icon(
                       // MdiIcons.formTextboxPassword,
                       Icons.password,
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                     suffixIcon: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -86,7 +86,7 @@ class _LoginViewState extends State<LoginView> {
                             child: Icon(
                               // MdiIcons.eye,
                               Icons.remove_red_eye_outlined,
-                              color: Theme.of(context).primaryColor,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                             onTap: () {
                               // Get.toNamed(Routes.esqueceu);
