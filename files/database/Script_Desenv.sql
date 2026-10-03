@@ -17,7 +17,7 @@ FROM public.notificacao;
 
 
 select row_to_json(row) from (
-SELECT * FROM usuario_otp
+SELECT usua_id, usua_email, usua_senha, usua_uuid, usua_ativo, usua_uuid FROM usuario u WHERE u.usua_email = 'mmoreto@gmail.com'
 ) row;
 
 SELECT * FROM public.usuario;
@@ -30,6 +30,4 @@ VALUES('', '', '');
 
 SELECT u.usua_id, u.usua_uuid, u.usua_email FROM usuario u WHERE u.usua_ativo = true and u.usua_email = 'mmoreto@gmail.com' AND u.usua_senha = '123';
 
-INSERT INTO usuario_otp
-(usua_id, uotp_key, uotp_verified, created_at, updated_at)
-VALUES(0, 0, false, CURRENT_TIMESTAMP, '');
+INSERT INTO usuario_otp (usua_id, uotp_key) VALUES(0, 0);

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { sendOTPEmail } from "../../commons/otp";
+import { Resp } from "../../commons/Resp";
 import { Util } from "../../commons/util";
 import { ConvertOTPBodyModel } from "../../models/acesso/otpBodyModel";
 import { AcessoRepository } from "../../repositories/accesso/acessoRepository";
@@ -12,9 +13,7 @@ class OTPController {
         const otpRepository = new OTPRepository();
 
         if (Util.isEmpty(request.body)) {
-            return response.status(410).send({
-                message: "emailObrigatorio",
-            });
+            return Resp.send(response, 410, "emailObrigatorio");
         }
 
         const model = ConvertOTPBodyModel.toOTPBodyModel(JSON.stringify(request.body));
@@ -22,9 +21,7 @@ class OTPController {
         let retorno = await repository.check(model.email);
 
         if (!retorno.emailExiste) {
-            return response.status(412).send({
-                message: "emailInexistente",
-            });
+            return Resp.send(response, 412, "emailInexistente");
         }
         const usuarioRetorno = await repository.get(model.email);
 
@@ -41,14 +38,12 @@ class OTPController {
 
         retorno = await otpRepository.send(otpModel);
 
-        return response.status(200).send(retorno);
+        return Resp.send(response, 200, "emailEnviado");
     }
 
     async verfyOTP(request: Request, response: Response) {
         if (Util.isEmpty(request.body)) {
-            return response.status(410).send({
-                message: "emailObrigatorio",
-            });
+            return Resp.send(response, 410, "emailObrigatorio");
         }
 
         // if (!record) return res.status(400).json({ message: "OTP não encontrado." });
