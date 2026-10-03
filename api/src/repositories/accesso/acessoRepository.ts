@@ -30,13 +30,11 @@ class AcessoRepository {
         }
     }
 
-    async check(model: AcessoBodyModel) {
+    async check(email: string) {
         try {
             const query = {
-                text:
-                    "SELECT EXISTS (SELECT 1 FROM usuario u " +
-                    "WHERE u.usua_email = $1) AS email_existe;",
-                values: [model.email],
+                text: "SELECT EXISTS (SELECT 1 FROM usuario u " + "WHERE u.usua_email = $1) AS email_existe;",
+                values: [email],
             };
             return await Database.DbQuery(query);
         } catch (error) {
@@ -44,13 +42,13 @@ class AcessoRepository {
         }
     }
 
-    async get(model: AcessoBodyModel) {
+    async get(email: string) {
         try {
             const query = {
                 text:
-                    "SELECT usua_email, usua_senha, usua_uuid FROM usuario u " +
+                    "SELECT usua_id, usua_email, usua_senha, usua_uuid, usua_ativo, usua_uuid FROM usuario u " +
                     "WHERE u.usua_email = $1;",
-                values: [model.email],
+                values: [email],
             };
             return await Database.DbQuery(query);
         } catch (error) {

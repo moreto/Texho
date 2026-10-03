@@ -7,11 +7,8 @@ const acessoRoutes = Router();
 const accessoController = new AcessoController();
 const otpController = new OTPController();
 
-acessoRoutes.post("/api/v1/acesso/registro", (request, response) =>
-    accessoController.registro(request, response),
-);
-acessoRoutes.post("/api/v1/otp/send", (request, response) =>
-    otpController.sendOTP(request, response),
-);
+acessoRoutes.post("/api/v1/acesso/registro", (request, response) => accessoController.registro(request, response));
+acessoRoutes.post("/api/v1/otp/send", (request, response) => otpController.sendOTP(request, response));
+acessoRoutes.post("/api/v1/otp/verify", (request, response) => otpController.verfyOTP(request, response));
 
 export default acessoRoutes;

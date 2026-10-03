@@ -1,7 +1,7 @@
 -- gen_random_uuid()
 
 CREATE TRIGGER trgUpdateAt
-BEFORE UPDATE ON traducao
+BEFORE UPDATE ON usuario_otp
 FOR EACH ROW
 EXECUTE FUNCTION updatedAt();
 
@@ -17,14 +17,19 @@ FROM public.notificacao;
 
 
 select row_to_json(row) from (
-select * from public.notificacao c
+SELECT * FROM usuario_otp
 ) row;
 
 SELECT * FROM public.usuario;
 SELECT * FROM empresa e ;
+SELECT * FROM usuario_otp uo ;
 
 INSERT INTO usuario (usua_email, usua_senha, usua_uuid)
 VALUES('', '', '');
 
 
 SELECT u.usua_id, u.usua_uuid, u.usua_email FROM usuario u WHERE u.usua_ativo = true and u.usua_email = 'mmoreto@gmail.com' AND u.usua_senha = '123';
+
+INSERT INTO usuario_otp
+(usua_id, uotp_key, uotp_verified, created_at, updated_at)
+VALUES(0, 0, false, CURRENT_TIMESTAMP, '');

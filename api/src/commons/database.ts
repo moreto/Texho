@@ -6,39 +6,29 @@ import { Log } from "./log";
 export class Database {
     // constructor() {}
 
-    static async DbQuery(
-        query: { text: string; values: any },
-        status: string = "",
-    ) {
+    static async DbQuery(query: { text: string; values: any }, status: string = "") {
         const start = Date.now();
-        let client = await pool.connect();
+        const client = await pool.connect();
         try {
             const result = await client.query(query);
-            Config.poolLog
-                ? Log.print(
-                      "pool total.: " +
-                          pool.totalCount +
-                          ", idle.: " +
-                          pool.idleCount +
-                          ", waiting.: " +
-                          pool.waitingCount,
-                  )
-                : null;
+            if (Config.poolLog)
+                Log.print(
+                    "pool total.: " +
+                        pool.totalCount +
+                        ", idle.: " +
+                        pool.idleCount +
+                        ", waiting.: " +
+                        pool.waitingCount,
+                );
             client.release();
-            Config.queryLog ? Log.print(query.text) : null;
-            Config.queryParametersLog ? Log.print(query.values) : null;
-            Config.queryDetails
-                ? Log.print(
-                      result.command + " - " + result.rowCount + " row(s)",
-                  )
-                : null;
-            Config.queryResultLog ? Log.print(result.rows) : null;
+            if (Config.queryLog) Log.print(query.text);
+            if (Config.queryParametersLog) Log.print(query.values);
+            if (Config.queryDetails) Log.print(result.command + " - " + result.rowCount + " row(s)");
+            if (Config.queryResultLog) Log.print(result.rows);
 
             const rm = camelcaseKeys(result.rows[0]);
             const stop = Date.now();
-            Config.queryTime
-                ? Log.print(`Query Time = ${(stop - start) / 1000} seconds`)
-                : null;
+            if (Config.queryTime) Log.print(`Query Time = ${(stop - start) / 1000} seconds`);
             return rm;
         } catch (err: unknown) {
             client.release();
@@ -46,39 +36,29 @@ export class Database {
         }
     }
 
-    static async DbQueryList(
-        query: { text: string; values: any },
-        status: string = "",
-    ) {
+    static async DbQueryList(query: { text: string; values: any }, status: string = "") {
         const start = Date.now();
-        let client = await pool.connect();
+        const client = await pool.connect();
         try {
             const result = await client.query(query);
-            Config.poolLog
-                ? Log.print(
-                      "pool total.: " +
-                          pool.totalCount +
-                          ", idle.: " +
-                          pool.idleCount +
-                          ", waiting.: " +
-                          pool.waitingCount,
-                  )
-                : null;
+            if (Config.poolLog)
+                Log.print(
+                    "pool total.: " +
+                        pool.totalCount +
+                        ", idle.: " +
+                        pool.idleCount +
+                        ", waiting.: " +
+                        pool.waitingCount,
+                );
             client.release();
-            Config.queryLog ? Log.print(query.text) : null;
-            Config.queryParametersLog ? Log.print(query.values) : null;
-            Config.queryDetails
-                ? Log.print(
-                      result.command + " - " + result.rowCount + " row(s)",
-                  )
-                : null;
-            Config.queryResultLog ? Log.print(result.rows) : null;
+            if (Config.queryLog) Log.print(query.text);
+            if (Config.queryParametersLog) Log.print(query.values);
+            if (Config.queryDetails) Log.print(result.command + " - " + result.rowCount + " row(s)");
+            if (Config.queryResultLog) Log.print(result.rows);
 
             const rm = camelcaseKeys(result.rows);
             const stop = Date.now();
-            Config.queryTime
-                ? Log.print(`Query Time = ${(stop - start) / 1000} seconds`)
-                : null;
+            if (Config.queryTime) Log.print(`Query Time = ${(stop - start) / 1000} seconds`);
             return rm;
         } catch (err: unknown) {
             client.release();

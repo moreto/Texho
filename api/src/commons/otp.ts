@@ -16,7 +16,7 @@ export async function sendOTPEmail(recipientEmail: string): Promise<string> {
     });
 
     const mailOptions = {
-        from: `"MeuApp" <texhoapiservice@gmail.com>`,
+        from: `"TEXHO" <texhoapiservice@gmail.com>`,
         to: recipientEmail,
         subject: "Seu código OTP",
         text: `Seu código de verificação é: ${otp}. Ele expira em 5 minutos.`,

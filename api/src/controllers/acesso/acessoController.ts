@@ -26,9 +26,7 @@ class AcessoController {
                 });
             }
 
-            const model = ConvertAcessoBodyModel.toAcessoBodyModel(
-                JSON.stringify(request.body),
-            );
+            const model = ConvertAcessoBodyModel.toAcessoBodyModel(JSON.stringify(request.body));
 
             if (Util.isEmpty(model.email) || Util.isEmpty(model.senha)) {
                 return response.status(411).send({
@@ -37,10 +35,7 @@ class AcessoController {
             }
 
             Log.print(model.senha);
-            const decripted = decryptString(
-                model.senha,
-                "5oAaa+hIOTQzGUxHYn8o6mHfQqEi9PXb4kBGpCQ+fn0=",
-            );
+            const decripted = decryptString(model.senha, "5oAaa+hIOTQzGUxHYn8o6mHfQqEi9PXb4kBGpCQ+fn0=");
 
             const hash = await this.hashPassword(decripted);
             Log.print(hash);
@@ -48,7 +43,7 @@ class AcessoController {
 
             const repository = new AcessoRepository();
 
-            let retorno = await repository.check(model);
+            let retorno = await repository.check(model.email);
 
             if (retorno.emailExiste) {
                 return response.status(412).send({
@@ -58,7 +53,7 @@ class AcessoController {
 
             retorno = await repository.register(model);
 
-            retorno = await repository.get(model);
+            retorno = await repository.get(model.email);
 
             return response.status(200).send(retorno);
         } catch (err: unknown) {
