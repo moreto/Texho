@@ -1,5 +1,5 @@
-const String kDesHost = 'http://192.168.1.57:3000/api';
-const String kPrdHost = 'http://192.168.1.57:3000/api';
+const String kDesHost = 'http://192.168.1.70:3000/api';
+const String kPrdHost = 'http://192.168.1.70:3000/api';
 
 // const String kDesHost = 'http://192.168.1.41:3000/api';
 // const String kPrdHost = 'http://192.168.1.41:3000/api';

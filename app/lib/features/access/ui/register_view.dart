@@ -57,11 +57,13 @@ class _RegisterViewState extends State<RegisterView> {
         dialogWarning: DialogWarning(
           title: 'Erro',
           titleButtonPrimary: 'Ok',
+          titleButtonSecondary: 'Ok',
           isDismissible: false,
-          typeButtonsDialog: DialogBottomSheetTypeButtons.singleButton,
+          typeButtonsDialog: DialogBottomSheetTypeButtons.horizontalButtons,
           description: AppLocalizations.of(context).translate(msgError),
           statusDialog: DialogBottomSheetStatus.statusCritical,
           onPressedPrimary: () => context.pop(),
+          onPressedSecondary: () => context.pop(),
         ),
       ).showModal(context);
 

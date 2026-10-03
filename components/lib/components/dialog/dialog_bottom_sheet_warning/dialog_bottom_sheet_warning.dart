@@ -1,6 +1,7 @@
 import 'package:commons/constants.dart';
 import 'package:flutter/material.dart';
 
+import '../../../theme/theme.dart' as app_theme;
 import '../../button/button.dart';
 import '../../button/button_size.dart';
 import '../../button/button_type.dart';
@@ -58,12 +59,11 @@ class DialogBottomSheetWarning {
       isScrollControlled: true,
       enableDrag: dialogWarning.isDismissible,
       isDismissible: dialogWarning.isDismissible,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(15.0))),
       context: context,
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-            return SafeArea(child: DialogBottomSheetWarningBody(dialog: dialogWarning));
+            return DialogBottomSheetWarningBody(dialog: dialogWarning);
           },
         );
       },
@@ -92,7 +92,7 @@ class _DialogBottomSheetWarningBodyState extends State<DialogBottomSheetWarningB
           IconButton(
             visualDensity: VisualDensity.compact,
             onPressed: widget.dialog.onPressedIcon ?? _onUnFocusKeyboardAndPop,
-            icon: const Icon(Icons.clear, color: Color(0xff888D95)),
+            icon: Icon(Icons.clear, color: Theme.of(context).colorScheme.onSurfaceVariant),
           ),
         ],
       ),
@@ -100,6 +100,15 @@ class _DialogBottomSheetWarningBodyState extends State<DialogBottomSheetWarningB
   }
 
   Padding getBodyDialog() {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final appTheme = theme.extension<app_theme.ThemeExtension>();
+    final isCritical = widget.dialog.statusDialog == DialogBottomSheetStatus.statusCritical;
+    final statusColor = isCritical ? appTheme?.danger ?? colorScheme.error : colorScheme.primary;
+    final statusBackgroundColor = isCritical
+        ? Color.alphaBlend(statusColor.withValues(alpha: 0.12), colorScheme.surfaceContainerLow)
+        : colorScheme.primaryContainer;
+
     if (widget.dialog.typeDialog == DialogBottomSheetType.compact) {
       return Padding(
         padding: const EdgeInsets.all(16.0),
@@ -120,30 +129,16 @@ class _DialogBottomSheetWarningBodyState extends State<DialogBottomSheetWarningB
             Container(
               width: 64,
               height: 64,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: widget.dialog.statusDialog == DialogBottomSheetStatus.statusCritical
-                    ? const Color(0xffFFF3F3)
-                    : const Color(0xffedf2ff),
-              ),
-              child: Center(
-                child: Icon(
-                  widget.dialog.icon,
-                  size: 32,
-                  color: widget.dialog.statusDialog == DialogBottomSheetStatus.statusCritical
-                      ? const Color(0xffD51B06)
-                      : const Color(0xff3354FD),
-                ),
-              ),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: statusBackgroundColor),
+              child: Center(child: Icon(widget.dialog.icon, size: 32, color: statusColor)),
             ),
             const SizedBox(height: 24),
             Text(
               widget.dialog.titleOverline ?? kVazio,
-              style: const TextStyle(
+              style: theme.textTheme.titleMedium?.copyWith(
                 fontSize: 16,
-                color: Color(0xff265EFD),
+                color: statusColor,
                 fontWeight: FontWeight.w700,
-                // fontFamily: kDefaultFontFamily,
               ),
             ),
             SizedBox(height: widget.dialog.titleOverline == null ? 0 : 8),
@@ -204,22 +199,18 @@ class _DialogBottomSheetWarningBodyState extends State<DialogBottomSheetWarningB
     return NotificationListener<DraggableScrollableNotification>(
       onNotification: widget.dialog.bottomSheetListener,
       child: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xffFEFEFE),
-          borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerLow,
+          // borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                getHeaderDialog(),
-                getBodyDialog(),
-                const SizedBox(height: 32),
-                Padding(padding: const EdgeInsets.symmetric(horizontal: 15), child: getButtonsDialog()),
-                // const SizedBox(height: 60),
-              ],
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[getHeaderDialog(), getBodyDialog(), const SizedBox(height: 32), getButtonsDialog()],
+              ),
             ),
           ),
         ),

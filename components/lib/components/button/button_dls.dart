@@ -19,7 +19,7 @@ class ButtonDls {
   final double width;
   final double fontSize;
 
-  SizedBox getButtonPrimary() {
+  SizedBox getButtonPrimary(BuildContext context) {
     return SizedBox(
       height: heigh,
       width: width,
@@ -30,6 +30,7 @@ class ButtonDls {
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
           ),
+          side: WidgetStatePropertyAll(BorderSide(color: Theme.of(context).colorScheme.outline)),
         ),
         child: Text(
           text.toUpperCase(),

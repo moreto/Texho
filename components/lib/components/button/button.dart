@@ -112,6 +112,6 @@ class _ButtonState extends State<Button> {
       // heigh: heigh,
       width: widget.width,
       // fontSize: fontSize,
-    ).getButtonPrimary();
+    ).getButtonPrimary(context);
   }
 }

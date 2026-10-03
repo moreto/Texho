@@ -44,6 +44,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                     const SizedBox(width: 16),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(side: BorderSide.none),
                       onPressed: () async {
                         await widget.viewModel.cepCommand.execute();
                         await widget.viewModel.traducaoCommand.execute();

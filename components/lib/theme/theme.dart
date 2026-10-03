@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/material.dart' as material;
 import 'package:flutter/material.dart' hide ThemeExtension;
 import 'package:google_fonts/google_fonts.dart';
@@ -102,20 +103,36 @@ class AppTheme {
     );
     final textTheme = _fontTextTheme(font, scheme);
     final shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(12));
-    final buttonStyle = _buttonStyle();
+    final buttonStyle = _buttonStyle(scheme);
 
     return ThemeData(
       useMaterial3: true,
+      useSystemColors: false,
+      applyElevationOverlayColor: false,
+      platform: defaultTargetPlatform,
       brightness: brightness,
       colorScheme: scheme,
       scaffoldBackgroundColor: scheme.surface,
       canvasColor: scheme.surface,
       cardColor: scheme.surfaceContainerLow,
+      disabledColor: scheme.onSurface.withValues(alpha: 0.38),
       dividerColor: scheme.outlineVariant,
+      focusColor: scheme.primary.withValues(alpha: 0.12),
+      highlightColor: scheme.primary.withValues(alpha: 0.12),
+      hintColor: scheme.onSurfaceVariant,
+      hoverColor: scheme.onSurface.withValues(alpha: 0.08),
+      primaryColor: scheme.primary,
+      primaryColorDark: scheme.primary,
+      primaryColorLight: scheme.primaryContainer,
+      secondaryHeaderColor: scheme.secondaryContainer,
+      shadowColor: scheme.shadow,
+      splashColor: scheme.primary.withValues(alpha: 0.12),
+      unselectedWidgetColor: scheme.onSurfaceVariant,
       splashFactory: InkSparkle.splashFactory,
       visualDensity: VisualDensity.standard,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       fontFamily: font.label,
+      typography: Typography.material2021(platform: defaultTargetPlatform, colorScheme: scheme),
       textTheme: textTheme,
       primaryTextTheme: textTheme,
       iconTheme: IconThemeData(color: scheme.onSurfaceVariant, size: 24),
@@ -336,11 +353,12 @@ class AppTheme {
     );
   }
 
-  static ButtonStyle _buttonStyle() {
+  static ButtonStyle _buttonStyle(ColorScheme scheme) {
     return ButtonStyle(
       minimumSize: const WidgetStatePropertyAll(Size(48, 48)),
       padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 20, vertical: 14)),
       shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+      side: WidgetStatePropertyAll(BorderSide(color: scheme.outline)),
     );
   }
 
