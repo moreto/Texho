@@ -1,6 +1,6 @@
 {
   "name": "texho_api",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -46,6 +46,7 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
+    "nodemailer": "^10.0.14",
     "pg": "^8.16.0"
   }
 }

@@ -1,0 +1,21 @@
+info:
+  name: otpSend
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{HOST}}/v1/otp/send"
+  body:
+    type: json
+    data: |-
+      {
+      "email": "mmoreto@gmail.com"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
