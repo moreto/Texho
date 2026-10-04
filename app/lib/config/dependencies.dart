@@ -11,7 +11,7 @@ import '../features/access/use_case/access_usecase.dart';
 import '../features/home/repository/home_repository.dart';
 import '../features/home/ui/home_viewmodel.dart';
 import '../features/home/use_case/home_usecase.dart';
-import '../features/traducao/repository/traducao_repository.dart';
+import '../features/general/repository/traducao_repository.dart';
 
 final GetIt locator = GetIt.instance;
 

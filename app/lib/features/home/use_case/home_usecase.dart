@@ -3,7 +3,7 @@ import 'package:commons/log.dart';
 import 'package:commons/result.dart';
 
 import '../../../data/model/cep_model.dart';
-import '../../traducao/repository/traducao_repository.dart';
+import '../../general/repository/traducao_repository.dart';
 import '../repository/home_repository.dart';
 
 class HomeUseCase {

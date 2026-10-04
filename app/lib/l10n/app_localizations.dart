@@ -2,7 +2,7 @@ import 'package:commons/result.dart';
 import 'package:flutter/material.dart';
 
 import '../data/model/traducao_model.dart';
-import '../features/traducao/repository/traducao_repository.dart';
+import '../features/general/repository/traducao_repository.dart';
 
 class AppLocalizations {
   AppLocalizations({required Locale locale, required List<TraducaoModel> translations})
