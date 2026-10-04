@@ -1,7 +1,8 @@
 import { Database } from "../commons/database";
 import { NotificacaoModel } from "../models/notificacaoModel";
+import { NotificacaoRepositoryContract } from "./contracts";
 
-class NotificacaoRepository {
+class NotificacaoRepository implements NotificacaoRepositoryContract {
     async getById(notiId: number) {
         try {
             const query = {

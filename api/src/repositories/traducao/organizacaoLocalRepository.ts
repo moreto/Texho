@@ -1,6 +1,7 @@
 import { Database } from "../../commons/database";
+import { TraducaoRepositoryContract } from "../contracts";
 
-class TraducaoRepository {
+class TraducaoRepository implements TraducaoRepositoryContract {
     async get() {
         const query = {
             text: "SELECT trad_chave, trad_pt_br, trad_es_es, trad_en_us FROM public.traducao WHERE trad_status = true ORDER BY trad_chave;",

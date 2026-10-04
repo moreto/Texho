@@ -3,27 +3,31 @@ import { sendOTPEmail } from "../../commons/otp";
 import { Resp } from "../../commons/resp";
 import { Util } from "../../commons/util";
 import { ConvertOTPBodyModel } from "../../models/acesso/otpBodyModel";
-import { AcessoRepository } from "../../repositories/accesso/acessoRepository";
-import { OTPRepository } from "../../repositories/accesso/otpRepository";
+import {
+    AcessoRepositoryContract,
+    OTPRepositoryContract,
+} from "../../repositories/contracts";
 import { OTPModel } from "./otpModel";
 
 class OTPController {
-    async sendOTP(request: Request, response: Response) {
-        const repository = new AcessoRepository();
-        const otpRepository = new OTPRepository();
+    constructor(
+        private readonly acessoRepository: AcessoRepositoryContract,
+        private readonly otpRepository: OTPRepositoryContract,
+    ) {}
 
+    async sendOTP(request: Request, response: Response) {
         if (Util.isEmpty(request.body)) {
             return Resp.send(response, 410, "emailObrigatorio");
         }
 
         const model = ConvertOTPBodyModel.toOTPBodyModel(JSON.stringify(request.body));
 
-        let retorno = await repository.check(model.email);
+        const retorno = await this.acessoRepository.check(model.email);
 
         if (!retorno.emailExiste) {
             return Resp.send(response, 412, "emailInexistente");
         }
-        const usuarioRetorno = await repository.get(model.email);
+        const usuarioRetorno = await this.acessoRepository.get(model.email);
 
         const otp = await sendOTPEmail(model.email);
 
@@ -36,7 +40,7 @@ class OTPController {
             updated_at: null,
         };
 
-        retorno = await otpRepository.send(otpModel);
+        await this.otpRepository.send(otpModel);
 
         return Resp.send(response, 200, "emailEnviado");
     }

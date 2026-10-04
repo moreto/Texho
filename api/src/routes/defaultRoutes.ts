@@ -2,11 +2,17 @@ import { Router } from "express";
 import NotificacaoController from "../controllers/notificacaoController";
 import { RootController } from "../controllers/rootController";
 import { TraducaoController } from "../controllers/traducao/organizazaoLocalController";
+import { LogDbRepository } from "../repositories/logDbRepository";
+import { NotificacaoRepository } from "../repositories/notificacaoRepository";
+import { TraducaoRepository } from "../repositories/traducao/organizacaoLocalRepository";
 
 const defaultRoutes = Router();
 const rootController = new RootController();
-const notificacaoController = new NotificacaoController();
-const traducaoController = new TraducaoController();
+const notificacaoController = new NotificacaoController(
+    new NotificacaoRepository(),
+    new LogDbRepository(),
+);
+const traducaoController = new TraducaoController(new TraducaoRepository());
 
 // Rota principal para informações do sistema
 // defaultRoutes.get("", async (req, res) => {
@@ -14,7 +20,11 @@ const traducaoController = new TraducaoController();
 // });
 
 defaultRoutes.get("/api", rootController.root);
-defaultRoutes.get("/api/v1/traducao", traducaoController.get);
-defaultRoutes.post("/v1/notificacao", notificacaoController.notificar);
+defaultRoutes.get("/api/v1/traducao", (request, response) =>
+    traducaoController.get(request, response),
+);
+defaultRoutes.post("/v1/notificacao", (request, response) =>
+    notificacaoController.notificar(request, response),
+);
 
 export default defaultRoutes;

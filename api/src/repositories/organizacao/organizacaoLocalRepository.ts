@@ -1,6 +1,7 @@
 import { Database } from "../../commons/database";
+import { OrganizacaoLocalRepositoryContract } from "../contracts";
 
-class OrganizacaoLocalRepository {
+class OrganizacaoLocalRepository implements OrganizacaoLocalRepositoryContract {
     async getTreeById(notiId: number) {
         try {
             const query = {

@@ -1,7 +1,8 @@
 import { Database } from "../../commons/database";
 import { AcessoBodyModel } from "../../models/acesso/acessoBodyModel";
+import { AcessoRepositoryContract } from "../contracts";
 
-class AcessoRepository {
+class AcessoRepository implements AcessoRepositoryContract {
     async login(model: AcessoBodyModel) {
         try {
             const query = {

@@ -4,9 +4,11 @@ import { decryptString } from "../../commons/encrypt";
 import { Log } from "../../commons/log";
 import { Util } from "../../commons/util";
 import { ConvertAcessoBodyModel } from "../../models/acesso/acessoBodyModel";
-import { AcessoRepository } from "../../repositories/accesso/acessoRepository";
+import { AcessoRepositoryContract } from "../../repositories/contracts";
 
 class AcessoController {
+    constructor(private readonly repository: AcessoRepositoryContract) {}
+
     SALT_ROUNDS = 12; // custo: cada +1 dobra o tempo de hash
 
     async hashPassword(password: string): Promise<string> {
@@ -41,19 +43,17 @@ class AcessoController {
             Log.print(hash);
             model.senha = hash;
 
-            const repository = new AcessoRepository();
+            const retornoCheck = await this.repository.check(model.email);
 
-            let retorno = await repository.check(model.email);
-
-            if (retorno.emailExiste) {
+            if (retornoCheck.emailExiste) {
                 return response.status(412).send({
                     message: "emailJaCadastrado",
                 });
             }
 
-            retorno = await repository.register(model);
+            await this.repository.register(model);
 
-            retorno = await repository.get(model.email);
+            const retorno = await this.repository.get(model.email);
 
             return response.status(200).send(retorno);
         } catch (err: unknown) {

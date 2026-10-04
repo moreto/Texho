@@ -1,7 +1,8 @@
 import { Database } from "../../commons/database";
 import { OTPModel } from "../../controllers/acesso/otpModel";
+import { OTPRepositoryContract } from "../contracts";
 
-class OTPRepository {
+class OTPRepository implements OTPRepositoryContract {
     async send(model: Pick<OTPModel, "usua_id" | "uotp_key">) {
         try {
             const query = {
