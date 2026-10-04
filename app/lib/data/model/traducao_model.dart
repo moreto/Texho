@@ -18,16 +18,16 @@ class TraducaoModel {
   TraducaoModel({required this.tradChave, required this.tradPtBr, required this.tradEsEs, required this.tradEnUs});
 
   factory TraducaoModel.fromJson(Map<String, dynamic> json) => TraducaoModel(
-    tradChave: json["tradChave"],
-    tradPtBr: json["tradPtBr"],
-    tradEsEs: json["tradEsEs"],
-    tradEnUs: json["tradEnUs"],
+    tradChave: json['tradChave'],
+    tradPtBr: json['tradPtBr'],
+    tradEsEs: json['tradEsEs'],
+    tradEnUs: json['tradEnUs'],
   );
 
   Map<String, dynamic> toJson() => {
-    "tradChave": tradChave,
-    "tradPtBr": tradPtBr,
-    "tradEsEs": tradEsEs,
-    "tradEnUs": tradEnUs,
+    'tradChave': tradChave,
+    'tradPtBr': tradPtBr,
+    'tradEsEs': tradEsEs,
+    'tradEnUs': tradEnUs,
   };
 }

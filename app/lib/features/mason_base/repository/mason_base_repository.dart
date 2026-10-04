@@ -2,8 +2,8 @@ import 'package:app/data/healt_model.dart';
 import 'package:commons/commons.dart';
 import 'package:service/service.dart';
 
-class {{name.pascalCase()}}Repository {
-    Future<Result<HealtModel>> healt() async {
+class MasonBaseRepository {
+  Future<Result<HealtModel>> healt() async {
     try {
       final response = await DioProvider.of(ApiCore.register).request(verb: Verb.get);
       switch (response) {

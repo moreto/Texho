@@ -13,7 +13,7 @@ const traducaoController = new TraducaoController();
 //     await rootController.root(req, res);
 // });
 
-defaultRoutes.get("", rootController.root);
+defaultRoutes.get("/api", rootController.root);
 defaultRoutes.get("/api/v1/traducao", traducaoController.get);
 defaultRoutes.post("/v1/notificacao", notificacaoController.notificar);
 

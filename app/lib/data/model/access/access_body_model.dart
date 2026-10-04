@@ -15,7 +15,7 @@ class AccessBodyModel {
   AccessBodyModel({required this.email, required this.senha});
 
   factory AccessBodyModel.fromJson(Map<String, dynamic> json) =>
-      AccessBodyModel(email: json["email"], senha: json["senha"]);
+      AccessBodyModel(email: json['email'], senha: json['senha']);
 
-  Map<String, dynamic> toJson() => {"email": email, "senha": senha};
+  Map<String, dynamic> toJson() => {'email': email, 'senha': senha};
 }
