@@ -1,4 +1,8 @@
 import 'package:app/features/access/ui/register_viewmodel.dart';
+import 'package:app/features/general/repository/healt_repository.dart';
+import 'package:app/features/mason_teste/repository/mason_teste_repository.dart';
+import 'package:app/features/mason_teste/ui/mason_teste_viewmodel.dart';
+import 'package:app/features/mason_teste/use_case/mason_teste_usecase.dart';
 import 'package:get_it/get_it.dart';
 
 import '../features/access/repository/access_repository.dart';
@@ -15,11 +19,19 @@ void configDependencies() {
   locator.registerLazySingleton<HomeRepository>(() => HomeRepository());
   locator.registerLazySingleton<TraducaoRepository>(() => TraducaoRepository());
   locator.registerLazySingleton<AccessRepository>(() => AccessRepository());
+  locator.registerLazySingleton<HealtRepository>(() => HealtRepository());
+  locator.registerLazySingleton<MasonTesteRepository>(() => MasonTesteRepository());
+
+  //
   locator.registerLazySingleton<HomeUseCase>(
     () => HomeUseCase(locator<HomeRepository>(), locator<TraducaoRepository>()),
   );
-  locator.registerLazySingleton<AccessUseCase>(() => AccessUseCase(locator<AccessRepository>()));
+  locator.registerFactory<AccessUseCase>(() => AccessUseCase(locator<AccessRepository>()));
+  locator.registerFactory<MasonTesteUseCase>(
+    () => MasonTesteUseCase(locator<MasonTesteRepository>()),
+  );
   locator.registerFactory<HomeViewmodel>(() => HomeViewmodel(locator<HomeUseCase>()));
   locator.registerFactory<LoginViewmodel>(() => LoginViewmodel());
   locator.registerFactory<RegisterViewmodel>(() => RegisterViewmodel(locator<AccessUseCase>()));
+  locator.registerFactory<MasonTesteViewmodel>(() => MasonTesteViewmodel(locator<MasonTesteUseCase>()));
 }

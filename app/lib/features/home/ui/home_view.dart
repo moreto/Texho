@@ -56,11 +56,24 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
           ),
-          ElevatedButton(
-            onPressed: () async {
-              context.push(Routes.login);
-            },
-            child: Text(strings.translate('login')),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  context.push(Routes.login);
+                },
+                child: Text(strings.translate('login')),
+              ),
+              SizedBox(width: 8.0),
+              ElevatedButton(
+                onPressed: () async {
+                  context.push(Routes.teste);
+                },
+                child: Text(strings.translate('Teste')),
+              ),
+            ],
           ),
           SafeArea(
             minimum: const EdgeInsets.fromLTRB(16, 12, 16, 12),

@@ -1,5 +1,7 @@
 import 'package:app/features/access/ui/register_view.dart';
 import 'package:app/features/access/ui/register_viewmodel.dart';
+import 'package:app/features/mason_teste/ui/mason_teste_view.dart';
+import 'package:app/features/mason_teste/ui/mason_teste_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -8,8 +10,6 @@ import '../features/access/ui/login_view.dart';
 import '../features/access/ui/login_viewmodel.dart';
 import '../features/home/ui/home_view.dart';
 import '../features/home/ui/home_viewmodel.dart';
-import '../features/tree_view/tree_view_view.dart';
-import '../features/tree_view/tree_view_viewmodel.dart';
 import 'routes.dart';
 
 GoRouter router() => GoRouter(
@@ -44,11 +44,12 @@ GoRouter router() => GoRouter(
       },
     ),
 
+    //
     GoRoute(
-      path: Routes.treeView,
+      path: Routes.teste,
       builder: (context, state) {
-        final viewModel = context.read<TreeViewViewmodel>();
-        return TreeViewView(viewModel: viewModel);
+        final viewModel = context.read<MasonTesteViewmodel>();
+        return MasonTesteView(viewModel: viewModel);
       },
     ),
   ],

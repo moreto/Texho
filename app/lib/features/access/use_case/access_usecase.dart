@@ -14,10 +14,10 @@ class AccessUseCase {
   Future<Result<AccessModel>> register(AccessBodyModel model) async {
     final serviceResult = await _accessRepository.register(model);
     switch (serviceResult) {
-      case Ok<AccessModel>(:final value):
-        return Result.ok(value);
-      case Error<AccessModel>(:final error):
-        return Result.error(error);
+      case Ok<AccessModel>():
+        return Result.ok(serviceResult.value);
+      case Error<AccessModel>():
+        return Result.error(serviceResult.error);
     }
   }
 }
