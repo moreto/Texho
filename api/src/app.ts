@@ -3,7 +3,6 @@ import morgan from "morgan";
 
 import acessoRoutes from "./routes/accessRoutes";
 import defaultRoutes from "./routes/defaultRoutes";
-import organizacaoRoutes from "./routes/organizacaoRoutes";
 
 const app = express();
 app.use(express.json());
@@ -12,18 +11,16 @@ app.use(morgan(":url :method :response-time :user-agent"));
 
 // Rotas
 app.use(defaultRoutes);
-app.use(organizacaoRoutes);
+
 app.use(acessoRoutes);
 
 interface ErrorWithStack extends Error {
     stack?: string;
 }
 
-app.use(
-    (err: ErrorWithStack, req: Request, res: Response, next: NextFunction) => {
-        console.error(err.stack);
-        res.status(500).send({ message: "erroGeral" });
-    },
-);
+app.use((err: ErrorWithStack, req: Request, res: Response, next: NextFunction) => {
+    console.error(err.stack);
+    res.status(500).send({ message: "erroGeral" });
+});
 
 export { app };
