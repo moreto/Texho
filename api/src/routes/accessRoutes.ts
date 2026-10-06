@@ -11,6 +11,7 @@ const otpRepository = new OTPRepository();
 const accessoController = new AcessoController(acessoRepository);
 const otpController = new OTPController(acessoRepository, otpRepository);
 
+acessoRoutes.post("/api/v1/acesso/login", (request, response) => accessoController.login(request, response));
 acessoRoutes.post("/api/v1/acesso/registro", (request, response) => accessoController.registro(request, response));
 acessoRoutes.post("/api/v1/otp/send", (request, response) => otpController.sendOTP(request, response));
 acessoRoutes.post("/api/v1/otp/verify", (request, response) => otpController.verfyOTP(request, response));

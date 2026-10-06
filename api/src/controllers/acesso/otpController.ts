@@ -3,8 +3,8 @@ import { sendOTPEmail } from "../../commons/otp";
 import { Resp } from "../../commons/resp";
 import { Util } from "../../commons/util";
 import { ConvertOTPBodyModel } from "../../models/acesso/otpBodyModel";
+import { OTPModel } from "../../models/otpModel";
 import { AcessoRepositoryContract, OTPRepositoryContract } from "../../repositories/acessoRepositoryContracts";
-import { OTPModel } from "./otpModel";
 
 class OTPController {
     constructor(

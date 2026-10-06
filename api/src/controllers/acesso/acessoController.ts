@@ -4,6 +4,7 @@ import { decryptString } from "../../commons/encrypt";
 import { Log } from "../../commons/log";
 import { Util } from "../../commons/util";
 import { ConvertAcessoBodyModel } from "../../models/acesso/acessoBodyModel";
+import { ConvertUsuarioModel } from "../../models/acesso/acessoModel";
 import { AcessoRepositoryContract } from "../../repositories/acessoRepositoryContracts";
 
 class AcessoController {
@@ -56,6 +57,47 @@ class AcessoController {
             const retorno = await this.repository.get(model.email);
 
             return response.status(200).send(retorno);
+        } catch (err: unknown) {
+            Log.printErro(err);
+            return response.status(513).send(err);
+        }
+    }
+
+    //K7Ve3YdepFJYDDJxcbHTKMkN/H8Y3L/xkfOAzbOr1g==
+    //Qor0MmB/yoY0ppw0bZbWugSEPnnFPbhQUfgmVZMMOA==
+    async login(request: Request, response: Response) {
+        try {
+            if (Util.isEmpty(request.body)) {
+                return response.status(410).send({
+                    message: "emailSenhaObrigatorios",
+                });
+            }
+
+            const modelBody = ConvertAcessoBodyModel.toAcessoBodyModel(JSON.stringify(request.body));
+
+            if (Util.isEmpty(modelBody.email) || Util.isEmpty(modelBody.senha)) {
+                return response.status(411).send({
+                    message: "emailSenhaObrigatorios",
+                });
+            }
+
+            const retorno = await this.repository.get(modelBody.email);
+
+            const usuarioModel = ConvertUsuarioModel.toUsuarioModel(JSON.stringify(retorno));
+            const senhaBCrypt = usuarioModel.usuaSenha;
+            Log.print(senhaBCrypt);
+
+            const decripted = decryptString(modelBody.senha, "5oAaa+hIOTQzGUxHYn8o6mHfQqEi9PXb4kBGpCQ+fn0=");
+
+            const isValid = await this.verifyPassword(decripted, senhaBCrypt);
+
+            if (!isValid) {
+                return response.status(401).send({
+                    message: "unauthorized",
+                });
+            }
+
+            return response.status(200).send(isValid);
         } catch (err: unknown) {
             Log.printErro(err);
             return response.status(513).send(err);

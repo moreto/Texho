@@ -5,7 +5,8 @@ import { NotificacaoModel } from "../models/notificacaoModel";
 export interface AcessoRepositoryContract {
     check(email: string): Promise<{ emailExiste: boolean }>;
     register(model: AcessoBodyModel): Promise<unknown>;
-    get(email: string): Promise<{ usuaId: number }>;
+    // get(email: string): Promise<{ usuaId: number }>;
+    get(email: string): Promise<unknown>;
 }
 
 export interface OTPRepositoryContract {

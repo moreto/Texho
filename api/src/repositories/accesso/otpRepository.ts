@@ -1,5 +1,5 @@
 import { Database } from "../../commons/database";
-import { OTPModel } from "../../controllers/acesso/otpModel";
+import { OTPModel } from "../../models/otpModel";
 import { OTPRepositoryContract } from "../acessoRepositoryContracts";
 
 class OTPRepository implements OTPRepositoryContract {
