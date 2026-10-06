@@ -5,18 +5,13 @@ import 'package:app/features/access/use_case/access_usecase.dart';
 import 'package:app/features/general/repository/traducao_repository.dart';
 import 'package:app/features/home/repository/home_repository.dart';
 import 'package:app/features/home/use_case/home_usecase.dart';
-import 'package:app/features/mason_teste/ui/mason_teste_view.dart';
-import 'package:app/features/mason_teste/ui/mason_teste_viewmodel.dart';
-import 'package:app/features/mason_teste/use_case/mason_teste_usecase.dart';
 import 'package:go_router/go_router.dart';
 
-import '../features/about/ui/about_view.dart';
 import '../features/access/repository/access_repository.dart';
 import '../features/access/ui/login_view.dart';
 import '../features/access/ui/login_viewmodel.dart';
 import '../features/home/ui/home_view.dart';
 import '../features/home/ui/home_viewmodel.dart';
-import '../features/mason_teste/repository/mason_teste_repositoy.dart';
 import 'routes.dart';
 
 GoRouter router() => GoRouter(
@@ -24,9 +19,8 @@ GoRouter router() => GoRouter(
   // debugLogDiagnostics: true,
   // redirect: _redirect,
   // refreshListenable: authRepository,
-  routes: [
-    GoRoute(path: Routes.about, builder: (context, state) => const AboutView()),
 
+  routes: [
     GoRoute(
       path: Routes.home,
       builder: (context, state) {
@@ -55,18 +49,6 @@ GoRouter router() => GoRouter(
           accessUseCase: AccessUseCase(accessRepository: locator<AccessRepository>()),
         );
         return RegisterView(viewModel: viewModel);
-      },
-    ),
-
-    //
-    GoRoute(
-      path: Routes.teste,
-      builder: (context, state) {
-        // final viewModel = context.read<MasonTesteViewmodel>();
-        final viewModel = MasonTesteViewmodel(
-          masonTesteUseCase: MasonTesteUseCase(masonTesteRepository: locator<MasonTesteRepository>()),
-        );
-        return MasonTesteView(viewModel: viewModel);
       },
     ),
   ],
