@@ -1,6 +1,6 @@
-import { Database } from "../commons/database";
-import { NotificacaoModel } from "../models/notificacaoModel";
-import { NotificacaoRepositoryContract } from "./contracts";
+import { Database } from "../../commons/database";
+import { NotificacaoModel } from "../../models/notificacaoModel";
+import { NotificacaoRepositoryContract } from "../acessoRepositoryContracts";
 
 class NotificacaoRepository implements NotificacaoRepositoryContract {
     async getById(notiId: number) {
@@ -19,12 +19,7 @@ class NotificacaoRepository implements NotificacaoRepositoryContract {
         try {
             const query = {
                 text: "INSERT INTO notificacao (noti_texto, noti_tipo, usua_id, log_id) VALUES ($1, $2, $3, $4) RETURNING noti_id as id;",
-                values: [
-                    model.notiTexto,
-                    model.notiTipo,
-                    model.usuaId,
-                    model.logId,
-                ],
+                values: [model.notiTexto, model.notiTipo, model.usuaId, model.logId],
             };
             const result = await Database.DbQuery(query);
             const json = JSON.stringify(result);

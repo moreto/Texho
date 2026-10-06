@@ -4,7 +4,7 @@ import { decryptString } from "../../commons/encrypt";
 import { Log } from "../../commons/log";
 import { Util } from "../../commons/util";
 import { ConvertAcessoBodyModel } from "../../models/acesso/acessoBodyModel";
-import { AcessoRepositoryContract } from "../../repositories/contracts";
+import { AcessoRepositoryContract } from "../../repositories/acessoRepositoryContracts";
 
 class AcessoController {
     constructor(private readonly repository: AcessoRepositoryContract) {}

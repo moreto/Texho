@@ -1,20 +1,14 @@
-import { Database } from "../commons/database";
-import { Log } from "../commons/log";
-import { LogBodyModel } from "../models/logBodyModel";
-import { LogDbRepositoryContract } from "./contracts";
+import { Database } from "../../commons/database";
+import { Log } from "../../commons/log";
+import { LogBodyModel } from "../../models/logBodyModel";
+import { LogDbRepositoryContract } from "../commonRepositoryContracts";
 
 class LogDbRepository implements LogDbRepositoryContract {
-    // objeto: Object, logTipo: string, usuaId: number, texto: string
     async post(model: LogBodyModel) {
         try {
             const query = {
                 text: "INSERT INTO log (log_data, log_tipo, log_info, usua_id, log_texto) VALUES (CURRENT_TIMESTAMP, $1, $2, $3, $4) RETURNING log_id;",
-                values: [
-                    model.logTipo,
-                    model.objeto,
-                    model.usuaId,
-                    model.texto,
-                ],
+                values: [model.logTipo, model.objeto, model.usuaId, model.texto],
             };
 
             const ret = await Database.DbQuery(query);

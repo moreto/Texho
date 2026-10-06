@@ -1,10 +1,7 @@
 import { Request, Response } from "express";
 import { LogTypes } from "../commons/enum";
 import { ConvertNotificacaoModel } from "../models/notificacaoModel";
-import {
-    LogDbRepositoryContract,
-    NotificacaoRepositoryContract,
-} from "../repositories/contracts";
+import { LogDbRepositoryContract, NotificacaoRepositoryContract } from "../repositories/acessoRepositoryContracts";
 
 export default class NotificacaoController {
     constructor(
@@ -14,15 +11,9 @@ export default class NotificacaoController {
 
     async notificar(request: Request, response: Response) {
         try {
-            const model = ConvertNotificacaoModel.toNotificacaoModel(
-                JSON.stringify(request.body),
-            );
+            const model = ConvertNotificacaoModel.toNotificacaoModel(JSON.stringify(request.body));
 
-            if (
-                model.notiErro != null &&
-                model.notiErro != undefined &&
-                model.notiErro != ""
-            ) {
+            if (model.notiErro != null && model.notiErro != undefined && model.notiErro != "") {
                 const logId = await this.logRepository.post({
                     logTipo: LogTypes.ERROR,
                     objeto: model.notiErro,

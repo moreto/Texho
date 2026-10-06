@@ -1,6 +1,5 @@
 import { AcessoBodyModel } from "../models/acesso/acessoBodyModel";
 import { OTPModel } from "../models/acesso/otpModel";
-import { LogBodyModel } from "../models/logBodyModel";
 import { NotificacaoModel } from "../models/notificacaoModel";
 
 export interface AcessoRepositoryContract {
@@ -15,12 +14,4 @@ export interface OTPRepositoryContract {
 
 export interface NotificacaoRepositoryContract {
     post(model: NotificacaoModel): Promise<string>;
-}
-
-export interface LogDbRepositoryContract {
-    post(model: LogBodyModel): Promise<{ logId: number } | undefined>;
-}
-
-export interface TraducaoRepositoryContract {
-    get(): Promise<unknown[]>;
 }
