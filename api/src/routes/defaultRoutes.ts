@@ -2,8 +2,8 @@ import { Router } from "express";
 import NotificacaoController from "../controllers/notificacaoController";
 import { RootController } from "../controllers/rootController";
 import { TraducaoController } from "../controllers/traducao/organizazaoLocalController";
-import { LogDbRepository } from "../repositories/common/logDbRepository";
-import { NotificacaoRepository } from "../repositories/common/notificacaoRepository";
+import { LogDbRepository } from "../repositories/commons/logDbRepository";
+import { NotificacaoRepository } from "../repositories/commons/notificacaoRepository";
 import { TraducaoRepository } from "../repositories/traducao/traducaoRepository";
 
 const defaultRoutes = Router();
