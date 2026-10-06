@@ -21,11 +21,6 @@ export interface LogDbRepositoryContract {
     post(model: LogBodyModel): Promise<{ logId: number } | undefined>;
 }
 
-export interface OrganizacaoLocalRepositoryContract {
-    getTreeById(id: number): Promise<unknown>;
-    get(): Promise<unknown[]>;
-}
-
 export interface TraducaoRepositoryContract {
     get(): Promise<unknown[]>;
 }

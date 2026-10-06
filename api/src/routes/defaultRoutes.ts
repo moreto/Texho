@@ -4,7 +4,7 @@ import { RootController } from "../controllers/rootController";
 import { TraducaoController } from "../controllers/traducao/organizazaoLocalController";
 import { LogDbRepository } from "../repositories/logDbRepository";
 import { NotificacaoRepository } from "../repositories/notificacaoRepository";
-import { TraducaoRepository } from "../repositories/traducao/organizacaoLocalRepository";
+import { TraducaoRepository } from "../repositories/traducao/traducaoRepository";
 
 const defaultRoutes = Router();
 const rootController = new RootController();
