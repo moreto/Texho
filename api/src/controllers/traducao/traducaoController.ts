@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { TraducaoRepositoryContract } from "../../repositories/acessoRepositoryContracts";
+import { TraducaoRepositoryContract } from "../../repositories/commonRepositoryContracts";
+
 
 class TraducaoController {
     constructor(private readonly repository: TraducaoRepositoryContract) {}

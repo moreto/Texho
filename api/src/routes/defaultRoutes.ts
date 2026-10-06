@@ -1,7 +1,7 @@
 import { Router } from "express";
 import NotificacaoController from "../controllers/notificacaoController";
 import { RootController } from "../controllers/rootController";
-import { TraducaoController } from "../controllers/traducao/organizazaoLocalController";
+import { TraducaoController } from "../controllers/traducao/traducaoController";
 import { LogDbRepository } from "../repositories/commons/logDbRepository";
 import { NotificacaoRepository } from "../repositories/commons/notificacaoRepository";
 import { TraducaoRepository } from "../repositories/traducao/traducaoRepository";
