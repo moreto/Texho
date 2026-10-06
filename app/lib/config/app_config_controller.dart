@@ -2,7 +2,7 @@ import 'package:commons/log.dart';
 import 'package:components/components.dart';
 import 'package:flutter/material.dart';
 
-class ThemeModeController extends ChangeNotifier {
+class AppConfigController extends ChangeNotifier {
   ThemeMode _mode = ThemeMode.system;
   AppFont _font = AppFont.nunito;
   Locale? _locale;

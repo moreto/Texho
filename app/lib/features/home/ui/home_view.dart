@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../config/theme_controller.dart';
+import '../../../config/app_config_controller.dart';
 import '../../../l10n/app_localizations.dart';
 
 class HomeView extends StatefulWidget {
@@ -81,11 +81,11 @@ class _HomeViewState extends State<HomeView> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 DropdownButtonFormField<AppFont>(
-                  initialValue: context.watch<ThemeModeController>().font,
+                  initialValue: context.watch<AppConfigController>().font,
                   decoration: InputDecoration(labelText: strings.translate('Fonte')),
                   items: [for (final font in AppFont.values) DropdownMenuItem(value: font, child: Text(font.label))],
                   onChanged: (font) {
-                    if (font != null) context.read<ThemeModeController>().setFont(font);
+                    if (font != null) context.read<AppConfigController>().setFont(font);
                   },
                 ),
                 const SizedBox(height: 16),
@@ -108,14 +108,14 @@ class _HomeViewState extends State<HomeView> {
                       label: Text(strings.translate('Escuro')),
                     ),
                   ],
-                  selected: {context.watch<ThemeModeController>().mode},
+                  selected: {context.watch<AppConfigController>().mode},
                   onSelectionChanged: (selection) {
-                    context.read<ThemeModeController>().setMode(selection.first);
+                    context.read<AppConfigController>().setMode(selection.first);
                   },
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<Locale?>(
-                  initialValue: context.watch<ThemeModeController>().locale,
+                  initialValue: context.watch<AppConfigController>().locale,
                   decoration: InputDecoration(labelText: strings.translate('Idioma')),
                   items: [
                     DropdownMenuItem(value: null, child: Text(strings.translate('Sistema'))),
@@ -123,7 +123,7 @@ class _HomeViewState extends State<HomeView> {
                     DropdownMenuItem(value: Locale('es', 'ES'), child: Text('Español')),
                     DropdownMenuItem(value: Locale('en', 'US'), child: Text('English')),
                   ],
-                  onChanged: context.read<ThemeModeController>().setLocale,
+                  onChanged: context.read<AppConfigController>().setLocale,
                 ),
               ],
             ),

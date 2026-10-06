@@ -1,7 +1,7 @@
 import 'package:provider/provider.dart';
 
-import 'theme_controller.dart';
+import 'app_config_controller.dart';
 
 List<ChangeNotifierProvider<dynamic>> configProviders() => [
-  ChangeNotifierProvider<ThemeModeController>(create: (_) => ThemeModeController()),
+  ChangeNotifierProvider<AppConfigController>(create: (_) => AppConfigController()),
 ];
