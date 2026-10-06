@@ -2,7 +2,10 @@ import 'package:app/data/healt_model.dart';
 import 'package:commons/commons.dart';
 import 'package:service/service.dart';
 
-class MasonTesteRepository {
+import '{{name.snakeCase()}}_repository.dart';
+
+class {{name.pascalCase()}}RepositoryImpl implements {{name.pascalCase()}}Repository {
+  @override
   Future<Result<HealtModel>> healt() async {
     try {
       final response = await DioProvider.of(ApiCore.healt).request(verb: Verb.get);
@@ -12,10 +15,10 @@ class MasonTesteRepository {
         case Error(error: final error):
           return Result.error(error);
         default:
-          return Result.error(Exception('erroApi')); // TODO Verificar tipo erro...
+          return Result.error(HandledException(message: 'erroApi'));
       }
-    } catch (ex) {
-      return Result.error(ex is Exception ? ex : Exception(ex.toString()));
+    } catch (error) {
+      return Result.error(error is Exception ? error : Exception(error.toString()));
     }
   }
 }
