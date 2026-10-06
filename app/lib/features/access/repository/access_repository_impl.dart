@@ -11,15 +11,14 @@ class AccessRepositoryImpl implements AccessRepository {
     try {
       final response = await DioProvider.of(ApiCore.register).request(verb: Verb.post, body: model.toJson());
       switch (response) {
-        case Ok(value: final value) when value is Map:
-          return Result.ok(AccessModel.fromJson(Map<String, dynamic>.from(value)));
-        case Error(error: final error):
-          return Result.error(error);
-        default:
-          return Result.error(Exception('erroApi'));
+        case Ok():
+          AccessModel accessModel = AccessModel.fromJson(Map<String, dynamic>.from(response.value));
+          return Result.ok(accessModel);
+        case Error():
+          return Result.error(response.error);
       }
     } catch (ex) {
-      return Result.error(ex is Exception ? ex : Exception(ex.toString()));
+      return Result.error(ex is HandledException ? ex : HandledException(message: ex.toString()));
     }
   }
 
@@ -32,11 +31,9 @@ class AccessRepositoryImpl implements AccessRepository {
           return Result.ok(response.value);
         case Error():
           return Result.error(response.error);
-        // default:
-        //   return Result.error(HandledException(message: 'erroApi'));
       }
     } catch (ex) {
-      return Result.error(ex is Exception ? ex : Exception(ex.toString()));
+      return Result.error(ex is HandledException ? ex : HandledException(message: ex.toString()));
     }
   }
 }

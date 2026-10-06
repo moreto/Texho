@@ -1,6 +1,5 @@
 import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
-import 'package:service/service.dart';
 
 import '../../../config/command.dart';
 import '../../../data/model/access/access_body_model.dart';
@@ -17,6 +16,8 @@ class LoginViewmodel extends ChangeNotifier {
   final TextEditingController password = TextEditingController(text: '123');
 
   late final Command0 loginCommand = Command0(_login);
+  late bool _loginResult;
+  bool get loginResult => _loginResult;
 
   Future<Result<bool>> _login() async {
     notifyListeners();
@@ -28,18 +29,20 @@ class LoginViewmodel extends ChangeNotifier {
     final useCaseResult = await _accessUseCase.login(accessBodyModel);
     switch (useCaseResult) {
       case Ok<bool>():
-        Log.print(useCaseResult.value.toString(), name: 'Texho', title: 'Sucesso');
+        _loginResult = useCaseResult.value;
         break;
 
       case Error<bool>():
-        if (useCaseResult.error is HttpServiceException) {
-          final exception = useCaseResult.error;
-          String msgError = exception is HttpServiceException
-              ? exception.message ?? exception.toString()
-              : exception.toString();
-
-          Log.print(msgError, name: 'Texho', title: 'Erro');
-        }
+        Log.print(useCaseResult.error);
+      // if (useCaseResult.error is HandledException) {
+      //   final exception = useCaseResult.error;
+      //   if (exception is HandledException) {
+      //     Log.print(exception.message, name: 'Texho', title: 'Erro');
+      //   }
+      //   if (exception is HttpServiceException) {
+      //     Log.print(exception.message.toString(), name: 'Texho', title: 'Erro');
+      //   }
+      // }
     }
 
     notifyListeners();
