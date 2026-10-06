@@ -21,4 +21,14 @@ class AccessUseCase {
         return Result.error(serviceResult.error);
     }
   }
+
+  Future<Result<bool>> login(AccessBodyModel model) async {
+    final serviceResult = await _accessRepository.login(model);
+    switch (serviceResult) {
+      case Ok<bool>():
+        return Result.ok(serviceResult.value);
+      case Error<bool>():
+        return Result.error(serviceResult.error);
+    }
+  }
 }

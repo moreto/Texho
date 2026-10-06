@@ -5,7 +5,8 @@ enum ApiCore {
   cep('/ws', kCepDesHost, kCepPrdHost, false),
   traducao('/v1/traducao', kDesHost, kPrdHost, false),
   healt('', kDesHost, kPrdHost, false),
-  register('/v1/acesso/registro', kDesHost, kPrdHost, false);
+  register('/v1/acesso/registro', kDesHost, kPrdHost, false),
+  login('/v1/acesso/login', kDesHost, kPrdHost, false);
 
   const ApiCore(this.endpoint, this.des, this.prd, this.isLogged);
   final String endpoint;

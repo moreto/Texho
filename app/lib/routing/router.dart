@@ -37,7 +37,7 @@ GoRouter router() => GoRouter(
     GoRoute(
       path: Routes.login,
       builder: (context, state) {
-        final viewModel = LoginViewmodel();
+        final viewModel = LoginViewmodel(accessUseCase: AccessUseCase(accessRepository: locator<AccessRepository>()));
         return LoginView(viewModel: viewModel);
       },
     ),

@@ -17,9 +17,6 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final TextEditingController _email = TextEditingController(text: 'mmoreto@gmail.com');
-  final TextEditingController _password = TextEditingController(text: '123');
-
   @override
   Widget build(BuildContext context) {
     final strings = AppLocalizations.of(context);
@@ -39,7 +36,7 @@ class _LoginViewState extends State<LoginView> {
                 Text(strings.translate('efetueLogin'), style: Theme.of(context).textTheme.bodyLarge),
                 const SizedBox(height: 16),
                 TextFormField(
-                  controller: _email,
+                  controller: widget.viewModel.email,
                   maxLength: 90,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
@@ -64,7 +61,7 @@ class _LoginViewState extends State<LoginView> {
                 const SizedBox(height: 16),
                 TextFormField(
                   obscureText: true,
-                  controller: _password,
+                  controller: widget.viewModel.password,
                   maxLength: 12,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -124,7 +121,8 @@ class _LoginViewState extends State<LoginView> {
                       width: MediaQuery.sizeOf(context).width / 2 - 24,
                       child: ElevatedButton(
                         onPressed: () {
-                          context.push(Routes.home);
+                          // context.push(Routes.home);
+                          widget.viewModel.loginCommand.execute();
                         },
                         child: Text(strings.translate('login')),
                       ),

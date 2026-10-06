@@ -1,8 +1,7 @@
 import 'package:app/data/model/access/access_body_model.dart';
 import 'package:app/data/model/access/access_model.dart';
 import 'package:app/features/access/repository/access_repository.dart';
-import 'package:commons/api_core.dart';
-import 'package:commons/result.dart';
+import 'package:commons/commons.dart';
 import 'package:service/api/dio_provider.dart';
 import 'package:service/api/enum.dart';
 
@@ -18,6 +17,23 @@ class AccessRepositoryImpl implements AccessRepository {
           return Result.error(error);
         default:
           return Result.error(Exception('erroApi'));
+      }
+    } catch (ex) {
+      return Result.error(ex is Exception ? ex : Exception(ex.toString()));
+    }
+  }
+
+  @override
+  Future<Result<bool>> login(AccessBodyModel model) async {
+    try {
+      final response = await DioProvider.of(ApiCore.login).request(verb: Verb.post, body: model.toJson());
+      switch (response) {
+        case Ok():
+          return Result.ok(response.value);
+        case Error():
+          return Result.error(response.error);
+        // default:
+        //   return Result.error(HandledException(message: 'erroApi'));
       }
     } catch (ex) {
       return Result.error(ex is Exception ? ex : Exception(ex.toString()));
