@@ -4,7 +4,10 @@ import 'package:commons/result.dart';
 import 'package:service/api/dio_provider.dart';
 import 'package:service/api/enum.dart';
 
-class TraducaoRepository {
+import 'traducao_repository.dart';
+
+class TraducaoRepositoryImpl implements TraducaoRepository {
+  @override
   Future<Result<List<TraducaoModel>>> get() async {
     try {
       final response = await DioProvider.of(ApiCore.traducao).request(verb: Verb.get);

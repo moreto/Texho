@@ -1,8 +1,9 @@
 import 'package:app/data/model/access/access_body_model.dart';
 import 'package:app/data/model/access/access_model.dart';
-import 'package:app/features/access/repository/access_repository.dart';
 import 'package:commons/log.dart';
 import 'package:commons/result.dart';
+
+import '../repository/access_repository.dart';
 
 class AccessUseCase {
   AccessUseCase({required this._accessRepository}) {

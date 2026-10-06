@@ -1,8 +1,9 @@
+import 'package:app/l10n/traducao_repository_impl.dart';
 import 'package:commons/result.dart';
 import 'package:flutter/material.dart';
 
 import '../data/model/traducao_model.dart';
-import '../features/general/repository/traducao_repository.dart';
+import 'traducao_repository.dart';
 
 class AppLocalizations {
   AppLocalizations({required Locale locale, required List<TraducaoModel> translations})
@@ -14,7 +15,7 @@ class AppLocalizations {
   final List<TraducaoModel> _translations;
 
   static const supportedLocales = [Locale('pt', 'BR'), Locale('es', 'ES'), Locale('en', 'US')];
-  static final LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate(TraducaoRepository());
+  static final LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate(TraducaoRepositoryImpl());
 
   static AppLocalizations of(BuildContext context) => Localizations.of<AppLocalizations>(context, AppLocalizations)!;
 

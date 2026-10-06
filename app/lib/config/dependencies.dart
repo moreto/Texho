@@ -1,18 +1,15 @@
-import 'package:app/features/general/repository/healt_repository.dart';
+import 'package:app/l10n/traducao_repository_impl.dart';
 import 'package:get_it/get_it.dart';
 
 import '../features/access/repository/access_repository.dart';
-import '../features/general/repository/traducao_repository.dart';
+import '../features/access/repository/access_repository_impl.dart';
 import '../features/home/repository/home_repository.dart';
-import '../features/mason_teste/repository/mason_teste_repository_impl.dart';
-import '../features/mason_teste/repository/mason_teste_repositoy.dart';
+import '../l10n/traducao_repository.dart';
 
 final GetIt locator = GetIt.instance;
 
 void configDependencies() {
   locator.registerLazySingleton<HomeRepository>(() => HomeRepository());
-  locator.registerLazySingleton<TraducaoRepository>(() => TraducaoRepository());
-  locator.registerLazySingleton<AccessRepository>(() => AccessRepository());
-  locator.registerLazySingleton<HealtRepository>(() => HealtRepository());
-  locator.registerLazySingleton<MasonTesteRepository>(() => MasonTesteRepositoryImpl());
+  locator.registerLazySingleton<TraducaoRepository>(() => TraducaoRepositoryImpl());
+  locator.registerLazySingleton<AccessRepository>(() => AccessRepositoryImpl());
 }

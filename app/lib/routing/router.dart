@@ -2,9 +2,9 @@ import 'package:app/config/dependencies.dart';
 import 'package:app/features/access/ui/register_view.dart';
 import 'package:app/features/access/ui/register_viewmodel.dart';
 import 'package:app/features/access/use_case/access_usecase.dart';
-import 'package:app/features/general/repository/traducao_repository.dart';
 import 'package:app/features/home/repository/home_repository.dart';
 import 'package:app/features/home/use_case/home_usecase.dart';
+import 'package:app/l10n/traducao_repository.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/access/repository/access_repository.dart';
