@@ -33,9 +33,5 @@
   "dart.lineLength": 120,
   "workbench.editor.openPositioning": "last",
   "terminal.integrated.fontFamily": "MesloLGS NF",
-  "dart.flutterSdkPath": ".fvm/versions/3.47.4",
-  "chat.tools.terminal.autoApprove": {
-    "command": true,
-    "flutter": true
-  }
+  "dart.flutterSdkPath": ".fvm/versions/3.47.6",
 }

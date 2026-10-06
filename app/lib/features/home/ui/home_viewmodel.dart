@@ -8,7 +8,7 @@ import '../../../data/model/cep_model.dart';
 import '../use_case/home_usecase.dart';
 
 class HomeViewmodel extends ChangeNotifier {
-  HomeViewmodel(HomeUseCase homeUseCase) : _homeUseCase = homeUseCase {
+  HomeViewmodel({required this._homeUseCase}) {
     Log.print(super.runtimeType);
   }
   TextEditingController cepController = TextEditingController(text: '73252200');

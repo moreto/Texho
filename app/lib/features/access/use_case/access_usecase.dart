@@ -5,7 +5,7 @@ import 'package:commons/log.dart';
 import 'package:commons/result.dart';
 
 class AccessUseCase {
-  AccessUseCase(AccessRepository accessRepository) : _accessRepository = accessRepository {
+  AccessUseCase({required this._accessRepository}) {
     Log.print(super.runtimeType);
   }
 

@@ -3,9 +3,9 @@ import 'package:commons/commons.dart';
 import 'package:service/service.dart';
 
 class MasonTesteRepository {
-    Future<Result<HealtModel>> healt() async {
+  Future<Result<HealtModel>> healt() async {
     try {
-      final response = await DioProvider.of(ApiCore.register).request(verb: Verb.get);
+      final response = await DioProvider.of(ApiCore.healt).request(verb: Verb.get);
       switch (response) {
         case Ok(value: final value) when value is Map:
           return Result.ok(HealtModel.fromJson(Map<String, dynamic>.from(value)));

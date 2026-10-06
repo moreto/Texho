@@ -7,9 +7,7 @@ import '../../general/repository/traducao_repository.dart';
 import '../repository/home_repository.dart';
 
 class HomeUseCase {
-  HomeUseCase(HomeRepository homeRepository, TraducaoRepository traducaoRepository)
-    : _homeRepository = homeRepository,
-      _traducaoRepository = traducaoRepository {
+  HomeUseCase({required this._homeRepository, required this._traducaoRepository}) {
     Log.print(super.runtimeType);
   }
 

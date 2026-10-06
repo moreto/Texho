@@ -1,15 +1,22 @@
+import 'package:app/config/dependencies.dart';
 import 'package:app/features/access/ui/register_view.dart';
 import 'package:app/features/access/ui/register_viewmodel.dart';
+import 'package:app/features/access/use_case/access_usecase.dart';
+import 'package:app/features/general/repository/traducao_repository.dart';
+import 'package:app/features/home/repository/home_repository.dart';
+import 'package:app/features/home/use_case/home_usecase.dart';
 import 'package:app/features/mason_teste/ui/mason_teste_view.dart';
 import 'package:app/features/mason_teste/ui/mason_teste_viewmodel.dart';
+import 'package:app/features/mason_teste/use_case/mason_teste_usecase.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../features/about/ui/about_view.dart';
+import '../features/access/repository/access_repository.dart';
 import '../features/access/ui/login_view.dart';
 import '../features/access/ui/login_viewmodel.dart';
 import '../features/home/ui/home_view.dart';
 import '../features/home/ui/home_viewmodel.dart';
+import '../features/mason_teste/repository/mason_teste_repository.dart';
 import 'routes.dart';
 
 GoRouter router() => GoRouter(
@@ -23,7 +30,12 @@ GoRouter router() => GoRouter(
     GoRoute(
       path: Routes.home,
       builder: (context, state) {
-        final viewModel = context.read<HomeViewmodel>();
+        final viewModel = HomeViewmodel(
+          homeUseCase: HomeUseCase(
+            homeRepository: locator<HomeRepository>(),
+            traducaoRepository: locator<TraducaoRepository>(),
+          ),
+        );
         return HomeView(viewModel: viewModel);
       },
     ),
@@ -31,7 +43,7 @@ GoRouter router() => GoRouter(
     GoRoute(
       path: Routes.login,
       builder: (context, state) {
-        final viewModel = context.read<LoginViewmodel>();
+        final viewModel = LoginViewmodel();
         return LoginView(viewModel: viewModel);
       },
     ),
@@ -39,7 +51,9 @@ GoRouter router() => GoRouter(
     GoRoute(
       path: Routes.registro,
       builder: (context, state) {
-        final viewModel = context.read<RegisterViewmodel>();
+        final viewModel = RegisterViewmodel(
+          accessUseCase: AccessUseCase(accessRepository: locator<AccessRepository>()),
+        );
         return RegisterView(viewModel: viewModel);
       },
     ),
@@ -48,7 +62,10 @@ GoRouter router() => GoRouter(
     GoRoute(
       path: Routes.teste,
       builder: (context, state) {
-        final viewModel = context.read<MasonTesteViewmodel>();
+        // final viewModel = context.read<MasonTesteViewmodel>();
+        final viewModel = MasonTesteViewmodel(
+          masonTesteUseCase: MasonTesteUseCase(masonTesteRepository: locator<MasonTesteRepository>()),
+        );
         return MasonTesteView(viewModel: viewModel);
       },
     ),

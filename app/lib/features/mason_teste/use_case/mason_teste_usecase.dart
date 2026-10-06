@@ -4,7 +4,7 @@ import 'package:commons/commons.dart';
 import '../../../data/healt_model.dart';
 
 class MasonTesteUseCase {
-  MasonTesteUseCase(this._masonTesteRepository) {
+  MasonTesteUseCase({required this._masonTesteRepository}) {
     Log.print(super.runtimeType);
   }
 

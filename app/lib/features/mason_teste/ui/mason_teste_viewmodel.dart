@@ -7,7 +7,7 @@ import 'package:service/service.dart';
 import '../use_case/mason_teste_usecase.dart';
 
 class MasonTesteViewmodel extends ChangeNotifier {
-  MasonTesteViewmodel(MasonTesteUseCase masonTesteUseCase) : _masonTesteUseCase = masonTesteUseCase {
+  MasonTesteViewmodel({required this._masonTesteUseCase}) {
     Log.print(super.runtimeType);
     healtCommand.execute();
   }
