@@ -7,8 +7,8 @@ enum ApiCore {
   healt('', kDesHost, kPrdHost, false),
   register('/v1/acesso/registro', kDesHost, kPrdHost, false),
   login('/v1/acesso/login', kDesHost, kPrdHost, false),
-  requestOtp('/api/v1/otp/send', kDesHost, kPrdHost, false),
-  verifyOtp('/api/v1/otp/verify', kDesHost, kPrdHost, false);
+  requestOtp('/v1/otp/send', kDesHost, kPrdHost, false),
+  verifyOtp('/v1/otp/verify', kDesHost, kPrdHost, false);
 
   const ApiCore(this.endpoint, this.des, this.prd, this.isLogged);
   final String endpoint;
