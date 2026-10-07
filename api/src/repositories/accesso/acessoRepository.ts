@@ -56,6 +56,15 @@ class AcessoRepository implements AcessoRepositoryContract {
             throw error;
         }
     }
+
+    async getUserId(email: string): Promise<{ usuaId: number } | undefined> {
+        const query = {
+            text: "SELECT usua_id FROM usuario WHERE usua_email = $1 AND usua_ativo = true;",
+            values: [email],
+        };
+        const users = await Database.DbQueryList(query);
+        return users[0];
+    }
 }
 
 export { AcessoRepository };

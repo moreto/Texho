@@ -1,17 +1,17 @@
 info:
-  name: login
+  name: otpVerify
   type: http
-  seq: 3
+  seq: 4
 
 http:
   method: POST
-  url: "{{HOST}}/v1/acesso/login"
+  url: "{{HOST}}/v1/otp/verify"
   body:
     type: json
     data: |-
       {
-      "email": "mmoreto@msn.com",
-      "senha": "TGgsbwoeg2kG+k61ryT8Nji39whVqH7bNM+AVUWvhA=="
+      "email": "mmoreto@gmail.com",
+        "otp": "mmoreto@gmail.com"
       }
   auth: inherit
 

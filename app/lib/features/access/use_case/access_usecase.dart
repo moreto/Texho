@@ -31,4 +31,8 @@ class AccessUseCase {
         return Result.error(serviceResult.error);
     }
   }
+
+  Future<Result<bool>> requestOtp(String email) => _accessRepository.requestOtp(email);
+
+  Future<Result<bool>> verifyOtp(String email, String otp) => _accessRepository.verifyOtp(email, otp);
 }

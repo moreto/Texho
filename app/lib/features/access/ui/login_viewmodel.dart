@@ -13,18 +13,22 @@ class LoginViewmodel extends ChangeNotifier {
 
   final AccessUseCase _accessUseCase;
 
-  final TextEditingController email = TextEditingController(text: 'mmoreto@msn.com');
-  final TextEditingController password = TextEditingController(text: '123');
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final TextEditingController otp = TextEditingController();
 
-  late final Command0 loginCommand = Command0(_login);
+  late final Command0<bool> loginCommand = Command0(_login);
+  late final Command0<bool> requestOtpCommand = Command0(_requestOtp);
+  late final Command0<bool> verifyOtpCommand = Command0(_verifyOtp);
   late bool _loginResult;
   bool get loginResult => _loginResult;
+  bool _otpRequested = false;
+  bool get otpRequested => _otpRequested;
 
   Future<Result<bool>> _login() async {
     notifyListeners();
 
     String encrypted = await Encrypt().encryptString(password.text, kCryptKeyB64);
-    Log.print(encrypted);
 
     AccessBodyModel accessBodyModel = AccessBodyModel(email: email.text, senha: encrypted);
     final useCaseResult = await _accessUseCase.login(accessBodyModel);
@@ -46,5 +50,43 @@ class LoginViewmodel extends ChangeNotifier {
     notifyListeners();
 
     return useCaseResult;
+  }
+
+  Future<Result<bool>> _requestOtp() async {
+    notifyListeners();
+    final result = await _accessUseCase.requestOtp(email.text.trim());
+    if (result case Ok<bool>(value: true)) {
+      _otpRequested = true;
+      otp.clear();
+    }
+    notifyListeners();
+    return result;
+  }
+
+  Future<Result<bool>> _verifyOtp() async {
+    notifyListeners();
+    final result = await _accessUseCase.verifyOtp(email.text.trim(), otp.text.trim());
+    if (result case Ok<bool>(value: true)) {
+      _loginResult = true;
+    }
+    notifyListeners();
+    return result;
+  }
+
+  void resetOtpFlow() {
+    _otpRequested = false;
+    otp.clear();
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    email.dispose();
+    password.dispose();
+    otp.dispose();
+    loginCommand.dispose();
+    requestOtpCommand.dispose();
+    verifyOtpCommand.dispose();
+    super.dispose();
   }
 }
