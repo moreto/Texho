@@ -1,5 +1,6 @@
 import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
+import 'package:service/api/service_exception.dart';
 
 import '../../../config/command.dart';
 import '../../../data/model/access/access_body_model.dart';
@@ -32,17 +33,14 @@ class LoginViewmodel extends ChangeNotifier {
         _loginResult = useCaseResult.value;
         break;
 
-      case Error<bool>():
-        Log.print(useCaseResult.error);
-      // if (useCaseResult.error is HandledException) {
-      //   final exception = useCaseResult.error;
-      //   if (exception is HandledException) {
-      //     Log.print(exception.message, name: 'Texho', title: 'Erro');
-      //   }
-      //   if (exception is HttpServiceException) {
-      //     Log.print(exception.message.toString(), name: 'Texho', title: 'Erro');
-      //   }
-      // }
+      case Error<bool>(error: final exception):
+        if (exception is HandledException) {
+          Log.print(exception.message, name: 'Texho', title: 'Erro');
+        } else if (exception is HttpServiceException) {
+          Log.print(exception.message ?? exception.toString(), name: 'Texho', title: 'Erro');
+        } else {
+          Log.print(exception.toString(), name: 'Texho', title: 'Erro');
+        }
     }
 
     notifyListeners();

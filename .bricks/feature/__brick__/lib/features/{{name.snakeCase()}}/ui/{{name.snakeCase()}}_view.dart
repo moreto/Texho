@@ -36,14 +36,27 @@ class _{{name.pascalCase()}}ViewState extends State<{{name.pascalCase()}}View> {
 
   void _onResult() {
     if (widget.viewModel.healtCommand.error) {
+      String msgError = kDefaultAppError;
+
+      final commandResult = widget.viewModel.loginCommand.result;
+      if (commandResult case Error(error: final exception)) {
+        if (exception is HandledException) {
+          msgError = exception.message;
+        } else if (exception is HttpServiceException) {
+          msgError = exception.message ?? exception.toString();
+        } else {
+          msgError = exception.toString();
+        }
+      }
+
       DialogBottomSheetWarning(
         dialogWarning: DialogWarning(
-          title: 'Erro',
-          titleButtonPrimary: 'Ok',
-          titleButtonSecondary: 'Ok',
+          title: AppLocalizations.of(context).translate('error'),
+          titleButtonPrimary: AppLocalizations.of(context).translate('ok'),
+          titleButtonSecondary: AppLocalizations.of(context).translate('ok'),
           isDismissible: false,
           typeButtonsDialog: DialogBottomSheetTypeButtons.horizontalButtons,
-          description: AppLocalizations.of(context).translate('err'),
+          description: AppLocalizations.of(context).translate(msgError),
           statusDialog: DialogBottomSheetStatus.statusCritical,
           onPressedPrimary: () => context.pop(),
           onPressedSecondary: () => context.pop(),
@@ -51,6 +64,9 @@ class _{{name.pascalCase()}}ViewState extends State<{{name.pascalCase()}}View> {
       ).showModal(context);
 
       widget.viewModel.healtCommand.clearResult();
+    } else if (widget.viewModel.healtCommand.completed) {
+      // widget.viewModel.statusCoreBankingCommand.clearResult();
+      // redirect
     }
   }
 

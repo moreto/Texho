@@ -1,5 +1,8 @@
+import 'package:commons/commons.dart';
+import 'package:components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:service/service.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../routing/routes.dart';
@@ -16,6 +19,61 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.viewModel.loginCommand.addListener(_onResult);
+  }
+
+  @override
+  void didUpdateWidget(covariant LoginView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    oldWidget.viewModel.loginCommand.removeListener(_onResult);
+    widget.viewModel.loginCommand.addListener(_onResult);
+  }
+
+  @override
+  void dispose() {
+    widget.viewModel.loginCommand.removeListener(_onResult);
+    super.dispose();
+  }
+
+  void _onResult() {
+    if (widget.viewModel.loginCommand.error) {
+      String msgError = kDefaultAppError;
+
+      final commandResult = widget.viewModel.loginCommand.result;
+      if (commandResult case Error(error: final exception)) {
+        if (exception is HandledException) {
+          msgError = exception.message;
+        } else if (exception is HttpServiceException) {
+          msgError = exception.message ?? exception.toString();
+        } else {
+          msgError = exception.toString();
+        }
+      }
+
+      DialogBottomSheetWarning(
+        dialogWarning: DialogWarning(
+          title: AppLocalizations.of(context).translate('error'),
+          titleButtonPrimary: AppLocalizations.of(context).translate('ok'),
+          titleButtonSecondary: AppLocalizations.of(context).translate('ok'),
+          isDismissible: false,
+          typeButtonsDialog: DialogBottomSheetTypeButtons.horizontalButtons,
+          description: AppLocalizations.of(context).translate(msgError),
+          statusDialog: DialogBottomSheetStatus.statusCritical,
+          onPressedPrimary: () => context.pop(),
+          onPressedSecondary: () => context.pop(),
+        ),
+      ).showModal(context);
+
+      widget.viewModel.loginCommand.clearResult();
+    } else if (widget.viewModel.loginCommand.completed) {
+      // widget.viewModel.statusCoreBankingCommand.clearResult();
+      // redirect
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
