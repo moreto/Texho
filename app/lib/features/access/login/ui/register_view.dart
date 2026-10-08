@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:service/api/service_exception.dart';
 
-import '../../../l10n/app_localizations.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'register_viewmodel.dart';
 
 class RegisterView extends StatefulWidget {

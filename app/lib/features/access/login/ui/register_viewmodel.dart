@@ -1,11 +1,11 @@
 import 'package:app/data/model/access/access_body_model.dart';
 import 'package:app/data/model/access/access_model.dart';
-import 'package:app/features/access/use_case/access_usecase.dart';
+import 'package:app/features/access/login/use_case/access_usecase.dart';
 import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:service/api/service_exception.dart';
 
-import '../../../config/command.dart';
+import '../../../../config/command.dart';
 
 class RegisterViewmodel extends ChangeNotifier {
   RegisterViewmodel({required this._accessUseCase}) {

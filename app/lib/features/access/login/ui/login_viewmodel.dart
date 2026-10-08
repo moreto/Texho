@@ -2,8 +2,8 @@ import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:service/api/service_exception.dart';
 
-import '../../../config/command.dart';
-import '../../../data/model/access/access_body_model.dart';
+import '../../../../config/command.dart';
+import '../../../../data/model/access/access_body_model.dart';
 import '../use_case/access_usecase.dart';
 
 class LoginViewmodel extends ChangeNotifier {

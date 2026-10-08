@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:service/service.dart';
 
-import '../../../config/command.dart';
-import '../../../l10n/app_localizations.dart';
-import '../../../routing/routes.dart';
+import '../../../../config/command.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../../routing/routes.dart';
 import 'login_viewmodel.dart';
 
 enum _LoginMode { password, otp }
