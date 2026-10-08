@@ -5,14 +5,14 @@
 //   const logBodyModel = Convert.toLogBodyModel(json);
 
 export interface LogBodyModel {
-    objeto: unknown;
-    logTipo: string;
-    texto: string;
-    usuaId: number;
+    log_tipo: string;
+    log_info: string;
+    usua_id: number;
+    log_texto: string;
 }
 
 // Converts JSON strings to/from your types
-export class ConvertLogBodyModel {
+export class LogBodyModelConvert {
     public static toLogBodyModel(json: string): LogBodyModel {
         return JSON.parse(json);
     }

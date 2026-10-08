@@ -3,10 +3,22 @@ import { NotificacaoModel } from "../../models/notificacaoModel";
 import { NotificacaoRepositoryContract } from "../acessoRepositoryContracts";
 
 class NotificacaoRepository implements NotificacaoRepositoryContract {
+    async get() {
+        try {
+            const query = {
+                text: "SELECT noti_id, noti_data, noti_tipo, noti_texto, usua_id, log_id FROM notificacao ORDER BY noti_id desc;",
+                values: [],
+            };
+            return await Database.DbQueryList(query);
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async getById(notiId: number) {
         try {
             const query = {
-                text: "SELECT noti_id, noti_data, noti_texto, noti_erro, noti_tipo, usua_id, log_id FROM notificacao WHERE noti_id = $1;",
+                text: "SELECT noti_id, noti_data, noti_tipo, noti_texto, usua_id, log_id FROM notificacao WHERE noti_id = $1;",
                 values: [notiId],
             };
             return await Database.DbQuery(query);

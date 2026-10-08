@@ -1,0 +1,24 @@
+info:
+  name: log
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{HOST}}/v1/log"
+  body:
+    type: json
+    data: |-
+      {
+        "log_tipo": "ERROR",
+        "log_info": "{\"length\":163,\"name\":\"error\",\"severity\":\"ERROR\",\"code\":\"42703\",\"hint\":\"Perhaps you meant to reference the column \\\"u.usua_id\\\".\",\"position\":\"8\",\"file\":\"parse_relation.c\",\"line\":\"3723\",\"routine\":\"errorMissingColumn\"}",
+        "usua_id": 1,
+        "log_texto": "teste"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

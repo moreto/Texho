@@ -1,31 +1,38 @@
 import { Request, Response } from "express";
-import { LogTypes } from "../commons/enum";
+import { Util } from "../commons/util";
+import { LogBodyModel } from "../models/logBodyModel";
 import { ConvertNotificacaoModel } from "../models/notificacaoModel";
-import { LogDbRepositoryContract, NotificacaoRepositoryContract } from "../repositories/acessoRepositoryContracts";
+import { NotificacaoRepositoryContract } from "../repositories/acessoRepositoryContracts";
+import { LogRepositoryContract } from "../repositories/logRepositoryContract";
 
 export default class NotificacaoController {
     constructor(
         private readonly repository: NotificacaoRepositoryContract,
-        private readonly logRepository: LogDbRepositoryContract,
+        private readonly logRepository: LogRepositoryContract,
     ) {}
+
+    async listar(request: Request, response: Response) {
+        try {
+            const retorno = await this.repository.get();
+            return response.status(200).send(retorno);
+        } catch (err: unknown) {
+            return response.status(513).send(err);
+        }
+    }
 
     async notificar(request: Request, response: Response) {
         try {
             const model = ConvertNotificacaoModel.toNotificacaoModel(JSON.stringify(request.body));
 
-            if (model.notiErro != null && model.notiErro != undefined && model.notiErro != "") {
-                const logId = await this.logRepository.post({
-                    logTipo: LogTypes.ERROR,
-                    objeto: model.notiErro,
-                    usuaId: model.usuaId,
-                    texto: model.notiTexto,
-                });
+            if (!Util.isEmpty(model.notiErro)) {
+                const modelBody: LogBodyModel = {
+                    log_info: model.notiErro ?? "",
+                    log_texto: model.notiTexto,
+                    log_tipo: model.notiTipo,
+                    usua_id: model.usuaId,
+                };
 
-                if (logId == null) {
-                    throw new Error("Não foi possível registrar o log da notificação.");
-                }
-
-                model.logId = logId.logId;
+                await this.logRepository.post(modelBody);
             }
 
             const retorno = await this.repository.post(model);

@@ -15,5 +15,6 @@ export interface OTPRepositoryContract {
 }
 
 export interface NotificacaoRepositoryContract {
+    get(): Promise<unknown[]>;
     post(model: NotificacaoModel): Promise<string>;
 }

@@ -1,7 +1,9 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { decryptString } from "../../commons/encrypt";
+import { NotificacaoTypes } from "../../commons/enum";
 import { Log } from "../../commons/log";
+import { Resp } from "../../commons/resp";
 import { Util } from "../../commons/util";
 import { ConvertAcessoBodyModel } from "../../models/acesso/acessoBodyModel";
 import { ConvertUsuarioModel } from "../../models/acesso/acessoModel";
@@ -76,31 +78,23 @@ class AcessoController {
             const modelBody = ConvertAcessoBodyModel.toAcessoBodyModel(JSON.stringify(request.body));
 
             if (Util.isEmpty(modelBody.email) || Util.isEmpty(modelBody.senha)) {
-                return response.status(411).send({
-                    message: "emailSenhaObrigatorios",
-                });
+                return Resp.send(response, 411, "emailSenhaObrigatorios", true, NotificacaoTypes.VALIDATION);
             }
 
             const retorno = await this.repository.get(modelBody.email);
 
             const usuarioModel = ConvertUsuarioModel.toUsuarioModel(JSON.stringify(retorno));
             const senhaBCrypt = usuarioModel.usuaSenha;
-            Log.print(senhaBCrypt);
 
             const decripted = decryptString(modelBody.senha, "5oAaa+hIOTQzGUxHYn8o6mHfQqEi9PXb4kBGpCQ+fn0=");
 
             const isValid = await this.verifyPassword(decripted, senhaBCrypt);
-
-            if (!isValid) {
-                return response.status(401).send({
-                    message: "unauthorized",
-                });
-            }
+            // if (!isValid) return Resp.send(response, 401, "unauthorized");
+            if (!isValid) return Resp.send(response, 401, "unauthorized", true, NotificacaoTypes.VALIDATION);
 
             return response.status(200).send(isValid);
         } catch (err: unknown) {
-            Log.printErro(err);
-            return response.status(513).send(err);
+            Resp.sendError(response, err, 500, "erroGeral", "1");
         }
     }
 }

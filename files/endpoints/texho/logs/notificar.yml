@@ -5,7 +5,7 @@ info:
 
 http:
   method: POST
-  url: "{{HOST}}/api/v1/notificacao"
+  url: "{{HOST}}/v1/notificacao"
   body:
     type: json
     data: |-
@@ -23,4 +23,3 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
-  forwardAuthorizationHeader: false

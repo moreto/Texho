@@ -1,11 +1,11 @@
 export interface NotificacaoModel {
-    notiId: number;
-    notiData: Date;
+    notiId?: number;
+    notiData?: Date;
     notiTexto: string;
     notiTipo: string;
-    notiErro: string;
+    notiErro?: string;
     usuaId: number;
-    logId: number;
+    logId?: number;
 }
 
 // Converts JSON strings to/from your types

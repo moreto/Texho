@@ -17,7 +17,7 @@ FROM public.notificacao;
 
 
 select row_to_json(row) from (
-SELECT usua_id, usua_email, usua_senha, usua_uuid, usua_ativo, usua_uuid FROM usuario u WHERE u.usua_email = 'mmoreto@gmail.com'
+ SELECT * FROM public.log
 ) row;
 
 SELECT * FROM public.usuario;
@@ -25,10 +25,16 @@ SELECT * FROM public.usuario;
 SELECT * FROM empresa e ;
 SELECT * FROM usuario_otp uo ;
 
-INSERT INTO usuario (usua_email, usua_senha, usua_uuid)
-VALUES('', '', '');
+SELECT noti_id, noti_data, noti_tipo, noti_texto, usua_id, log_id FROM notificacao ORDER BY noti_id;
+
+SELECT noti_id, noti_data, noti_tipo, noti_texto, usua_id, log_id
+FROM notificacao;
+
+INSERT INTO log (log_tipo, log_data, log_info, usua_id, log_texto)
+VALUES('', CURRENT_TIMESTAMP, '', 0, '');
 
 
-SELECT u.usua_id, u.usua_uuid, u.usua_email FROM usuario u WHERE u.usua_ativo = true and u.usua_email = 'mmoreto@gmail.com' AND u.usua_senha = '123';
+SELECT noti_id, noti_data, noti_texto, noti_erro, noti_tipo, usua_id, log_id FROM notificacao;
 
-INSERT INTO usuario_otp (usua_id, uotp_key) VALUES(0, 0);
+SELECT noti_id, noti_data, noti_tipo, noti_texto, usua_id, log_id
+FROM notificacao;

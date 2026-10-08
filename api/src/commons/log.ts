@@ -2,15 +2,15 @@ import camelcaseKeys from "camelcase-keys";
 import * as Config from "../configs/config.json";
 import { LogBodyModel } from "../models/logBodyModel";
 import { NotificacaoModel } from "../models/notificacaoModel";
-import { LogDbRepository } from "../repositories/commons/logDbRepository";
+import { LogRepository } from "../repositories/commons/logRepository";
 import { LogTypes } from "./enum";
 import { Notificacao } from "./notificacao";
 
 export class Log {
     // constructor(parameters) {}
 
-    static print(text: Object, group: string = "") {
-        let textLog = text;
+    static print(text: object, group: string = "") {
+        const textLog = text;
 
         group != "" ? console.group(group) : null;
         Config.showConsole ? console.log(Config.logTitle, textLog) : null;
@@ -46,13 +46,13 @@ export class Log {
                 }
             }
 
-            const repository = new LogDbRepository();
+            const repository = new LogRepository();
 
             const logModel: LogBodyModel = {
-                logTipo: logTipo,
-                objeto: erro,
-                texto: mensagem,
-                usuaId: usuaId,
+                log_tipo: logTipo,
+                log_info: erroStack,
+                log_texto: mensagem,
+                usua_id: usuaId,
             };
 
             const logId = await repository.post(logModel);
