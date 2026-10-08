@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
 
+import '../data/repository/menu_repository.dart';
+import '../data/repository/menu_repository_impl.dart';
 import '../features/access/home/repository/home_repository.dart';
 import '../features/access/login/repository/access_repository.dart';
 import '../features/access/login/repository/access_repository_impl.dart';
@@ -15,4 +17,5 @@ void configDependencies() {
   locator.registerLazySingleton<TraducaoRepository>(() => TraducaoRepositoryImpl());
   locator.registerLazySingleton<AccessRepository>(() => AccessRepositoryImpl());
   locator.registerLazySingleton<DashboardRepository>(() => DashboardRepositoryImpl());
+  locator.registerLazySingleton<MenuRepository>(() => MenuRepositoryImpl());
 }

@@ -2,7 +2,7 @@ import 'package:app/features/dashboard/repository/dashboard_repository.dart';
 import 'package:app/features/dashboard/ui/dashboard_view.dart';
 import 'package:app/features/dashboard/ui/dashboard_viewmodel.dart';
 import 'package:app/features/dashboard/use_case/dashboard_usecase.dart';
-import 'package:app/data/healt_model.dart';
+import 'package:app/data/model/healt_model.dart';
 import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

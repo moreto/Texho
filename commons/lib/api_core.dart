@@ -7,6 +7,7 @@ enum ApiCore {
   healt('', kDesHost, kPrdHost, false),
   register('/v1/acesso/registro', kDesHost, kPrdHost, false),
   login('/v1/acesso/login', kDesHost, kPrdHost, false),
+  menu('/v1/acesso/menu', kDesHost, kPrdHost, false),
   requestOtp('/v1/otp/send', kDesHost, kPrdHost, false),
   verifyOtp('/v1/otp/verify', kDesHost, kPrdHost, false);
 
