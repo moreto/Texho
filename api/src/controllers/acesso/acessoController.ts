@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { decryptString } from "../../commons/encrypt";
 import { LogTypes } from "../../commons/enum";
-import { Log } from "../../commons/log";
 import { Resp } from "../../commons/resp";
 import { Util } from "../../commons/util";
 import { ConvertAcessoBodyModel } from "../../models/acesso/acessoBodyModel";
@@ -26,42 +25,33 @@ class AcessoController {
     async registro(request: Request, response: Response) {
         try {
             if (Util.isEmpty(request.body)) {
-                return response.status(410).send({
-                    message: "emailSenhaObrigatorios",
-                });
+                return Resp.sendValidation(response, 400, "emailSenhaObrigatorios", true, LogTypes.VALIDATION);
             }
 
             const model = ConvertAcessoBodyModel.toAcessoBodyModel(JSON.stringify(request.body));
 
             if (Util.isEmpty(model.email) || Util.isEmpty(model.senha)) {
-                return response.status(411).send({
-                    message: "emailSenhaObrigatorios",
-                });
+                return Resp.sendValidation(response, 400, "emailSenhaObrigatorios", true, LogTypes.VALIDATION);
             }
 
-            Log.print(model.senha);
             const decripted = decryptString(model.senha, "5oAaa+hIOTQzGUxHYn8o6mHfQqEi9PXb4kBGpCQ+fn0=");
 
             const hash = await this.hashPassword(decripted);
-            Log.print(hash);
             model.senha = hash;
 
             const retornoCheck = await this.repository.check(model.email);
 
             if (retornoCheck.emailExiste) {
-                return response.status(412).send({
-                    message: "emailJaCadastrado",
-                });
+                return Resp.sendValidation(response, 412, "emailJaCadastrado", true, LogTypes.VALIDATION);
             }
 
             await this.repository.register(model);
 
             const retorno = await this.repository.get(model.email);
 
-            return response.status(200).send(retorno);
+            Resp.send(response, 200, retorno);
         } catch (err: unknown) {
-            Log.printErro(err);
-            return response.status(513).send(err);
+            Resp.sendError(response, err, 500, "erroGeral", "registro", LogTypes.ERROR, 1);
         }
     }
 
