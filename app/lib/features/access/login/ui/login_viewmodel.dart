@@ -13,8 +13,8 @@ class LoginViewmodel extends ChangeNotifier {
 
   final AccessUseCase _accessUseCase;
 
-  final TextEditingController email = TextEditingController();
-  final TextEditingController password = TextEditingController();
+  final TextEditingController email = TextEditingController(text: 'mmoreto@gmail.com');
+  final TextEditingController password = TextEditingController(text: '123');
   final TextEditingController otp = TextEditingController();
 
   late final Command0<bool> loginCommand = Command0(_login);

@@ -79,7 +79,7 @@ class AcessoController {
             const isValid = await this.verifyPassword(decripted, senhaBCrypt);
             if (!isValid) return Resp.sendValidation(response, 401, "unauthorized", true, LogTypes.VALIDATION);
 
-            Resp.sendValidation(response, 200, "Ok");
+            Resp.send(response, 200, true);
         } catch (error: unknown) {
             Resp.sendError(response, error, 500, "erroGeral", "login", LogTypes.ERROR, 1);
         }
