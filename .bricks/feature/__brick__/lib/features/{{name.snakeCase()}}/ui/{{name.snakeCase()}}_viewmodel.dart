@@ -25,7 +25,7 @@ class {{name.pascalCase()}}Viewmodel extends ChangeNotifier {
       case Ok<HealtModel>():
         _healtModel = result.value;
       case Error<HealtModel>(error: final error):
-        Log.print(error.toString(), name: 'Texho', title: 'Erro');
+        Log.print(error.toString(), name: kApp, title: 'Erro');
     }
 
     notifyListeners();

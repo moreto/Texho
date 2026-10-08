@@ -30,7 +30,7 @@ class RegisterViewmodel extends ChangeNotifier {
     final useCaseResult = await _accessUseCase.register(accessBodyModel);
     switch (useCaseResult) {
       case Ok<AccessModel>():
-        Log.print(useCaseResult.value.toJson(), name: 'Texho', title: 'Sucesso');
+        Log.print(useCaseResult.value.toJson(), name: kApp, title: 'Sucesso');
         break;
 
       case Error<AccessModel>():
@@ -39,7 +39,7 @@ class RegisterViewmodel extends ChangeNotifier {
           String msgError = exception is HttpServiceException
               ? exception.message ?? exception.toString()
               : exception.toString();
-          Log.print(msgError, name: 'Texho', title: 'Erro');
+          Log.print(msgError, name: kApp, title: 'Erro');
         }
     }
 

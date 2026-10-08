@@ -12,7 +12,7 @@
     "nonLoggedUserId": 0,
     "sendMail": true,
     "showConsole": true,
-    "logTitle": "[MM] ",
+    "logTitle": "[Txh Api] ",
     "queryLogDb": true,
     "queryLog": true,
     "queryResultLog": true,

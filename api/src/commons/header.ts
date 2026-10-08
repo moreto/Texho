@@ -4,21 +4,17 @@ import { Util } from "./util";
 
 export class Header {
     static async verificaHeader(request: Request, valida: boolean) {
-        let intUser = -1;
+        // let intUser = -1;
         try {
             let bRet = true;
 
             const headers = request.headers;
 
-            let accessToken = headers[Config.accessToken];
-            let token = headers[Config.token];
-            let user = headers[Config.userId];
+            const accessToken = headers[Config.accessToken];
+            const token = headers[Config.token];
+            const user = headers[Config.userId];
 
-            if (Util.isEmpty(accessToken)) {
-                bRet = false;
-            } else if (Util.isEmpty(token)) {
-                bRet = false;
-            } else if (Util.isEmpty(user)) {
+            if (Util.isEmpty(accessToken) || Util.isEmpty(token) || Util.isEmpty(user)) {
                 bRet = false;
             } else {
                 bRet = true;
@@ -47,7 +43,7 @@ export class Header {
     static async getUsuario(request: Request) {
         try {
             const headers = request.headers;
-            let user = headers[Config.userId];
+            const user = headers[Config.userId];
             return parseInt(user!.toString());
         } catch (error) {
             throw error;

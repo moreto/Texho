@@ -1,16 +1,16 @@
 import 'dart:convert';
 import 'dart:developer' as developer;
 
+import 'package:commons/commons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 class Log {
-  static const kLG = 'Txh App';
   static int kLGCharMax = 16;
   static int kDot = 20;
   static bool logOn = kReleaseMode ? false : true;
 
-  static void print(Object text, {String? title, String? name = kLG}) {
+  static void print(Object text, {String? title, String? name = kApp}) {
     if (logOn) {
       final f = DateFormat('HH:mm:SSS');
 
@@ -25,7 +25,7 @@ class Log {
         init = title;
       }
 
-      String nameText = name ?? kLG;
+      String nameText = name ?? kApp;
       int nameAdd = kLGCharMax - nameText.length - 1;
 
       int qtd = init.length;
@@ -34,7 +34,7 @@ class Log {
     }
   }
 
-  static void printJson(Object object, {String? title, String? name = kLG}) {
+  static void printJson(Object object, {String? title, String? name = kApp}) {
     const jsonEnc = JsonEncoder();
     var encoded = jsonEnc.convert(object);
 
@@ -50,7 +50,7 @@ class Log {
         init = title;
       }
 
-      String nameText = name ?? kLG;
+      String nameText = name ?? kApp;
       int nameAdd = kLGCharMax - nameText.length - 1;
 
       int qtd = init.length;

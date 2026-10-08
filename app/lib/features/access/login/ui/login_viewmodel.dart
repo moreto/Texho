@@ -39,11 +39,11 @@ class LoginViewmodel extends ChangeNotifier {
 
       case Error<bool>(error: final exception):
         if (exception is HandledException) {
-          Log.print(exception.message, name: 'Texho', title: 'Erro');
+          Log.print(exception.message, name: kApp, title: 'Erro');
         } else if (exception is HttpServiceException) {
-          Log.print(exception.message ?? exception.toString(), name: 'Texho', title: 'Erro');
+          Log.print(exception.message ?? exception.toString(), name: kApp, title: 'Erro');
         } else {
-          Log.print(exception.toString(), name: 'Texho', title: 'Erro');
+          Log.print(exception.toString(), name: kApp, title: 'Erro');
         }
     }
 

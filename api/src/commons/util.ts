@@ -15,8 +15,6 @@ export class Util {
     }
 
     static isEmpty(value: any) {
-        return value === undefined || value == null || value.length <= 0
-            ? true
-            : false;
+        return value === undefined || value == null || value.length <= 0 ? true : false;
     }
 }

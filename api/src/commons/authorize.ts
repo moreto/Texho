@@ -15,7 +15,7 @@ import * as Config from "../configs/config.json";
 // expiresIn('-1h')     // -3600000
 // expiresIn('-200')    // -200
 
-async function generateToken(payload: String) {
+async function generateToken(payload: string) {
     return sign({ data: payload }, Config.saltKey, {
         expiresIn: Config.expiresTime,
     });
@@ -34,21 +34,17 @@ async function generateToken(payload: String) {
 // }
 
 async function decodeToken(token: string) {
-    var data = await verify(token, Config.saltKey);
+    const data = await verify(token, Config.saltKey);
     return data;
 }
 
 function parseJwt(token: string) {
-    var base64Payload = token.split(".")[1];
-    var payload = Buffer.from(base64Payload, "base64");
+    const base64Payload = token.split(".")[1];
+    const payload = Buffer.from(base64Payload, "base64");
     return JSON.parse(payload.toString());
 }
 
-async function authorize(
-    request: Request,
-    response: Response,
-    next: NextFunction,
-) {
+async function authorize(request: Request, response: Response, next: NextFunction) {
     // const token = request.headers[Config.accessToken]?.toString();
     // const user = request.headers[Config.userId]?.toString();
 
