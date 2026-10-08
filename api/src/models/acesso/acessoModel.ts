@@ -5,11 +5,11 @@
 //   const usuarioModel = Convert.toUsuarioModel(json);
 
 export interface UsuarioModel {
-    usua_id: number;
-    usua_email: string;
-    usua_senha: string;
-    usua_uuid: string;
-    usua_ativo: boolean;
+    usuaId: number;
+    usuaEmail: string;
+    usuaSenha: string;
+    usuaUuid: string;
+    usuaAtivo: boolean;
 }
 
 // Converts JSON strings to/from your types

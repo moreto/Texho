@@ -1,20 +1,21 @@
-// import { InsertedModelConvert } from "../models/insertedModel";
-// import { NotificacaoModel } from "../models/notificacaoModel";
-// import { NotificacaoRepository } from "../repositories/notificacaoRepository";
+import { InsertedModelConvert } from "../models/insertedModel";
+import { NotificacaoModel } from "../models/notificacaoModel";
+import { NotificacaoRepository } from "../repositories/commons/notificacaoRepository";
 
-// export class Notificacao {
-//   static async notificar(notificacao: NotificacaoModel) {
-//     try {
-//       const not = new NotificacaoRepository();
-//       const notIdGravado = await not.post(notificacao);
 
-//       const inserted = InsertedModelConvert.toInsertedModel(notIdGravado);
+export class Notificacao {
+    static async notificar(notificacao: NotificacaoModel) {
+        try {
+            const not = new NotificacaoRepository();
+            const notIdGravado = await not.post(notificacao);
 
-//       const notGravado = await not.getById(inserted.id);
+            const inserted = InsertedModelConvert.toInsertedModel(notIdGravado);
 
-//       return notGravado;
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
-// }
+            const notGravado = await not.getById(inserted.id);
+
+            return notGravado;
+        } catch (error) {
+            throw error;
+        }
+    }
+}

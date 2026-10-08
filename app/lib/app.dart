@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'config/app_config_controller.dart';
 import 'config/providers.dart';
-import 'config/theme_controller.dart';
 import 'l10n/app_localizations.dart';
 import 'routing/router.dart';
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: configProviders(),
-      child: Consumer<ThemeModeController>(
+      child: Consumer<AppConfigController>(
         builder: (context, themeController, child) {
           return MaterialApp.router(
             // scrollBehavior: AppCustomScrollBehavior(),

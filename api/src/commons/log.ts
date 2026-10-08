@@ -2,7 +2,7 @@ import camelcaseKeys from "camelcase-keys";
 import * as Config from "../configs/config.json";
 import { LogBodyModel } from "../models/logBodyModel";
 import { NotificacaoModel } from "../models/notificacaoModel";
-import { LogDbRepository } from "../repositories/logDbRepository";
+import { LogDbRepository } from "../repositories/commons/logDbRepository";
 import { LogTypes } from "./enum";
 import { Notificacao } from "./notificacao";
 
@@ -27,12 +27,7 @@ export class Log {
         }
     }
 
-    static async erro(
-        erro: unknown,
-        mensagem: string,
-        logTipo: string,
-        usuaId: number,
-    ) {
+    static async erro(erro: unknown, mensagem: string, logTipo: string, usuaId: number) {
         try {
             let erroStack = "";
             let erroMessage = "";

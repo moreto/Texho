@@ -21,6 +21,7 @@ SELECT usua_id, usua_email, usua_senha, usua_uuid, usua_ativo, usua_uuid FROM us
 ) row;
 
 SELECT * FROM public.usuario;
+
 SELECT * FROM empresa e ;
 SELECT * FROM usuario_otp uo ;
 

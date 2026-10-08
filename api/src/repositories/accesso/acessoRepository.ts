@@ -1,7 +1,8 @@
 import { Database } from "../../commons/database";
 import { AcessoBodyModel } from "../../models/acesso/acessoBodyModel";
+import { AcessoRepositoryContract } from "../acessoRepositoryContracts";
 
-class AcessoRepository {
+class AcessoRepository implements AcessoRepositoryContract {
     async login(model: AcessoBodyModel) {
         try {
             const query = {
@@ -54,6 +55,15 @@ class AcessoRepository {
         } catch (error) {
             throw error;
         }
+    }
+
+    async getUserId(email: string): Promise<{ usuaId: number } | undefined> {
+        const query = {
+            text: "SELECT usua_id FROM usuario WHERE usua_email = $1 AND usua_ativo = true;",
+            values: [email],
+        };
+        const users = await Database.DbQueryList(query);
+        return users[0];
     }
 }
 

@@ -8,11 +8,12 @@ import 'package:service/api/service_exception.dart';
 import '../../../config/command.dart';
 
 class RegisterViewmodel extends ChangeNotifier {
-  RegisterViewmodel(AccessUseCase accessUseCase) : _accessUseCase = accessUseCase {
+  RegisterViewmodel({required this._accessUseCase}) {
     Log.print(super.runtimeType);
   }
 
   final AccessUseCase _accessUseCase;
+
   final TextEditingController email = TextEditingController(text: 'mmoreto@msn.com');
   final TextEditingController password = TextEditingController(text: '123');
   final TextEditingController confirmPassword = TextEditingController(text: '123');

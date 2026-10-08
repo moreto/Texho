@@ -1,58 +1,59 @@
 import { Request, Response } from "express";
-import { sendOTPEmail } from "../../commons/otp";
-import { Resp } from "../../commons/resp";
-import { Util } from "../../commons/util";
-import { ConvertOTPBodyModel } from "../../models/acesso/otpBodyModel";
-import { AcessoRepository } from "../../repositories/accesso/acessoRepository";
-import { OTPRepository } from "../../repositories/accesso/otpRepository";
-import { OTPModel } from "./otpModel";
+import { generateOTP, sendOTPEmail } from "../../commons/otp";
+import { AcessoRepositoryContract, OTPRepositoryContract } from "../../repositories/acessoRepositoryContracts";
 
 class OTPController {
+    constructor(
+        private readonly acessoRepository: AcessoRepositoryContract,
+        private readonly otpRepository: OTPRepositoryContract,
+    ) {}
+
     async sendOTP(request: Request, response: Response) {
-        const repository = new AcessoRepository();
-        const otpRepository = new OTPRepository();
-
-        if (Util.isEmpty(request.body)) {
-            return Resp.send(response, 410, "emailObrigatorio");
+        const email = request.body?.email;
+        if (typeof email !== "string" || email.trim().length === 0) {
+            return response.status(400).send({ message: "emailObrigatorio" });
         }
 
-        const model = ConvertOTPBodyModel.toOTPBodyModel(JSON.stringify(request.body));
+        try {
+            const normalizedEmail = email.trim();
+            const user = await this.acessoRepository.getUserId(normalizedEmail);
 
-        let retorno = await repository.check(model.email);
+            if (user != null) {
+                const otp = generateOTP();
+                await this.otpRepository.send({ usua_id: user.usuaId, uotp_key: Number(otp) });
+                await sendOTPEmail(normalizedEmail, otp);
+            }
 
-        if (!retorno.emailExiste) {
-            return Resp.send(response, 412, "emailInexistente");
+            return response.status(200).send({ message: "otpRequestAccepted" });
+        } catch (error: unknown) {
+            console.error(error);
+            return response.status(500).send({ message: "erroGenerico" });
         }
-        const usuarioRetorno = await repository.get(model.email);
-
-        const otp = await sendOTPEmail(model.email);
-
-        const otpModel: OTPModel = {
-            usua_id: usuarioRetorno.usuaId,
-            uotp_key: parseInt(otp),
-            uotp_id: 0,
-            uotp_verified: false,
-            created_at: "",
-            updated_at: null,
-        };
-
-        retorno = await otpRepository.send(otpModel);
-
-        return Resp.send(response, 200, "emailEnviado");
     }
 
-    async verfyOTP(request: Request, response: Response) {
-        if (Util.isEmpty(request.body)) {
-            return Resp.send(response, 410, "emailObrigatorio");
+    async verifyOTP(request: Request, response: Response) {
+        const email = request.body?.email;
+        const code = request.body?.otp;
+        if (
+            typeof email !== "string" ||
+            email.trim().length === 0 ||
+            typeof code !== "string" ||
+            !/^\d{6}$/.test(code)
+        ) {
+            return response.status(400).send({ message: "codigoOtpInvalido" });
         }
 
-        // if (!record) return res.status(400).json({ message: "OTP não encontrado." });
-        // if (Date.now() > record.expires) return res.status(400).json({ message: "OTP expirado." });
-        // if (record.otp !== otp) return res.status(400).json({ message: "OTP inválido." });
+        try {
+            const isValid = await this.otpRepository.verify(email.trim(), Number(code));
+            if (!isValid) {
+                return response.status(401).send({ message: "codigoOtpInvalidoOuExpirado" });
+            }
 
-        const model = ConvertOTPBodyModel.toOTPBodyModel(JSON.stringify(request.body));
-        const retorno = await sendOTPEmail(model.email);
-        return response.status(200).send(retorno);
+            return response.status(200).send(true);
+        } catch (error: unknown) {
+            console.error(error);
+            return response.status(500).send({ message: "erroGenerico" });
+        }
     }
 }
 

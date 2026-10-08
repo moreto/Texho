@@ -1,11 +1,12 @@
 import 'package:app/data/model/access/access_body_model.dart';
 import 'package:app/data/model/access/access_model.dart';
-import 'package:app/features/access/repository/access_repository.dart';
 import 'package:commons/log.dart';
 import 'package:commons/result.dart';
 
+import '../repository/access_repository.dart';
+
 class AccessUseCase {
-  AccessUseCase(AccessRepository accessRepository) : _accessRepository = accessRepository {
+  AccessUseCase({required this._accessRepository}) {
     Log.print(super.runtimeType);
   }
 
@@ -20,4 +21,18 @@ class AccessUseCase {
         return Result.error(serviceResult.error);
     }
   }
+
+  Future<Result<bool>> login(AccessBodyModel model) async {
+    final serviceResult = await _accessRepository.login(model);
+    switch (serviceResult) {
+      case Ok<bool>():
+        return Result.ok(serviceResult.value);
+      case Error<bool>():
+        return Result.error(serviceResult.error);
+    }
+  }
+
+  Future<Result<bool>> requestOtp(String email) => _accessRepository.requestOtp(email);
+
+  Future<Result<bool>> verifyOtp(String email, String otp) => _accessRepository.verifyOtp(email, otp);
 }
