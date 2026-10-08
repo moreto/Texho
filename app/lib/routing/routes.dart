@@ -3,10 +3,13 @@
 // found in the LICENSE file.
 
 abstract final class Routes {
+  // access
   static const splash = '/';
   static const home = '/home';
   static const login = '/login';
   static const registro = '/registro';
+
+  // app
+  static const dashboard = '/dashboard';
   //
-  static const teste = '/teste';
 }

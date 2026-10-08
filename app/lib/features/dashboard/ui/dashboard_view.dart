@@ -5,18 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:service/service.dart';
 
-import '{{name.snakeCase()}}_viewmodel.dart';
+import 'dashboard_viewmodel.dart';
 
-class {{name.pascalCase()}}View extends StatefulWidget {
-  const {{name.pascalCase()}}View({super.key, required this.viewModel});
+class DashboardView extends StatefulWidget {
+  const DashboardView({super.key, required this.viewModel});
 
-  final {{name.pascalCase()}}Viewmodel viewModel;
+  final DashboardViewmodel viewModel;
 
   @override
-  State<{{name.pascalCase()}}View> createState() => _{{name.pascalCase()}}ViewState();
+  State<DashboardView> createState() => _DashboardViewState();
 }
 
-class _{{name.pascalCase()}}ViewState extends State<{{name.pascalCase()}}View> {
+class _DashboardViewState extends State<DashboardView> {
   @override
   void initState() {
     super.initState();
@@ -24,7 +24,7 @@ class _{{name.pascalCase()}}ViewState extends State<{{name.pascalCase()}}View> {
   }
 
   @override
-  void didUpdateWidget(covariant {{name.pascalCase()}}View oldWidget) {
+  void didUpdateWidget(covariant DashboardView oldWidget) {
     super.didUpdateWidget(oldWidget);
     oldWidget.viewModel.healtCommand.removeListener(_onResult);
     widget.viewModel.healtCommand.addListener(_onResult);
@@ -78,9 +78,9 @@ class _{{name.pascalCase()}}ViewState extends State<{{name.pascalCase()}}View> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('{{name.titleCase()}}'), elevation: 0, centerTitle: true),
+      appBar: AppBar(title: const Text('Dashboard'), elevation: 0, centerTitle: true),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: const Center(child: Text('{{name.titleCase()}}')),
+      body: const Center(child: Text('Dashboard')),
     );
   }
 

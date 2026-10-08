@@ -10,4 +10,11 @@ enum LogTypes {
     VALIDATION = "VALIDATION",
 }
 
-export { LogTypes };
+enum NotificacaoTypes {
+    LOG = "LOG",
+    ERROR = "ERROR",
+    DEBUG = "DEBUG",
+    VALIDATION = "VALIDATION",
+}
+
+export { LogTypes, NotificacaoTypes };

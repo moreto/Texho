@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 
 import '../features/access/repository/access_repository.dart';
 import '../features/access/repository/access_repository_impl.dart';
-import '../features/home/repository/home_repository.dart';
+import '../features/access/home/repository/home_repository.dart';
 import '../l10n/traducao_repository.dart';
 
 final GetIt locator = GetIt.instance;
