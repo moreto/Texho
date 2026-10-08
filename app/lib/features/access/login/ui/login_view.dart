@@ -23,7 +23,10 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
+  final _otpFieldKey = GlobalKey<FormFieldState<String>>();
   _LoginMode _mode = _LoginMode.password;
+  final _otpControllers = List.generate(6, (_) => TextEditingController());
+  final _otpFocusNodes = List.generate(6, (_) => FocusNode());
 
   @override
   void initState() {
@@ -49,6 +52,12 @@ class _LoginViewState extends State<LoginView> {
     widget.viewModel.loginCommand.removeListener(_onLoginResult);
     widget.viewModel.requestOtpCommand.removeListener(_onOtpRequestResult);
     widget.viewModel.verifyOtpCommand.removeListener(_onOtpVerificationResult);
+    for (final controller in _otpControllers) {
+      controller.dispose();
+    }
+    for (final focusNode in _otpFocusNodes) {
+      focusNode.dispose();
+    }
     widget.viewModel.dispose();
     super.dispose();
   }
@@ -57,7 +66,7 @@ class _LoginViewState extends State<LoginView> {
     _consumeResult(
       widget.viewModel.loginCommand,
       onSuccess: () {
-        if (widget.viewModel.loginResult) context.go(Routes.home);
+        if (widget.viewModel.loginResult) context.go(Routes.dashboard);
       },
     );
   }
@@ -68,6 +77,10 @@ class _LoginViewState extends State<LoginView> {
       _showError(command.result);
       command.clearResult();
     } else if (command.completed) {
+      setState(() {
+        _clearOtpFields();
+      });
+      _otpFocusNodes.first.requestFocus();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Se o e-mail estiver cadastrado, você receberá um código em instantes.')),
       );
@@ -76,10 +89,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void _onOtpVerificationResult() {
-    _consumeResult(
-      widget.viewModel.verifyOtpCommand,
-      onSuccess: () => context.go(Routes.home),
-    );
+    _consumeResult(widget.viewModel.verifyOtpCommand, onSuccess: () => context.go(Routes.dashboard));
   }
 
   void _consumeResult(Command<bool> command, {VoidCallback? onSuccess}) {
@@ -120,33 +130,66 @@ class _LoginViewState extends State<LoginView> {
 
   String? _validateEmail(String? value, AppLocalizations strings) {
     if (value == null || value.trim().isEmpty) {
-      return strings.translate('Informe o eMail');
+      return strings.translate('informeEmail');
     }
     return null;
   }
 
   String? _validatePassword(String? value, AppLocalizations strings) {
     if (value == null || value.isEmpty) {
-      return strings.translate('Informe a Senha');
+      return strings.translate('informeSenha');
     }
     return null;
   }
 
   String? _validateOtp(String? value, AppLocalizations strings) {
     if (value == null || !RegExp(r'^\d{6}$').hasMatch(value)) {
-      return strings.translate('Informe o código de 6 dígitos');
+      return strings.translate('informeCodigo6Digitos');
     }
     return null;
   }
 
   void _switchToOtp() {
     widget.viewModel.resetOtpFlow();
+    _clearOtpFields();
     setState(() => _mode = _LoginMode.otp);
   }
 
   void _switchToPassword() {
     widget.viewModel.resetOtpFlow();
+    _clearOtpFields();
     setState(() => _mode = _LoginMode.password);
+  }
+
+  void _clearOtpFields() {
+    for (final controller in _otpControllers) {
+      controller.clear();
+    }
+    _otpFieldKey.currentState?.reset();
+  }
+
+  void _onOtpChanged(int index, String value, FormFieldState<String> field) {
+    final digits = value.replaceAll(RegExp(r'\D'), '');
+    if (digits.length > 1) {
+      for (var i = index; i < _otpControllers.length; i++) {
+        final digitIndex = i - index;
+        _otpControllers[i].text = digitIndex < digits.length ? digits[digitIndex] : '';
+      }
+      final focusIndex = (index + digits.length).clamp(0, _otpFocusNodes.length - 1);
+      _otpFocusNodes[focusIndex].requestFocus();
+    } else {
+      _otpControllers[index].text = digits;
+      if (digits.isNotEmpty && index < _otpFocusNodes.length - 1) {
+        _otpFocusNodes[index + 1].requestFocus();
+      }
+    }
+
+    final code = _otpControllers.map((controller) => controller.text).join();
+    widget.viewModel.otp.value = TextEditingValue(
+      text: code,
+      selection: TextSelection.collapsed(offset: code.length),
+    );
+    field.didChange(code);
   }
 
   @override
@@ -177,20 +220,16 @@ class _LoginViewState extends State<LoginView> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          _mode == _LoginMode.password
-                              ? strings.translate('Acesse sua conta')
-                              : strings.translate('Entrar com código'),
+                          _mode == _LoginMode.password ? strings.translate('login') : strings.translate('efetueLogin'),
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         const SizedBox(height: 8),
                         Text(
                           _mode == _LoginMode.password
-                              ? strings.translate('Entre com seu e-mail e senha.')
+                              ? strings.translate('efetueLogin')
                               : strings.translate(
-                                  viewModel.otpRequested
-                                      ? 'Digite o código enviado para seu e-mail.'
-                                      : 'Enviaremos um código de acesso para seu e-mail.',
+                                  viewModel.otpRequested ? 'digiteCodigoEnviado' : 'enviaremosCodigoAcesso',
                                 ),
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyMedium,
@@ -210,6 +249,7 @@ class _LoginViewState extends State<LoginView> {
                           ),
                           validator: (value) => _validateEmail(value, strings),
                         ),
+                        SizedBox(height: 16.0),
                         if (_mode == _LoginMode.password) ...[
                           const SizedBox(height: 12),
                           TextFormField(
@@ -235,7 +275,7 @@ class _LoginViewState extends State<LoginView> {
                             alignment: Alignment.centerRight,
                             child: TextButton(
                               onPressed: _switchToOtp,
-                              child: Text(strings.translate('Esqueceu sua senha? Entrar com código')),
+                              child: Text(strings.translate('esqueceuSenhaCodigo')),
                             ),
                           ),
                           const SizedBox(height: 12),
@@ -257,17 +297,60 @@ class _LoginViewState extends State<LoginView> {
                         ] else ...[
                           if (viewModel.otpRequested) ...[
                             const SizedBox(height: 12),
-                            TextFormField(
-                              controller: viewModel.otp,
-                              keyboardType: TextInputType.number,
-                              maxLength: 6,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                              decoration: InputDecoration(
-                                counterText: '',
-                                labelText: strings.translate('Código de acesso'),
-                                prefixIcon: const Icon(Icons.pin_outlined),
-                              ),
+                            FormField<String>(
+                              key: _otpFieldKey,
+                              initialValue: '',
                               validator: (value) => _validateOtp(value, strings),
+                              builder: (field) => Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Text(strings.translate('codigoAcesso')),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      for (var i = 0; i < _otpControllers.length; i++)
+                                        SizedBox(
+                                          width: 44,
+                                          child: Semantics(
+                                            label: '${strings.translate('codigoAcesso')} ${i + 1} de 6',
+                                            child: TextField(
+                                              controller: _otpControllers[i],
+                                              focusNode: _otpFocusNodes[i],
+                                              keyboardType: TextInputType.number,
+                                              textInputAction: i == _otpControllers.length - 1
+                                                  ? TextInputAction.done
+                                                  : TextInputAction.next,
+                                              autofillHints: i == 0 ? const [AutofillHints.oneTimeCode] : null,
+                                              textAlign: TextAlign.center,
+                                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                              decoration: const InputDecoration(
+                                                counterText: '',
+                                                contentPadding: EdgeInsets.symmetric(vertical: 12),
+                                              ),
+                                              onChanged: (value) => _onOtpChanged(i, value, field),
+                                              onSubmitted: (_) {
+                                                if (i < _otpFocusNodes.length - 1) {
+                                                  _otpFocusNodes[i + 1].requestFocus();
+                                                } else if (_formKey.currentState!.validate()) {
+                                                  viewModel.verifyOtpCommand.execute();
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                  if (field.errorText != null) ...[
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      field.errorText!,
+                                      style: Theme.of(context).textTheme.bodySmall
+                                          ?.copyWith(color: Theme.of(context).colorScheme.error),
+                                    ),
+                                  ],
+                                ],
+                              ),
                             ),
                             const SizedBox(height: 12),
                             ListenableBuilder(
@@ -282,7 +365,7 @@ class _LoginViewState extends State<LoginView> {
                                       },
                                 child: viewModel.verifyOtpCommand.running
                                     ? const CircularProgressIndicator()
-                                    : Text(strings.translate('Validar código e entrar')),
+                                    : Text(strings.translate('login')),
                               ),
                             ),
                             TextButton(
@@ -309,15 +392,12 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ],
                           const SizedBox(height: 8),
-                          TextButton(
-                            onPressed: _switchToPassword,
-                            child: Text(strings.translate('Voltar para entrar com senha')),
-                          ),
+                          TextButton(onPressed: _switchToPassword, child: Text(strings.translate('voltarEntraSenha'))),
                         ],
                         const Divider(height: 32),
                         OutlinedButton(
                           onPressed: () => context.push(Routes.registro),
-                          child: Text(strings.translate('Criar uma conta')),
+                          child: Text(strings.translate('criarConta')),
                         ),
                       ],
                     ),

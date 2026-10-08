@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import '../use_case/{{name.snakeCase()}}_usecase.dart';
 
 class {{name.pascalCase()}}Viewmodel extends ChangeNotifier {
-  {{name.pascalCase()}}Viewmodel({required this.useCase}) {
+  {{name.pascalCase()}}Viewmodel({required this.{{name.snakeCase()}}UseCase}) {
     Log.print(super.runtimeType);
     healtCommand.execute();
   }
 
-  final {{name.pascalCase()}}UseCase useCase;
+  final {{name.pascalCase()}}UseCase {{name.snakeCase()}}UseCase;
 
   late final Command0<HealtModel> healtCommand = Command0(_healt);
   late HealtModel _healtModel;
@@ -20,7 +20,7 @@ class {{name.pascalCase()}}Viewmodel extends ChangeNotifier {
   Future<Result<HealtModel>> _healt() async {
     notifyListeners();
 
-    final result = await useCase.healt();
+    final result = await {{name.snakeCase()}}UseCase.healt();
     switch (result) {
       case Ok<HealtModel>():
         _healtModel = result.value;

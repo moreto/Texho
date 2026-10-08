@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import '../use_case/dashboard_usecase.dart';
 
 class DashboardViewmodel extends ChangeNotifier {
-  DashboardViewmodel({required this.useCase}) {
+  DashboardViewmodel({required this.dashboardUseCase}) {
     Log.print(super.runtimeType);
     healtCommand.execute();
   }
 
-  final DashboardUseCase useCase;
+  final DashboardUseCase dashboardUseCase;
 
   late final Command0<HealtModel> healtCommand = Command0(_healt);
   late HealtModel _healtModel;
@@ -20,7 +20,7 @@ class DashboardViewmodel extends ChangeNotifier {
   Future<Result<HealtModel>> _healt() async {
     notifyListeners();
 
-    final result = await useCase.healt();
+    final result = await dashboardUseCase.healt();
     switch (result) {
       case Ok<HealtModel>():
         _healtModel = result.value;
