@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
+import { LogTypes } from "../../commons/enum";
 import { generateOTP, sendOTPEmail } from "../../commons/otp";
+import { Resp } from "../../commons/resp";
 import { AcessoRepositoryContract, OTPRepositoryContract } from "../../repositories/acessoRepositoryContracts";
 
 class OTPController {
@@ -11,7 +13,7 @@ class OTPController {
     async sendOTP(request: Request, response: Response) {
         const email = request.body?.email;
         if (typeof email !== "string" || email.trim().length === 0) {
-            return response.status(400).send({ message: "emailObrigatorio" });
+            return Resp.sendValidation(response, 400, "emailObrigatorio", true, LogTypes.VALIDATION);
         }
 
         try {
@@ -24,10 +26,9 @@ class OTPController {
                 await sendOTPEmail(normalizedEmail, otp);
             }
 
-            return response.status(200).send({ message: "otpRequestAccepted" });
+            Resp.sendValidation(response, 200, "otpRequestAccepted");
         } catch (error: unknown) {
-            console.error(error);
-            return response.status(500).send({ message: "erroGenerico" });
+            Resp.sendError(response, error, 500, "erroGenerico", "sendOTP", LogTypes.ERROR, 1);
         }
     }
 
@@ -40,19 +41,18 @@ class OTPController {
             typeof code !== "string" ||
             !/^\d{6}$/.test(code)
         ) {
-            return response.status(400).send({ message: "codigoOtpInvalido" });
+            return Resp.sendValidation(response, 400, "codigoOtpInvalido", true, LogTypes.VALIDATION);
         }
 
         try {
             const isValid = await this.otpRepository.verify(email.trim(), Number(code));
             if (!isValid) {
-                return response.status(401).send({ message: "codigoOtpInvalidoOuExpirado" });
+                return Resp.sendValidation(response, 400, "codigoOtpInvalidoOuExpirado", true, LogTypes.VALIDATION);
             }
 
             return response.status(200).send(true);
         } catch (error: unknown) {
-            console.error(error);
-            return response.status(500).send({ message: "erroGenerico" });
+            Resp.sendError(response, error, 500, "erroGenerico", "verifyOTP", LogTypes.ERROR, 1);
         }
     }
 }

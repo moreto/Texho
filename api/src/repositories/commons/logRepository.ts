@@ -1,5 +1,4 @@
 import { Database } from "../../commons/database";
-import { Log } from "../../commons/log";
 import { LogBodyModel } from "../../models/logBodyModel";
 import { LogRepositoryContract } from "../logRepositoryContract";
 
@@ -16,7 +15,6 @@ class LogRepository implements LogRepositoryContract {
             const ret = await Database.DbQuery(query);
             return ret;
         } catch (error: unknown) {
-            Log.printErro(error);
             throw error;
         }
     }

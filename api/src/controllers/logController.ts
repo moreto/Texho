@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 
+import { LogTypes } from "../commons/enum";
 import { Resp } from "../commons/resp";
 import { LogBodyModelConvert } from "../models/logBodyModel";
 import { LogRepositoryContract } from "../repositories/logRepositoryContract";
@@ -13,9 +14,9 @@ export default class LogController {
 
             await this.repository.post(model);
 
-            Resp.send(response, 200, "ok");
+            Resp.sendValidation(response, 200, "Ok");
         } catch (error: unknown) {
-            Resp.sendError(response, error, 500, "erroGeral", "0");
+            Resp.sendError(response, error, 500, "erroGeral", "gravar", LogTypes.ERROR, 1);
         }
     }
 }

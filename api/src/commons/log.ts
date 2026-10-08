@@ -1,10 +1,4 @@
-import camelcaseKeys from "camelcase-keys";
 import * as Config from "../configs/config.json";
-import { LogBodyModel } from "../models/logBodyModel";
-import { NotificacaoModel } from "../models/notificacaoModel";
-import { LogRepository } from "../repositories/commons/logRepository";
-import { LogTypes } from "./enum";
-import { Notificacao } from "./notificacao";
 
 export class Log {
     // constructor(parameters) {}
@@ -27,55 +21,55 @@ export class Log {
         }
     }
 
-    static async erro(erro: unknown, mensagem: string, logTipo: string, usuaId: number) {
-        try {
-            let erroStack = "";
-            let erroMessage = "";
+    // static async erro(erro: unknown, mensagem: string, logTipo: string, usuaId: number) {
+    //     try {
+    //         let erroStack = "";
+    //         let erroMessage = "";
 
-            if (Config.showConsole) {
-                if (erro instanceof Error) {
-                    erroStack = erro.stack!;
-                    erroMessage = mensagem;
+    //         if (Config.showConsole) {
+    //             if (erro instanceof Error) {
+    //                 erroStack = erro.stack!;
+    //                 erroMessage = mensagem;
 
-                    Log.print(erro.name);
-                    Log.print(erro.message);
-                    Log.print(erroStack);
-                } else {
-                    erroStack = "erroStack";
-                    erroMessage = mensagem;
-                }
-            }
+    //                 Log.print(erro.name);
+    //                 Log.print(erro.message);
+    //                 Log.print(erroStack);
+    //             } else {
+    //                 erroStack = "erroStack";
+    //                 erroMessage = mensagem;
+    //             }
+    //         }
 
-            const repository = new LogRepository();
+    //         const repository = new LogRepository();
 
-            const logModel: LogBodyModel = {
-                log_tipo: logTipo,
-                log_info: erroStack,
-                log_texto: mensagem,
-                usua_id: usuaId,
-            };
+    //         const logModel: LogBodyModel = {
+    //             log_tipo: logTipo,
+    //             log_info: erroStack,
+    //             log_texto: mensagem,
+    //             usua_id: usuaId,
+    //         };
 
-            const logId = await repository.post(logModel);
+    //         const logId = await repository.post(logModel);
 
-            const notificaco: NotificacaoModel = {
-                notiId: 0,
-                notiData: new Date(),
-                logId: logId?.log_id ?? 0,
-                notiTipo: LogTypes.ERROR,
-                usuaId: usuaId,
-                notiTexto: erroMessage,
-                notiErro: erroStack,
-            };
+    //         const notificaco: NotificacaoModel = {
+    //             notiId: 0,
+    //             notiData: new Date(),
+    //             logId: logId?.log_id ?? 0,
+    //             notiTipo: LogTypes.ERROR,
+    //             usuaId: usuaId,
+    //             notiTexto: erroMessage,
+    //             notiErro: erroStack,
+    //         };
 
-            const ret = await Notificacao.notificar(notificaco);
+    //         const ret = await Notificacao.notificar(notificaco);
 
-            const rm = camelcaseKeys(ret);
+    //         const rm = camelcaseKeys(ret);
 
-            Log.print(rm);
+    //         Log.print(rm);
 
-            return rm;
-        } catch (error) {
-            throw error;
-        }
-    }
+    //         return rm;
+    //     } catch (error) {
+    //         throw error;
+    //     }
+    // }
 }

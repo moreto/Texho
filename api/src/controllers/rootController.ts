@@ -1,13 +1,15 @@
 import { Request, Response } from "express";
+import * as Package from "../../package.json";
 import { Log } from "../commons/log";
+import { Resp } from "../commons/resp";
 import * as Config from "../configs/config.json";
 
 class RootController {
     constructor() {}
 
     async root(request: Request, response: Response) {
-        const pjson = require("../../package.json");
-        const onLine = "";
+        const pjson = Package;
+        // const onLine = "";
 
         const log = {
             name: pjson.name,
@@ -15,12 +17,12 @@ class RootController {
             version: pjson.version,
             host: request.headers.host,
             email: Config.emailContact,
-            dataBaseStatus: onLine,
+            // dataBaseStatus: onLine,
             // database: checkCn.current_database,
         };
         Log.print(log);
 
-        return response.status(201).json(log);
+        Resp.send(response, 200, log);
     }
 }
 

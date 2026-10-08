@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { decryptString } from "../../commons/encrypt";
-import { NotificacaoTypes } from "../../commons/enum";
+import { LogTypes } from "../../commons/enum";
 import { Log } from "../../commons/log";
 import { Resp } from "../../commons/resp";
 import { Util } from "../../commons/util";
@@ -70,15 +70,13 @@ class AcessoController {
     async login(request: Request, response: Response) {
         try {
             if (Util.isEmpty(request.body)) {
-                return response.status(410).send({
-                    message: "emailSenhaObrigatorios",
-                });
+                return Resp.sendValidation(response, 400, "emailSenhaObrigatorios", true, LogTypes.VALIDATION);
             }
 
             const modelBody = ConvertAcessoBodyModel.toAcessoBodyModel(JSON.stringify(request.body));
 
             if (Util.isEmpty(modelBody.email) || Util.isEmpty(modelBody.senha)) {
-                return Resp.send(response, 411, "emailSenhaObrigatorios", true, NotificacaoTypes.VALIDATION);
+                return Resp.sendValidation(response, 400, "emailSenhaObrigatorios", true, LogTypes.VALIDATION);
             }
 
             const retorno = await this.repository.get(modelBody.email);
@@ -89,12 +87,11 @@ class AcessoController {
             const decripted = decryptString(modelBody.senha, "5oAaa+hIOTQzGUxHYn8o6mHfQqEi9PXb4kBGpCQ+fn0=");
 
             const isValid = await this.verifyPassword(decripted, senhaBCrypt);
-            // if (!isValid) return Resp.send(response, 401, "unauthorized");
-            if (!isValid) return Resp.send(response, 401, "unauthorized", true, NotificacaoTypes.VALIDATION);
+            if (!isValid) return Resp.sendValidation(response, 401, "unauthorized", true, LogTypes.VALIDATION);
 
-            return response.status(200).send(isValid);
-        } catch (err: unknown) {
-            Resp.sendError(response, err, 500, "erroGeral", "1");
+            Resp.sendValidation(response, 200, "Ok");
+        } catch (error: unknown) {
+            Resp.sendError(response, error, 500, "erroGeral", "login", LogTypes.ERROR, 1);
         }
     }
 }

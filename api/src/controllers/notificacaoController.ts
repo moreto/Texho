@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { LogTypes } from "../commons/enum";
+import { Resp } from "../commons/resp";
 import { Util } from "../commons/util";
 import { LogBodyModel } from "../models/logBodyModel";
 import { ConvertNotificacaoModel } from "../models/notificacaoModel";
@@ -14,9 +16,9 @@ export default class NotificacaoController {
     async listar(request: Request, response: Response) {
         try {
             const retorno = await this.repository.get();
-            return response.status(200).send(retorno);
-        } catch (err: unknown) {
-            return response.status(513).send(err);
+            Resp.send(response, 200, retorno);
+        } catch (error: unknown) {
+            Resp.sendError(response, error, 500, "erroGeral", "login", LogTypes.ERROR, 1);
         }
     }
 
@@ -37,9 +39,9 @@ export default class NotificacaoController {
 
             const retorno = await this.repository.post(model);
 
-            return response.status(200).send(retorno);
-        } catch (err: unknown) {
-            return response.status(513).send(err);
+            Resp.send(response, 200, retorno);
+        } catch (error: unknown) {
+            Resp.sendError(response, error, 500, "erroGeral", "login", LogTypes.ERROR, 1);
         }
     }
 }

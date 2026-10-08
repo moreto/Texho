@@ -19,7 +19,7 @@ const logController = new LogController(new LogRepository());
 // });
 
 defaultRoutes.get("/api", rootController.root);
-defaultRoutes.get("/api/v1/traducao", (request, response) => traducaoController.get(request, response));
+defaultRoutes.get("/api/v1/traducao", (request, response) => traducaoController.traducao(request, response));
 defaultRoutes.get("/api/v1/notificacao", (request, response) => notificacaoController.listar(request, response));
 defaultRoutes.post("/api/v1/notificacao", (request, response) => notificacaoController.notificar(request, response));
 defaultRoutes.post("/api/v1/log", (request, response) => logController.gravar(request, response));
