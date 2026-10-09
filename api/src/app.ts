@@ -20,8 +20,12 @@ interface ErrorWithStack extends Error {
 }
 
 app.use((err: ErrorWithStack, req: Request, res: Response, next: NextFunction) => {
+    if (res.headersSent) {
+        return next(err);
+    }
+
     console.error(err.stack);
-    res.status(500).send({ message: "erroGeral" });
+    return res.status(500).send({ message: "erroGeral" });
 });
 
 export { app };

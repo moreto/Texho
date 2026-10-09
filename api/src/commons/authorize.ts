@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { sign, verify } from "jsonwebtoken";
 import * as Config from "../configs/config.json";
+import { LogTypes } from "./enum";
+import { Resp } from "./resp";
 
 // expiresIn('2 days')  // 172800000
 // expiresIn('1d')      // 86400000
@@ -45,26 +47,19 @@ function parseJwt(token: string) {
 }
 
 function authorize(request: Request, response: Response, next: NextFunction) {
-    const token = request.headers[Config.accessToken]?.toString();
-    // const user = request.headers[Config.userId]?.toString();
-
-    // let intUser: number = -1;
-    // if (user != null) {
-    //     intUser = parseInt(user);
-    // }
+    const token = request.headers[Config.token]?.toString();
 
     if (!token) {
-        return response.status(400).send({ message: "Something went wrong!" });
-    } else {
-        verify(token, Config.saltKey, function (error) {
-            if (error) {
-                response.status(401).send({ message: "Something went wrong!" });
-            } else {
-                next();
-            }
-        });
+        return Resp.sendValidation(response, 400, "tokenInvalido", true, LogTypes.SECURITY);
     }
-    next();
+
+    return verify(token, Config.saltKey, (error) => {
+        if (error) {
+            return Resp.sendValidation(response, 400, "tokenInvalido", true, LogTypes.SECURITY);
+        }
+
+        return next();
+    });
 }
 
 export { authorize, decodeToken, generateAdminToken, generateNoHeader, generateToken, parseJwt };

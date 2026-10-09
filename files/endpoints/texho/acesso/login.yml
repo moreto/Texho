@@ -6,6 +6,9 @@ info:
 http:
   method: POST
   url: "{{HOST}}/v1/acesso/login"
+  headers:
+    - name: x-access-interface
+      value: App
   body:
     type: json
     data: |-

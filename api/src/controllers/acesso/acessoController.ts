@@ -83,6 +83,11 @@ class AcessoController {
             if (!isValid) return Resp.sendValidation(response, 401, "unauthorized", true, LogTypes.VALIDATION);
 
             const clientInterface = request.headers[Config.interfaceAcesso]?.toString();
+
+            if (Util.isEmpty(clientInterface)) {
+                return Resp.sendValidation(response, 400, "emailSenhaObrigatorios", true, LogTypes.VALIDATION);
+            }
+
             let accessToken = "";
             if (clientInterface == "App") {
                 accessToken = await generateToken(usuarioModel.usuaEmail);

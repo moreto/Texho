@@ -1,6 +1,6 @@
 {
     "saltKey": "*xMMx#",
-    "expiresTime": "1m",
+    "expiresTime": "15m",
     "expiresTimeAdmin": "3d",
     "expiresTimeNoHeader": "30m",
     "emailContact": "mmoreto@gmail.com",
