@@ -15,9 +15,9 @@ class MenuController {
 
             const retorno = await this.repository.menu();
 
-            Resp.send(response, 200, retorno);
+            return Resp.send(response, 200, retorno);
         } catch (error: unknown) {
-            Resp.sendError(response, error, 500, "erroGeral", "menu", LogTypes.ERROR, 1);
+            return Resp.sendError(response, error, 500, "erroGeral", "menu", LogTypes.ERROR, 1);
         }
     }
 }

@@ -12,7 +12,7 @@ class TraducaoController {
 
             return response.status(200).send(retorno);
         } catch (error: unknown) {
-            Resp.sendError(response, error, 500, "erroGeral", "traducao", LogTypes.ERROR, 1);
+            return Resp.sendError(response, error, 500, "erroGeral", "traducao", LogTypes.ERROR, 1);
         }
     }
 }

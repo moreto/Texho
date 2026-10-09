@@ -14,9 +14,9 @@ export default class LogController {
 
             await this.repository.post(model);
 
-            Resp.sendValidation(response, 200, "Ok");
+            return Resp.sendValidation(response, 200, "Ok");
         } catch (error: unknown) {
-            Resp.sendError(response, error, 500, "erroGeral", "gravar", LogTypes.ERROR, 1);
+            return Resp.sendError(response, error, 500, "erroGeral", "gravar", LogTypes.ERROR, 1);
         }
     }
 }

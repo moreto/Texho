@@ -16,9 +16,9 @@ export default class NotificacaoController {
     async listar(request: Request, response: Response) {
         try {
             const retorno = await this.repository.get();
-            Resp.send(response, 200, retorno);
+            return Resp.send(response, 200, retorno);
         } catch (error: unknown) {
-            Resp.sendError(response, error, 500, "erroGeral", "login", LogTypes.ERROR, 1);
+            return Resp.sendError(response, error, 500, "erroGeral", "login", LogTypes.ERROR, 1);
         }
     }
 
@@ -39,9 +39,9 @@ export default class NotificacaoController {
 
             const retorno = await this.repository.post(model);
 
-            Resp.send(response, 200, retorno);
+            return Resp.send(response, 200, retorno);
         } catch (error: unknown) {
-            Resp.sendError(response, error, 500, "erroGeral", "login", LogTypes.ERROR, 1);
+            return Resp.sendError(response, error, 500, "erroGeral", "login", LogTypes.ERROR, 1);
         }
     }
 }

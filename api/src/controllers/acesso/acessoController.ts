@@ -52,9 +52,9 @@ class AcessoController {
 
             const retorno = await this.repository.get(model.email);
 
-            Resp.send(response, 200, retorno);
+            return Resp.send(response, 200, retorno);
         } catch (err: unknown) {
-            Resp.sendError(response, err, 500, "erroGeral", "registro", LogTypes.ERROR, 1);
+            return Resp.sendError(response, err, 500, "erroGeral", "registro", LogTypes.ERROR, 1);
         }
     }
 
@@ -69,7 +69,7 @@ class AcessoController {
             const modelBody = ConvertAcessoBodyModel.toAcessoBodyModel(JSON.stringify(request.body));
 
             if (Util.isEmpty(modelBody.email) || Util.isEmpty(modelBody.senha)) {
-                Resp.sendValidation(response, 400, "emailSenhaObrigatorios", true, LogTypes.VALIDATION);
+                return Resp.sendValidation(response, 400, "emailSenhaObrigatorios", true, LogTypes.VALIDATION);
             }
 
             const retorno = await this.repository.get(modelBody.email);
@@ -97,9 +97,9 @@ class AcessoController {
                 token: accessToken,
             };
 
-            Resp.send(response, 200, loginModelBody);
+            return Resp.send(response, 200, loginModelBody);
         } catch (error: unknown) {
-            Resp.sendError(response, error, 500, "erroGeral", "login", LogTypes.ERROR, 1);
+            return Resp.sendError(response, error, 500, "erroGeral", "login", LogTypes.ERROR, 1);
         }
     }
 }

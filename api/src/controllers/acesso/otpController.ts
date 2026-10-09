@@ -26,9 +26,9 @@ class OTPController {
                 await sendOTPEmail(normalizedEmail, otp);
             }
 
-            Resp.sendValidation(response, 200, "otpRequestAccepted");
+            return Resp.sendValidation(response, 200, "otpRequestAccepted");
         } catch (error: unknown) {
-            Resp.sendError(response, error, 500, "erroGenerico", "sendOTP", LogTypes.ERROR, 1);
+            return Resp.sendError(response, error, 500, "erroGenerico", "sendOTP", LogTypes.ERROR, 1);
         }
     }
 
@@ -52,7 +52,7 @@ class OTPController {
 
             return response.status(200).send(true);
         } catch (error: unknown) {
-            Resp.sendError(response, error, 500, "erroGenerico", "verifyOTP", LogTypes.ERROR, 1);
+            return Resp.sendError(response, error, 500, "erroGenerico", "verifyOTP", LogTypes.ERROR, 1);
         }
     }
 }
