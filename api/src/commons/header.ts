@@ -4,37 +4,25 @@ import { Util } from "./util";
 
 export class Header {
     static async verificaHeader(request: Request, valida: boolean) {
-        // let intUser = -1;
         try {
             let bRet = true;
 
-            const headers = request.headers;
+            if (valida) {
+                const headers = request.headers;
 
-            const accessToken = headers[Config.accessToken];
-            const token = headers[Config.token];
-            const user = headers[Config.userId];
+                const accessToken = headers[Config.accessToken];
+                const token = headers[Config.token];
+                const user = headers[Config.userId];
 
-            if (Util.isEmpty(accessToken) || Util.isEmpty(token) || Util.isEmpty(user)) {
-                bRet = false;
-            } else {
-                bRet = true;
+                if (Util.isEmpty(token) || Util.isEmpty(token) || Util.isEmpty(accessToken) || Util.isEmpty(user)) {
+                    bRet = false;
+                } else {
+                    if (accessToken != Config.accessTokenId) {
+                        bRet = false;
+                    }
+                }
             }
-
-            if (!valida) {
-                bRet = true;
-            }
-
-            if (token == Config.tokenId) {
-                bRet = true;
-            } else {
-                bRet = false;
-            }
-
-            if (!bRet) {
-                // throw await Erro.gravaErro(null, "Dados inválidos no header", "API", "Header", "verificaHeader", 0, true);
-            } else {
-                return true;
-            }
+            return bRet;
         } catch (error) {
             throw error;
         }

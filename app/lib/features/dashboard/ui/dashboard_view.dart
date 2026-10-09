@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'dashboard_viewmodel.dart';
+
 class DashboardView extends StatelessWidget {
-  const DashboardView({super.key});
+  const DashboardView({super.key, required this.viewModel});
+
+  final DashboardViewmodel viewModel;
 
   @override
   Widget build(BuildContext context) {

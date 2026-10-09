@@ -39,6 +39,7 @@ SELECT noti_id, noti_data, noti_texto, noti_erro, noti_tipo, usua_id, log_id FRO
 SELECT noti_id, noti_data, noti_tipo, noti_texto, usua_id, log_id
 FROM notificacao;
 
+SELECT * FROM menu m ;
 
 
 SELECT jsonb_agg(

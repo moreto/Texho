@@ -32,6 +32,7 @@ class Resp {
         }
         return response.status(statusCode).send({ code, message });
     }
+
     static async sendError(
         response: Response,
         erro: unknown,

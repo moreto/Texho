@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { sign, verify } from "jsonwebtoken";
 import * as Config from "../configs/config.json";
+import { LogTypes } from "./enum";
+import { Resp } from "./resp";
 
 // expiresIn('2 days')  // 172800000
 // expiresIn('1d')      // 86400000
@@ -21,17 +23,17 @@ async function generateToken(payload: string) {
     });
 }
 
-// async function generateAdminToken(payload: String) {
-//     return sign({ data: payload }, Config.saltKey, {
-//         expiresIn: Config.expiresTimeAdmin,
-//     });
-// }
+async function generateAdminToken(payload: string) {
+    return sign({ data: payload }, Config.saltKey, {
+        expiresIn: Config.expiresTimeAdmin,
+    });
+}
 
-// async function generateNoHeader(payload: String) {
-//     return sign({ data: payload }, Config.saltKey, {
-//         expiresIn: Config.expiresTimeNoHeader,
-//     });
-// }
+async function generateNoHeader(payload: string) {
+    return sign({ data: payload }, Config.saltKey, {
+        expiresIn: Config.expiresTimeNoHeader,
+    });
+}
 
 async function decodeToken(token: string) {
     const data = await verify(token, Config.saltKey);
@@ -44,27 +46,20 @@ function parseJwt(token: string) {
     return JSON.parse(payload.toString());
 }
 
-async function authorize(request: Request, response: Response, next: NextFunction) {
-    // const token = request.headers[Config.accessToken]?.toString();
-    // const user = request.headers[Config.userId]?.toString();
+function authorize(request: Request, response: Response, next: NextFunction) {
+    const token = request.headers[Config.token]?.toString();
 
-    // let intUser: number = -1;
-    // if (user != null) {
-    //     intUser = parseInt(user);
-    // }
+    if (!token) {
+        return Resp.sendValidation(response, 400, "tokenInvalido", true, LogTypes.SECURITY);
+    }
 
-    // if (!token) {
-    //     return response.status(401).send({ message: 'Something went wrong!' });
-    // } else {
-    //     verify(token, Config.saltKey, async function (error: any) {
-    //         if (error) {
-    //             response.status(401).send({ message: 'Something went wrong!' });
-    //         } else {
-    //             next();
-    //         }
-    //     });
-    // }
-    return response.status(401).send({ message: "Something went wrong!" });
+    verify(token, Config.saltKey, (error) => {
+        if (error) {
+            return Resp.sendValidation(response, 400, "tokenInvalido", true, LogTypes.SECURITY);
+        }
+
+        return next();
+    });
 }
 
-export { authorize, decodeToken, generateToken, parseJwt };
+export { authorize, decodeToken, generateAdminToken, generateNoHeader, generateToken, parseJwt };

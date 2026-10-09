@@ -1,11 +1,14 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
+import { generateAdminToken, generateNoHeader, generateToken } from "../../commons/authorize";
 import { decryptString } from "../../commons/encrypt";
 import { LogTypes } from "../../commons/enum";
 import { Resp } from "../../commons/resp";
 import { Util } from "../../commons/util";
+import * as Config from "../../configs/config.json";
 import { ConvertAcessoBodyModel } from "../../models/acesso/acessoBodyModel";
-import { ConvertUsuarioModel } from "../../models/acesso/acessoModel";
+import { LoginModel } from "../../models/acesso/loginModel";
+import { ConvertUsuarioModel } from "../../models/acesso/usuarioModel";
 import { AcessoRepositoryContract } from "../../repositories/acessoRepositoryContracts";
 
 class AcessoController {
@@ -66,7 +69,7 @@ class AcessoController {
             const modelBody = ConvertAcessoBodyModel.toAcessoBodyModel(JSON.stringify(request.body));
 
             if (Util.isEmpty(modelBody.email) || Util.isEmpty(modelBody.senha)) {
-                return Resp.sendValidation(response, 400, "emailSenhaObrigatorios", true, LogTypes.VALIDATION);
+                Resp.sendValidation(response, 400, "emailSenhaObrigatorios", true, LogTypes.VALIDATION);
             }
 
             const retorno = await this.repository.get(modelBody.email);
@@ -79,7 +82,22 @@ class AcessoController {
             const isValid = await this.verifyPassword(decripted, senhaBCrypt);
             if (!isValid) return Resp.sendValidation(response, 401, "unauthorized", true, LogTypes.VALIDATION);
 
-            Resp.send(response, 200, true);
+            const clientInterface = request.headers[Config.interfaceAcesso]?.toString();
+            let accessToken = "";
+            if (clientInterface == "App") {
+                accessToken = await generateToken(usuarioModel.usuaEmail);
+            } else if (clientInterface == "Adm") {
+                accessToken = await generateAdminToken(usuarioModel.usuaEmail);
+            } else {
+                accessToken = await generateNoHeader(usuarioModel.usuaEmail);
+            }
+
+            const loginModelBody: LoginModel = {
+                usuaId: 1,
+                token: accessToken,
+            };
+
+            Resp.send(response, 200, loginModelBody);
         } catch (error: unknown) {
             Resp.sendError(response, error, 500, "erroGeral", "login", LogTypes.ERROR, 1);
         }

@@ -6,6 +6,15 @@ info:
 http:
   method: GET
   url: "{{HOST}}/v1/menu"
+  headers:
+    - name: x-token
+      value: "{{TOKEN}}"
+    - name: x-user
+      value: "1"
+    - name: x-access-interface
+      value: App
+    - name: x-access-token
+      value: 56ce516cb9f3a0095e069b0610db7018
   auth: inherit
 
 settings:
