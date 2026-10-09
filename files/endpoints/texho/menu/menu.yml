@@ -14,7 +14,7 @@ http:
     - name: x-access-interface
       value: App
     - name: x-access-token
-      value: 56ce516cb9f3a0095e069b0610db7018
+      value: 56ce516cb9f3a0095e069b0610db7017
   auth: inherit
 
 settings:

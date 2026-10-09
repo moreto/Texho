@@ -37,7 +37,7 @@ class AcessoController {
                 return Resp.sendValidation(response, 400, "emailSenhaObrigatorios", true, LogTypes.VALIDATION);
             }
 
-            const decripted = decryptString(model.senha, "5oAaa+hIOTQzGUxHYn8o6mHfQqEi9PXb4kBGpCQ+fn0=");
+            const decripted = decryptString(model.senha, Config.base64Key);
 
             const hash = await this.hashPassword(decripted);
             model.senha = hash;
@@ -77,7 +77,7 @@ class AcessoController {
             const usuarioModel = ConvertUsuarioModel.toUsuarioModel(JSON.stringify(retorno));
             const senhaBCrypt = usuarioModel.usuaSenha;
 
-            const decripted = decryptString(modelBody.senha, "5oAaa+hIOTQzGUxHYn8o6mHfQqEi9PXb4kBGpCQ+fn0=");
+            const decripted = decryptString(modelBody.senha, Config.base64Key);
 
             const isValid = await this.verifyPassword(decripted, senhaBCrypt);
             if (!isValid) return Resp.sendValidation(response, 401, "unauthorized", true, LogTypes.VALIDATION);
