@@ -1,4 +1,3 @@
-import 'package:app/features/dashboard/repository/dashboard_repository.dart';
 import 'package:go_router/go_router.dart';
 
 import '../config/dependencies.dart';
@@ -12,8 +11,6 @@ import '../features/access/login/ui/register_view.dart';
 import '../features/access/login/ui/register_viewmodel.dart';
 import '../features/access/login/use_case/access_usecase.dart';
 import '../features/dashboard/ui/dashboard_view.dart';
-import '../features/dashboard/ui/dashboard_viewmodel.dart';
-import '../features/dashboard/use_case/dashboard_usecase.dart';
 import 'routes.dart';
 
 class AccessRouter {
@@ -44,14 +41,7 @@ class AccessRouter {
       },
     ),
 
-    GoRoute(
-      path: Routes.dashboard,
-      builder: (context, state) {
-        final viewModel = DashboardViewmodel(
-          dashboardUseCase: DashboardUseCase(dashboardRepository: locator<DashboardRepository>()),
-        );
-        return DashboardView(viewModel: viewModel);
-      },
-    ),
+    GoRoute(path: Routes.dashboard, builder: (context, state) => const DashboardView()),
   };
 }
+  

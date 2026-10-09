@@ -38,3 +38,36 @@ SELECT noti_id, noti_data, noti_texto, noti_erro, noti_tipo, usua_id, log_id FRO
 
 SELECT noti_id, noti_data, noti_tipo, noti_texto, usua_id, log_id
 FROM notificacao;
+
+
+
+SELECT jsonb_agg(
+    jsonb_build_object(
+        'menu_id', p.menu_id,
+        'menu_nome', p.menu_nome,
+        'menu_chave', p.menu_chave,
+        'menu_icone', p.menu_icone,
+        'menu_sequencia', p.menu_sequencia,
+        'children',
+        COALESCE(
+            (
+                SELECT jsonb_agg(
+                    jsonb_build_object(
+                        'menu_id', f.menu_id,
+                        'menu_nome', f.menu_nome,
+                        'menu_chave', f.menu_chave,
+                        'menu_icone', f.menu_icone,
+                        'menu_sequencia', f.menu_sequencia
+                    )
+                    ORDER BY f.menu_sequencia
+                )
+                FROM menu f
+                WHERE f.menu_parent_id = p.menu_id
+            ),
+            '[]'::jsonb
+        )
+    )
+    ORDER BY p.menu_sequencia
+) AS menus
+FROM menu p
+WHERE p.menu_parent_id IS NULL;
