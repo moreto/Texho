@@ -4,6 +4,7 @@ import morgan from "morgan";
 import acessoRoutes from "./routes/accessRoutes";
 import commonRoutes from "./routes/commonRoutes";
 import defaultRoutes from "./routes/defaultRoutes";
+import usuarioRoutes from "./routes/usuarioRoutes";
 
 const app = express();
 app.use(express.json());
@@ -14,6 +15,7 @@ app.use(morgan(":url :method :response-time :user-agent"));
 app.use(defaultRoutes);
 app.use(acessoRoutes);
 app.use(commonRoutes);
+app.use(usuarioRoutes);
 
 interface ErrorWithStack extends Error {
     stack?: string;
