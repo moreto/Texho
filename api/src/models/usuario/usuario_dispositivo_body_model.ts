@@ -5,15 +5,16 @@
 //   const usuarioDispositivoBodyModel = Convert.toUsuarioDispositivoBodyModel(json);
 
 export interface UsuarioDispositivoBodyModel {
-    udisId: number;
+    udisId?: number;
     emprId: number;
     udisDeviceId: string;
     udisNome: string;
     udisSistemaOperacional: string;
+    udloIp?: string;
 }
 
 // Converts JSON strings to/from your types
-export class Convert {
+export class UsuarioDispositivoBodyModelConvert {
     public static toUsuarioDispositivoBodyModel(json: string): UsuarioDispositivoBodyModel {
         return JSON.parse(json);
     }
