@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
+import { generateToken } from "../../commons/authorize";
 import { LogTypes } from "../../commons/enum";
 import { generateOTP, sendOTPEmail } from "../../commons/otp";
 import { Resp } from "../../commons/resp";
+import { LoginModel } from "../../models/acesso/loginModel";
 import { AcessoRepositoryContract, OTPRepositoryContract } from "../../repositories/acessoRepositoryContracts";
 
 class OTPController {
@@ -45,12 +47,23 @@ class OTPController {
         }
 
         try {
-            const isValid = await this.otpRepository.verify(email.trim(), Number(code));
+            const normalizedEmail = email.trim();
+            const isValid = await this.otpRepository.verify(normalizedEmail, Number(code));
             if (!isValid) {
                 return Resp.sendValidation(response, 400, "codigoOtpInvalidoOuExpirado", true, LogTypes.VALIDATION);
             }
 
-            return response.status(200).send(true);
+            const usuario = await this.acessoRepository.getUserId(normalizedEmail);
+            if (usuario == null) {
+                return Resp.sendValidation(response, 404, "usuarioNaoEncontrado", true, LogTypes.VALIDATION);
+            }
+
+            const loginModel: LoginModel = {
+                usuaId: usuario.usuaId,
+                token: await generateToken(normalizedEmail),
+            };
+
+            return response.status(200).send(loginModel);
         } catch (error: unknown) {
             return Resp.sendError(response, error, 500, "erroGenerico", "verifyOTP", LogTypes.ERROR, 1);
         }

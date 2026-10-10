@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../config/app_config_controller.dart';
+import '../../../../config/app_config.dart';
 import '../../../../l10n/app_localizations.dart';
 
 class HomeView extends StatefulWidget {
@@ -79,11 +79,11 @@ class _HomeViewState extends State<HomeView> {
   Widget _fontControl(BuildContext context) {
     final strings = AppLocalizations.of(context);
     return DropdownButtonFormField<AppFont>(
-      initialValue: context.watch<AppConfigController>().font,
+      initialValue: context.watch<AppConfig>().font,
       decoration: InputDecoration(labelText: strings.translate('Fonte')),
       items: [for (final font in AppFont.values) DropdownMenuItem(value: font, child: Text(font.label))],
       onChanged: (font) {
-        if (font != null) context.read<AppConfigController>().setFont(font);
+        if (font != null) context.read<AppConfig>().setFont(font);
       },
     );
   }
@@ -109,9 +109,9 @@ class _HomeViewState extends State<HomeView> {
           label: Text(strings.translate('Escuro')),
         ),
       ],
-      selected: {context.watch<AppConfigController>().mode},
+      selected: {context.watch<AppConfig>().mode},
       onSelectionChanged: (selection) {
-        context.read<AppConfigController>().setMode(selection.first);
+        context.read<AppConfig>().setMode(selection.first);
       },
     );
   }
@@ -119,7 +119,7 @@ class _HomeViewState extends State<HomeView> {
   Widget _localeControl(BuildContext context) {
     final strings = AppLocalizations.of(context);
     return DropdownButtonFormField<Locale?>(
-      initialValue: context.watch<AppConfigController>().locale,
+      initialValue: context.watch<AppConfig>().locale,
       decoration: InputDecoration(labelText: strings.translate('Idioma')),
       items: [
         DropdownMenuItem(value: null, child: Text(strings.translate('Sistema'))),
@@ -127,7 +127,7 @@ class _HomeViewState extends State<HomeView> {
         DropdownMenuItem(value: Locale('es', 'ES'), child: Text('Español')),
         DropdownMenuItem(value: Locale('en', 'US'), child: Text('English')),
       ],
-      onChanged: context.read<AppConfigController>().setLocale,
+      onChanged: context.read<AppConfig>().setLocale,
     );
   }
 }

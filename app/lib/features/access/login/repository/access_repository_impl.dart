@@ -1,6 +1,7 @@
 import 'package:app/data/model/access/access_body_model.dart';
 import 'package:app/data/model/access/access_model.dart';
 import 'package:app/features/access/login/repository/access_repository.dart';
+import 'package:commons/api_core.dart';
 import 'package:commons/commons.dart';
 import 'package:service/api/dio_provider.dart';
 import 'package:service/api/enum.dart';
@@ -29,8 +30,9 @@ class AccessRepositoryImpl implements AccessRepository {
     try {
       final response = await DioProvider.of(ApiCore.login).request(verb: Verb.post, body: model.toJson());
       switch (response) {
-        case Ok():
-          return Result.ok(response.value);
+        case Ok(value: final value):
+          _setLoggedUser(value);
+          return Result.ok(true);
         case Error():
           return Result.error(response.error);
       }
@@ -76,15 +78,28 @@ class AccessRepositoryImpl implements AccessRepository {
       final response = await DioProvider.of(ApiCore.verifyOtp)
           .request(verb: Verb.post, body: {'email': email, 'otp': otp});
       switch (response) {
-        case Ok(value: final value) when value == true:
+        case Ok(value: final value):
+          _setLoggedUser(value);
           return Result.ok(true);
-        case Ok():
-          return Result.error(HandledException(message: 'codigoOtpInvalido'));
         case Error():
           return Result.error(response.error);
       }
     } catch (error) {
       return Result.error(error is Exception ? error : Exception(error.toString()));
     }
+  }
+
+  void _setLoggedUser(dynamic response) {
+    if (response is! Map) {
+      throw const FormatException('tokenInvalido');
+    }
+
+    final token = response['token'];
+    final userId = response['usuaId'];
+    if (token is! String || token.isEmpty || userId is! int || userId <= 0) {
+      throw const FormatException('tokenInvalido');
+    }
+
+    AuthSession.instance.setLoggedUser(token: token, userId: userId);
   }
 }

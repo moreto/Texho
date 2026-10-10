@@ -98,7 +98,7 @@ class AcessoController {
             }
 
             const loginModelBody: LoginModel = {
-                usuaId: 1,
+                usuaId: usuarioModel.usuaId,
                 token: accessToken,
             };
 

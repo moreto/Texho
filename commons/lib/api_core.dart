@@ -1,3 +1,5 @@
+import 'package:commons/commons.dart';
+
 enum HeaderType { minimal, basicInfo, loggedArea }
 
 const String kDesHost = 'http://192.168.1.70:3000/api';
@@ -11,7 +13,7 @@ enum ApiCore {
   menu('/v1/menu', kDesHost, kPrdHost, HeaderType.loggedArea),
   requestOtp('/v1/otp/send', kDesHost, kPrdHost, HeaderType.basicInfo),
   verifyOtp('/v1/otp/verify', kDesHost, kPrdHost, HeaderType.basicInfo),
-  usuarioDetalheById('/v1/otp/usuario/', kDesHost, kPrdHost, HeaderType.loggedArea);
+  usuarioDetalheById('/v1/usuario/usuario-detalhe-by-id', kDesHost, kPrdHost, HeaderType.loggedArea);
 
   const ApiCore(this.endpoint, this.des, this.prd, this.headerType);
   final String endpoint;
@@ -29,26 +31,6 @@ class Header {
     'Charset': 'utf-8',
   };
 
-  static Map<String, String> buildHeadersLoggedUser() {
-    // String jwToken = LoginSession.getLoginModel().accessToken!;
-    final Map<String, String> header = <String, String>{};
-    header.addAll({'x-access-interface': 'App'});
-    header.addAll({'x-access-token': '56ce516cb9f3a0095e069b0610db7017'});
-    header.addAll({'x-token': ''});
-    header.addAll({'x-user': '1'});
-    // header.addAll({'x-user': LoginSession.getLoginModel().usuario!.usuaId.toString()});
-    header.addAll(header);
-    return header;
-  }
-
-  static Map<String, String> buildHeaders() {
-    final Map<String, String> header = <String, String>{};
-    header.addAll({'x-access-interface': 'App'});
-    header.addAll({'x-access-token': '56ce516cb9f3a0095e069b0610db7017'});
-    header.addAll(header);
-    return header;
-  }
-
   static Map<String, String> getHeader(HeaderType headerType) {
     switch (headerType) {
       case HeaderType.minimal:
@@ -58,5 +40,20 @@ class Header {
       case HeaderType.loggedArea:
         return buildHeadersLoggedUser();
     }
+  }
+
+  static Map<String, String> buildHeadersLoggedUser() {
+    final session = AuthSession.instance;
+    final token = session.token;
+    final userId = session.userId;
+    if (token == null || userId == null) {
+      throw StateError('headerInvalido');
+    }
+
+    return {...buildHeaders(), 'x-token': token, 'x-user': userId.toString()};
+  }
+
+  static Map<String, String> buildHeaders() {
+    return {...header, 'x-access-interface': 'App', 'x-access-token': kAccessTokenId};
   }
 }

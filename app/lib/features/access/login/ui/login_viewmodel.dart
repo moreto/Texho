@@ -5,6 +5,7 @@ import 'package:service/api/service_exception.dart';
 import '../../../../config/command.dart';
 import '../../../../data/model/access/access_body_model.dart';
 import '../../../../data/model/usuario/usuario_detalhe_model.dart';
+import '../../../../config/usuario_session.dart';
 import '../use_case/access_usecase.dart';
 
 class LoginViewmodel extends ChangeNotifier {
@@ -28,8 +29,7 @@ class LoginViewmodel extends ChangeNotifier {
   bool get otpRequested => _otpRequested;
 
   late final Command0<UsuarioDetalheModel> usuarioDetalheCommand = Command0(_usuarioDetalheById);
-  late UsuarioDetalheModel _usuarioDetalhe;
-  UsuarioDetalheModel get usuarioDetalhe => _usuarioDetalhe;
+  UsuarioDetalheModel? get usuarioDetalhe => UsuarioSession.instance.usuarioDetalhe;
 
   Future<Result<bool>> _login() async {
     notifyListeners();
@@ -65,9 +65,8 @@ class LoginViewmodel extends ChangeNotifier {
     final useCaseResult = await _accessUseCase.usuarioDetalheById();
     switch (useCaseResult) {
       case Ok<UsuarioDetalheModel>():
-        _usuarioDetalhe = useCaseResult.value;
+        UsuarioSession.instance.setUsuarioDetalhe(useCaseResult.value);
         break;
-
       case Error<UsuarioDetalheModel>(error: final exception):
         if (exception is HandledException) {
           Log.print(exception.message, name: kApp, title: 'Erro');
