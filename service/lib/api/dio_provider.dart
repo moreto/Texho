@@ -12,7 +12,7 @@ class DioProvider {
   final CancelToken _cancelToken = CancelToken();
   final Map<String, dynamic> bytes = {};
   final ApiCore _apiCore;
-  final Map<String, String>? _header;
+  late Map<String, String>? _header;
 
   Response _response = Response(
     requestOptions: RequestOptions(),
@@ -21,8 +21,9 @@ class DioProvider {
   );
   String _url = '';
 
-  DioProvider.of(this._apiCore, this._header) {
-    // _header = _apiCore.isLogged ? Header.buildHeadersLoggedUser() : Header.buildHeaders();
+  DioProvider.of(this._apiCore) {
+    _header = Header.getHeader(_apiCore.headerType);
+
     _url = _apiCore.des + _apiCore.endpoint;
     if (kReleaseMode) {
       _url = _apiCore.prd + _apiCore.endpoint;

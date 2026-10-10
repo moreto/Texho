@@ -1,3 +1,4 @@
+import 'package:commons/api_core.dart';
 import 'package:commons/commons.dart';
 import 'package:service/service.dart';
 
@@ -8,6 +9,8 @@ class DashboardRepositoryImpl implements DashboardRepository {
   @override
   Future<Result<MenuModel>> menu() async {
     try {
+      String token = '';
+      String usuario = '';
       final response = await DioProvider.of(ApiCore.menu).request(verb: Verb.get);
       switch (response) {
         case Ok(value: final value) when value is Map:
