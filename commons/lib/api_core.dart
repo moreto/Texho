@@ -9,7 +9,8 @@ enum ApiCore {
   login('/v1/acesso/login', kDesHost, kPrdHost, false),
   menu('/v1/menu', kDesHost, kPrdHost, false),
   requestOtp('/v1/otp/send', kDesHost, kPrdHost, false),
-  verifyOtp('/v1/otp/verify', kDesHost, kPrdHost, false);
+  verifyOtp('/v1/otp/verify', kDesHost, kPrdHost, false),
+  usuarioDetalheById('/v1/otp/usuario/', kDesHost, kPrdHost, false);
 
   const ApiCore(this.endpoint, this.des, this.prd, this.isLogged);
   final String endpoint;

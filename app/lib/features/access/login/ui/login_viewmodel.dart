@@ -4,6 +4,7 @@ import 'package:service/api/service_exception.dart';
 
 import '../../../../config/command.dart';
 import '../../../../data/model/access/access_body_model.dart';
+import '../../../../data/model/usuario/usuario_detalhe_model.dart';
 import '../use_case/access_usecase.dart';
 
 class LoginViewmodel extends ChangeNotifier {
@@ -18,12 +19,17 @@ class LoginViewmodel extends ChangeNotifier {
   final TextEditingController otp = TextEditingController();
 
   late final Command0<bool> loginCommand = Command0(_login);
+
   late final Command0<bool> requestOtpCommand = Command0(_requestOtp);
   late final Command0<bool> verifyOtpCommand = Command0(_verifyOtp);
   late bool _loginResult;
   bool get loginResult => _loginResult;
   bool _otpRequested = false;
   bool get otpRequested => _otpRequested;
+
+  late final Command0<UsuarioDetalheModel> usuarioDetalheCommand = Command0(_usuarioDetalheById);
+  late UsuarioDetalheModel _usuarioDetalhe;
+  UsuarioDetalheModel get usuarioDetalhe => _usuarioDetalhe;
 
   Future<Result<bool>> _login() async {
     notifyListeners();
@@ -35,9 +41,34 @@ class LoginViewmodel extends ChangeNotifier {
     switch (useCaseResult) {
       case Ok<bool>():
         _loginResult = useCaseResult.value;
+        usuarioDetalheCommand.execute();
         break;
 
       case Error<bool>(error: final exception):
+        if (exception is HandledException) {
+          Log.print(exception.message, name: kApp, title: 'Erro');
+        } else if (exception is HttpServiceException) {
+          Log.print(exception.message ?? exception.toString(), name: kApp, title: 'Erro');
+        } else {
+          Log.print(exception.toString(), name: kApp, title: 'Erro');
+        }
+    }
+
+    notifyListeners();
+
+    return useCaseResult;
+  }
+
+  Future<Result<UsuarioDetalheModel>> _usuarioDetalheById() async {
+    notifyListeners();
+
+    final useCaseResult = await _accessUseCase.usuarioDetalheById();
+    switch (useCaseResult) {
+      case Ok<UsuarioDetalheModel>():
+        _usuarioDetalhe = useCaseResult.value;
+        break;
+
+      case Error<UsuarioDetalheModel>(error: final exception):
         if (exception is HandledException) {
           Log.print(exception.message, name: kApp, title: 'Erro');
         } else if (exception is HttpServiceException) {

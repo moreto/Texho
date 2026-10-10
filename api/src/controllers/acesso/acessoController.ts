@@ -85,7 +85,7 @@ class AcessoController {
             const clientInterface = request.headers[Config.interfaceAcesso]?.toString();
 
             if (Util.isEmpty(clientInterface)) {
-                return Resp.sendValidation(response, 400, "emailSenhaObrigatorios", true, LogTypes.VALIDATION);
+                return Resp.sendValidation(response, 400, "interfaceNaoInformada", true, LogTypes.VALIDATION);
             }
 
             let accessToken = "";

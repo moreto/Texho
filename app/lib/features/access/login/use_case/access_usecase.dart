@@ -3,6 +3,7 @@ import 'package:app/data/model/access/access_model.dart';
 import 'package:commons/log.dart';
 import 'package:commons/result.dart';
 
+import '../../../../data/model/usuario/usuario_detalhe_model.dart';
 import '../repository/access_repository.dart';
 
 class AccessUseCase {
@@ -35,4 +36,14 @@ class AccessUseCase {
   Future<Result<bool>> requestOtp(String email) => _accessRepository.requestOtp(email);
 
   Future<Result<bool>> verifyOtp(String email, String otp) => _accessRepository.verifyOtp(email, otp);
+
+  Future<Result<UsuarioDetalheModel>> usuarioDetalheById() async {
+    final serviceResult = await _accessRepository.usuarioDetalheById();
+    switch (serviceResult) {
+      case Ok<UsuarioDetalheModel>():
+        return Result.ok(serviceResult.value);
+      case Error<UsuarioDetalheModel>():
+        return Result.error(serviceResult.error);
+    }
+  }
 }

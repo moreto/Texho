@@ -7,14 +7,12 @@ import 'package:service/api/enum.dart';
 import 'package:service/api/http_service_exception_model.dart';
 import 'package:service/api/service_exception.dart';
 
-import 'header.dart';
-
 class DioProvider {
   final Dio _dio = Dio();
   final CancelToken _cancelToken = CancelToken();
   final Map<String, dynamic> bytes = {};
   final ApiCore _apiCore;
-  late Map<String, String>? _header;
+  final Map<String, String>? _header;
 
   Response _response = Response(
     requestOptions: RequestOptions(),
@@ -23,8 +21,8 @@ class DioProvider {
   );
   String _url = '';
 
-  DioProvider.of(this._apiCore) {
-    _header = _apiCore.isLogged ? Header.buildHeadersLoggedUser() : Header.buildHeaders();
+  DioProvider.of(this._apiCore, this._header) {
+    // _header = _apiCore.isLogged ? Header.buildHeadersLoggedUser() : Header.buildHeaders();
     _url = _apiCore.des + _apiCore.endpoint;
     if (kReleaseMode) {
       _url = _apiCore.prd + _apiCore.endpoint;

@@ -21,6 +21,10 @@ select row_to_json(row) from (
 ) row;
 
 SELECT * FROM public.usuario;
+SELECT * FROM public.usuario_detalhe ud ;
+
+SELECT u.usua_id, u.usua_uuid, u.usua_email, u.usua_ativo, ud.udet_nome, ud.udet_usuario
+FROM public.usuario u INNER JOIN public.usuario_detalhe ud ON u.usua_id = ud.usua_id WHERE u.usua_id = 1;
 
 SELECT * FROM empresa e ;
 SELECT * FROM usuario_otp uo ;
