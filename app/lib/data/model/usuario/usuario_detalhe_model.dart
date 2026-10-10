@@ -15,6 +15,8 @@ class UsuarioDetalheModel {
   final bool usuaAtivo;
   final String udetNome;
   final String udetUsuario;
+  final int emprId;
+  final String emprNome;
 
   UsuarioDetalheModel({
     required this.usuaId,
@@ -23,6 +25,8 @@ class UsuarioDetalheModel {
     required this.usuaAtivo,
     required this.udetNome,
     required this.udetUsuario,
+    required this.emprId,
+    required this.emprNome,
   });
 
   factory UsuarioDetalheModel.fromJson(Map<String, dynamic> json) => UsuarioDetalheModel(
@@ -32,6 +36,8 @@ class UsuarioDetalheModel {
     usuaAtivo: json['usuaAtivo'],
     udetNome: json['udetNome'],
     udetUsuario: json['udetUsuario'],
+    emprId: json['emprId'],
+    emprNome: json['emprNome'],
   );
 
   Map<String, dynamic> toJson() => {
@@ -41,5 +47,7 @@ class UsuarioDetalheModel {
     'usuaAtivo': usuaAtivo,
     'udetNome': udetNome,
     'udetUsuario': udetUsuario,
+    'emprId': emprId,
+    'emprNome': emprNome,
   };
 }
