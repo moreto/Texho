@@ -8,7 +8,7 @@ import '../use_case/dashboard_usecase.dart';
 class DashboardViewmodel extends ChangeNotifier {
   DashboardViewmodel({required this._dashboardUseCase}) {
     Log.print(super.runtimeType);
-    menuCommand.execute();
+    //menuCommand.execute();
   }
 
   final DashboardUseCase _dashboardUseCase;

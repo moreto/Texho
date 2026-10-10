@@ -92,7 +92,7 @@ class _LoginViewState extends State<LoginView> {
     _consumeResult(widget.viewModel.verifyOtpCommand, onSuccess: () => context.go(Routes.dashboard));
   }
 
-  void _consumeResult(Command<bool> command, {VoidCallback? onSuccess}) {
+  void _consumeResult<T>(Command<T> command, {VoidCallback? onSuccess}) {
     if (command.error) {
       _showError(command.result);
       command.clearResult();

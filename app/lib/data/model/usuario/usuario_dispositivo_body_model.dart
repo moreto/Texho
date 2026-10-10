@@ -15,6 +15,7 @@ class UsuarioDispositivoBodyModel {
   final String udisDeviceId;
   final String udisNome;
   final String udisSistemaOperacional;
+  final String udloIp;
 
   UsuarioDispositivoBodyModel({
     required this.udisId,
@@ -22,6 +23,7 @@ class UsuarioDispositivoBodyModel {
     required this.udisDeviceId,
     required this.udisNome,
     required this.udisSistemaOperacional,
+    required this.udloIp,
   });
 
   factory UsuarioDispositivoBodyModel.fromJson(Map<String, dynamic> json) => UsuarioDispositivoBodyModel(
@@ -30,6 +32,7 @@ class UsuarioDispositivoBodyModel {
     udisDeviceId: json['udisDeviceId'],
     udisNome: json['udisNome'],
     udisSistemaOperacional: json['udisSistemaOperacional'],
+    udloIp: '',
   );
 
   Map<String, dynamic> toJson() => {
@@ -38,5 +41,6 @@ class UsuarioDispositivoBodyModel {
     'udisDeviceId': udisDeviceId,
     'udisNome': udisNome,
     'udisSistemaOperacional': udisSistemaOperacional,
+    'udloIp': udloIp,
   };
 }

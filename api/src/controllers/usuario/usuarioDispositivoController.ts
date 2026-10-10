@@ -28,7 +28,7 @@ class UsuarioDispositivoController {
                     JSON.stringify(retorno),
                 );
                 await this.repositoryLog.post(modelBodyCheck);
-                return Resp.send(response, 200, modelBodyCheck);
+                Resp.send(response, 200, modelBodyCheck);
             } else {
                 retorno = await this.repository.post(modelBody);
                 retorno = await this.repository.getByDeviceId(modelBody.udisDeviceId);

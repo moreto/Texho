@@ -13,7 +13,8 @@ enum ApiCore {
   menu('/v1/menu', kDesHost, kPrdHost, HeaderType.loggedArea),
   requestOtp('/v1/otp/send', kDesHost, kPrdHost, HeaderType.basicInfo),
   verifyOtp('/v1/otp/verify', kDesHost, kPrdHost, HeaderType.basicInfo),
-  usuarioDetalheById('/v1/usuario/usuario-detalhe-by-id', kDesHost, kPrdHost, HeaderType.loggedArea);
+  usuarioDetalheById('/v1/usuario/usuario-detalhe-by-id', kDesHost, kPrdHost, HeaderType.loggedArea),
+  usuarioDispositivo('/v1/usuario/usuario-dispositivo', kDesHost, kPrdHost, HeaderType.loggedArea);
 
   const ApiCore(this.endpoint, this.des, this.prd, this.headerType);
   final String endpoint;

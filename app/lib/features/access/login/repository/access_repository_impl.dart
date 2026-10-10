@@ -1,11 +1,13 @@
 import 'package:app/data/model/access/access_body_model.dart';
 import 'package:app/data/model/access/access_model.dart';
+import 'package:app/data/model/usuario/usuario_dispositivo_body_model.dart';
 import 'package:app/features/access/login/repository/access_repository.dart';
 import 'package:commons/api_core.dart';
 import 'package:commons/commons.dart';
 import 'package:service/api/dio_provider.dart';
 import 'package:service/api/enum.dart';
 
+import '../../../../data/model/access/logn_model.dart';
 import '../../../../data/model/usuario/usuario_detalhe_model.dart';
 
 class AccessRepositoryImpl implements AccessRepository {
@@ -26,13 +28,14 @@ class AccessRepositoryImpl implements AccessRepository {
   }
 
   @override
-  Future<Result<bool>> login(AccessBodyModel model) async {
+  Future<Result<LoginModel>> login(AccessBodyModel model) async {
     try {
       final response = await DioProvider.of(ApiCore.login).request(verb: Verb.post, body: model.toJson());
       switch (response) {
         case Ok(value: final value):
-          _setLoggedUser(value);
-          return Result.ok(true);
+          final loginModel = _parseLoginModel(value);
+          _setLoggedUser(loginModel, emprId: _emprIdFromResponse(value));
+          return Result.ok(loginModel);
         case Error():
           return Result.error(response.error);
       }
@@ -45,6 +48,22 @@ class AccessRepositoryImpl implements AccessRepository {
   Future<Result<UsuarioDetalheModel>> usuarioDetalheById() async {
     try {
       final response = await DioProvider.of(ApiCore.usuarioDetalheById).request(verb: Verb.get);
+      switch (response) {
+        case Ok():
+          final model = UsuarioDetalheModel.fromJson(Map<String, dynamic>.from(response.value));
+          return Result.ok(model);
+        case Error():
+          return Result.error(response.error);
+      }
+    } catch (ex) {
+      return Result.error(ex is HandledException ? ex : HandledException(message: ex.toString()));
+    }
+  }
+
+  @override
+  Future<Result<UsuarioDetalheModel>> usuarioDispositivo(UsuarioDispositivoBodyModel model) async {
+    try {
+      final response = await DioProvider.of(ApiCore.usuarioDispositivo).request(verb: Verb.post, body: model.toJson());
       switch (response) {
         case Ok():
           final model = UsuarioDetalheModel.fromJson(Map<String, dynamic>.from(response.value));
@@ -79,7 +98,8 @@ class AccessRepositoryImpl implements AccessRepository {
           .request(verb: Verb.post, body: {'email': email, 'otp': otp});
       switch (response) {
         case Ok(value: final value):
-          _setLoggedUser(value);
+          final loginModel = _parseLoginModel(value);
+          _setLoggedUser(loginModel, emprId: _emprIdFromResponse(value));
           return Result.ok(true);
         case Error():
           return Result.error(response.error);
@@ -89,17 +109,27 @@ class AccessRepositoryImpl implements AccessRepository {
     }
   }
 
-  void _setLoggedUser(dynamic response) {
+  LoginModel _parseLoginModel(dynamic response) {
     if (response is! Map) {
       throw const FormatException('tokenInvalido');
     }
 
-    final token = response['token'];
-    final userId = response['usuaId'];
-    if (token is! String || token.isEmpty || userId is! int || userId <= 0) {
+    final loginModel = LoginModel.fromJson(Map<String, dynamic>.from(response));
+    if (loginModel.token.isEmpty || loginModel.usuaId <= 0) {
       throw const FormatException('tokenInvalido');
     }
 
-    AuthSession.instance.setLoggedUser(token: token, userId: userId);
+    return loginModel;
+  }
+
+  int? _emprIdFromResponse(dynamic response) {
+    if (response is Map && response['emprId'] is int) {
+      return response['emprId'] as int;
+    }
+    return null;
+  }
+
+  void _setLoggedUser(LoginModel loginModel, {int? emprId}) {
+    AuthSession.instance.setLoggedUser(token: loginModel.token, userId: loginModel.usuaId, emprId: emprId);
   }
 }

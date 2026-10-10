@@ -27,6 +27,7 @@ abstract class Command<T> extends ChangeNotifier {
   Command();
 
   bool _running = false;
+  bool _disposed = false;
 
   /// True when the action is running.
   bool get running => _running;
@@ -44,12 +45,15 @@ abstract class Command<T> extends ChangeNotifier {
 
   /// Clear last action result
   void clearResult() {
+    if (_disposed) return;
     _result = null;
     notifyListeners();
   }
 
   /// Internal execute implementation
   Future<void> _execute(CommandAction0<T> action) async {
+    if (_disposed) return;
+
     // Ensure the action can't launch multiple times.
     // e.g. avoid multiple taps on button
     if (_running) return;
@@ -64,8 +68,14 @@ abstract class Command<T> extends ChangeNotifier {
       _result = await action();
     } finally {
       _running = false;
-      notifyListeners();
+      if (!_disposed) notifyListeners();
     }
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
   }
 }
 
