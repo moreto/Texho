@@ -9,7 +9,6 @@ import { Notificacao } from "./notificacao";
 
 class Resp {
     static async send(response: Response, statusCode: number, data: unknown) {
-        Log.printEnd();
         return response.status(statusCode).send(data);
     }
 
@@ -32,7 +31,6 @@ class Resp {
             code = retorno.notiId;
         }
 
-        Log.printEnd();
         return response.status(statusCode).send({ code, message });
     }
 
@@ -87,7 +85,6 @@ class Resp {
             const ret = await Notificacao.notificar(notificaco);
 
             const code = ret.notiId;
-            Log.printEnd();
             return response.status(statusCode).send({ code, message });
         } catch (error) {
             throw error;

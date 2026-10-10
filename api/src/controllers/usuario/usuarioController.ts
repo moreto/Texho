@@ -22,7 +22,6 @@ class UsuarioController {
 
             return Resp.send(response, 200, retorno);
         } catch (error: unknown) {
-            Log.printEnd();
             return Resp.sendError(response, error, 500, "erroGeral", "usuarioDetalheById", LogTypes.ERROR, 1);
         }
     }

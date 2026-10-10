@@ -26,7 +26,7 @@ export class Log {
 
     static printUrl(request: Request) {
         if (Config.showConsole) {
-            console.log(Config.logTitle, "Begin ---------------------------------------------------------- Request");
+            console.log(Config.logTitle, "Request ----------------------------------------------------------");
             const url = request.url;
             const method = request.method;
             const ip = request.ip;
@@ -35,9 +35,9 @@ export class Log {
         }
     }
 
-    static printEnd() {
-        if (Config.showConsole) {
-            console.log(Config.logTitle, "End ------------------------------------------------------------ Request");
-        }
-    }
+    // static printEnd() {
+    //     if (Config.showConsole) {
+    //         // console.log(Config.logTitle, "End ------------------------------------------------------------ Request");
+    //     }
+    // }
 }
