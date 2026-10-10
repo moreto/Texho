@@ -1,6 +1,5 @@
 import 'package:commons/api_core.dart';
-import 'package:commons/log.dart';
-import 'package:commons/result.dart';
+import 'package:commons/commons.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:service/api/enum.dart';
@@ -53,6 +52,7 @@ class DioProvider {
 
     pathParam = pathParam != null ? '/$pathParam' : '';
     queryParam = queryParam != null ? '?$queryParam' : '';
+    if (pathParam != null && pathParam != '') Log.print(pathParam.toString(), title: 'Provider Param', name: kApi);
 
     Uri uri = Uri.parse("$_url$pathParam$queryParam");
 
@@ -65,6 +65,7 @@ class DioProvider {
             options: options,
             onReceiveProgress: (count, total) => _receiveProgress(count, total),
           );
+          Log.print(_response.toString(), title: 'Provider Response', name: kApi);
           break;
         case Verb.post:
           _response = await _dio.postUri(
@@ -75,9 +76,12 @@ class DioProvider {
             onReceiveProgress: (count, total) => _receiveProgress(count, total),
             onSendProgress: (count, total) => _sendProgress(count, total),
           );
+          Log.print(_response.toString(), title: 'Body', name: kApi);
+          Log.print(_response.toString(), title: 'Provider Response', name: kApi);
           break;
         case Verb.delete:
           _response = await _dio.deleteUri(uri, cancelToken: _cancelToken, options: options);
+          Log.print(_response.toString(), title: 'Provider Response', name: kApi);
           break;
         case Verb.put:
           _response = await _dio.putUri(
@@ -88,6 +92,7 @@ class DioProvider {
             onReceiveProgress: (count, total) => _receiveProgress(count, total),
             onSendProgress: (count, total) => _sendProgress(count, total),
           );
+          Log.print(_response.toString(), title: 'Provider Response', name: kApi);
           break;
       }
       return Result.ok(_response.data);
@@ -123,13 +128,12 @@ class DioProvider {
       var elapsedSeconds = stopWatch.elapsed.inSeconds;
       var elapsedMilliseconds = stopWatch.elapsed.inMilliseconds;
 
+      Log.print('');
       Log.print(
         '${_apiCore.endpoint}, s: $elapsedSeconds, ms: $elapsedMilliseconds',
         title: 'Provider ${verb.name.toUpperCase()} $status',
+        name: kApi,
       );
-      if (body != null) Log.printJson(body, title: 'Provider Body');
-      if (pathParam != null) Log.print(pathParam.toString(), title: 'Provider Param');
-      // Log.printJson(resp.toString().substring(0, 500), titulo: 'Provider Response');
     }
   }
 
