@@ -4,12 +4,14 @@ import { LogTypes } from "../commons/enum";
 import { Resp } from "../commons/resp";
 import { LogBodyModelConvert } from "../models/logBodyModel";
 import { LogRepositoryContract } from "../repositories/logRepositoryContract";
+import { Log } from "../commons/log";
 
 export default class LogController {
     constructor(private readonly repository: LogRepositoryContract) {}
 
     async gravar(request: Request, response: Response) {
         try {
+            Log.printUrl(request);
             const model = LogBodyModelConvert.toLogBodyModel(JSON.stringify(request.body));
 
             await this.repository.post(model);

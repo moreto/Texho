@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { generateAdminToken, generateNoHeader, generateToken } from "../../commons/authorize";
 import { decryptString } from "../../commons/encrypt";
 import { LogTypes } from "../../commons/enum";
+import { Log } from "../../commons/log";
 import { Resp } from "../../commons/resp";
 import { Util } from "../../commons/util";
 import * as Config from "../../configs/config.json";
@@ -27,6 +28,8 @@ class AcessoController {
 
     async registro(request: Request, response: Response) {
         try {
+            Log.printUrl(request);
+
             if (Util.isEmpty(request.body)) {
                 return Resp.sendValidation(response, 400, "emailSenhaObrigatorios", true, LogTypes.VALIDATION);
             }
@@ -62,6 +65,8 @@ class AcessoController {
     //Qor0MmB/yoY0ppw0bZbWugSEPnnFPbhQUfgmVZMMOA==
     async login(request: Request, response: Response) {
         try {
+            Log.printUrl(request);
+
             if (Util.isEmpty(request.body)) {
                 return Resp.sendValidation(response, 400, "emailSenhaObrigatorios", true, LogTypes.VALIDATION);
             }

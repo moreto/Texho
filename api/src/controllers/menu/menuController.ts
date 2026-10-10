@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { LogTypes } from "../../commons/enum";
 import { Header } from "../../commons/header";
+import { Log } from "../../commons/log";
 import { Resp } from "../../commons/resp";
 import { MenuRepositoryContract } from "../../repositories/MenuRepositoryContract";
 
@@ -9,6 +10,7 @@ class MenuController {
 
     async menu(request: Request, response: Response) {
         try {
+            Log.printUrl(request);
             if (!(await Header.verificaHeader(request, true))) {
                 return Resp.sendValidation(response, 400, "headerInvalido", true, LogTypes.SECURITY);
             }

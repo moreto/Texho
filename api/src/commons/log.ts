@@ -1,75 +1,43 @@
+import { Request } from "express";
 import * as Config from "../configs/config.json";
 
 export class Log {
     // constructor(parameters) {}
 
-    static print(text: object, group: string = "") {
+    static print(text: object) {
         const textLog = text;
 
-        group != "" ? console.group(group) : null;
-        Config.showConsole ? console.log(Config.logTitle, textLog) : null;
-        group != "" ? console.groupEnd() : null;
-    }
-
-    static printErro(err: unknown) {
-        let erroStack = "";
-        if (err instanceof Error) {
-            erroStack = err.stack!;
-            Log.print(Config.logTitle + err.name);
-            Log.print(Config.logTitle + err.message);
-            Log.print(Config.logTitle + erroStack);
+        if (Config.showConsole) {
+            console.log(Config.logTitle, textLog);
         }
     }
 
-    // static async erro(erro: unknown, mensagem: string, logTipo: string, usuaId: number) {
-    //     try {
-    //         let erroStack = "";
-    //         let erroMessage = "";
+    static printErro(err: unknown) {
+        if (Config.logTitle) {
+            if (err instanceof Error) {
+                const erroStack = err.stack!;
 
-    //         if (Config.showConsole) {
-    //             if (erro instanceof Error) {
-    //                 erroStack = erro.stack!;
-    //                 erroMessage = mensagem;
+                console.log(Config.logTitle, err.name);
+                console.log(Config.logTitle, err.message);
+                console.log(Config.logTitle, erroStack);
+            }
+        }
+    }
 
-    //                 Log.print(erro.name);
-    //                 Log.print(erro.message);
-    //                 Log.print(erroStack);
-    //             } else {
-    //                 erroStack = "erroStack";
-    //                 erroMessage = mensagem;
-    //             }
-    //         }
+    static printUrl(request: Request) {
+        if (Config.showConsole) {
+            console.log(Config.logTitle, "Begin ---------------------------------------------------------- Request");
+            const url = request.url;
+            const method = request.method;
+            const ip = request.ip;
 
-    //         const repository = new LogRepository();
+            console.log(Config.logTitle, url + " | " + method + " | " + ip);
+        }
+    }
 
-    //         const logModel: LogBodyModel = {
-    //             log_tipo: logTipo,
-    //             log_info: erroStack,
-    //             log_texto: mensagem,
-    //             usua_id: usuaId,
-    //         };
-
-    //         const logId = await repository.post(logModel);
-
-    //         const notificaco: NotificacaoModel = {
-    //             notiId: 0,
-    //             notiData: new Date(),
-    //             logId: logId?.log_id ?? 0,
-    //             notiTipo: LogTypes.ERROR,
-    //             usuaId: usuaId,
-    //             notiTexto: erroMessage,
-    //             notiErro: erroStack,
-    //         };
-
-    //         const ret = await Notificacao.notificar(notificaco);
-
-    //         const rm = camelcaseKeys(ret);
-
-    //         Log.print(rm);
-
-    //         return rm;
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // }
+    static printEnd() {
+        if (Config.showConsole) {
+            console.log(Config.logTitle, "End ------------------------------------------------------------ Request");
+        }
+    }
 }

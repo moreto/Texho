@@ -1,5 +1,4 @@
 import express, { NextFunction, Request, Response } from "express";
-import morgan from "morgan";
 
 import acessoRoutes from "./routes/accessRoutes";
 import commonRoutes from "./routes/commonRoutes";
@@ -9,7 +8,7 @@ import usuarioRoutes from "./routes/usuarioRoutes";
 const app = express();
 app.use(express.json());
 
-app.use(morgan(":url :method :response-time :user-agent"));
+// app.use(morgan(":url :method :response-time :user-agent"));
 
 // Rotas
 app.use(defaultRoutes);

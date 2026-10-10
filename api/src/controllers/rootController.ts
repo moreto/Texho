@@ -8,6 +8,7 @@ class RootController {
     constructor() {}
 
     async root(request: Request, response: Response) {
+        Log.printUrl(request);
         const pjson = Package;
         // const onLine = "";
 

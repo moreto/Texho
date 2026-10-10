@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { LogTypes } from "../commons/enum";
+import { Log } from "../commons/log";
 import { Resp } from "../commons/resp";
 import { Util } from "../commons/util";
 import { LogBodyModel } from "../models/logBodyModel";
@@ -15,6 +16,7 @@ export default class NotificacaoController {
 
     async listar(request: Request, response: Response) {
         try {
+            Log.printUrl(request);
             const retorno = await this.repository.get();
             return Resp.send(response, 200, retorno);
         } catch (error: unknown) {
@@ -24,6 +26,7 @@ export default class NotificacaoController {
 
     async notificar(request: Request, response: Response) {
         try {
+            Log.printUrl(request);
             const model = ConvertNotificacaoModel.toNotificacaoModel(JSON.stringify(request.body));
 
             if (!Util.isEmpty(model.notiErro)) {

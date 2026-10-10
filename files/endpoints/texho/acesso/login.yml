@@ -8,7 +8,7 @@ http:
   url: "{{HOST}}/v1/acesso/login"
   headers:
     - name: x-access-interface
-      value: App
+      value: Api
   body:
     type: json
     data: |-

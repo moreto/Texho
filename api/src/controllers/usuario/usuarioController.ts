@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { LogTypes } from "../../commons/enum";
 import { Header } from "../../commons/header";
+import { Log } from "../../commons/log";
 import { Resp } from "../../commons/resp";
 import { UsuarioRepositoryContract } from "../../repositories/usuarioRepositoryContract";
 
@@ -9,6 +10,8 @@ class UsuarioController {
 
     async usuarioDetalheById(request: Request, response: Response) {
         try {
+            Log.printUrl(request);
+
             if (!(await Header.verificaHeader(request, true))) {
                 return Resp.sendValidation(response, 400, "headerInvalido", true, LogTypes.SECURITY);
             }
@@ -19,6 +22,7 @@ class UsuarioController {
 
             return Resp.send(response, 200, retorno);
         } catch (error: unknown) {
+            Log.printEnd();
             return Resp.sendError(response, error, 500, "erroGeral", "usuarioDetalheById", LogTypes.ERROR, 1);
         }
     }

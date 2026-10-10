@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { generateToken } from "../../commons/authorize";
 import { LogTypes } from "../../commons/enum";
+import { Log } from "../../commons/log";
 import { generateOTP, sendOTPEmail } from "../../commons/otp";
 import { Resp } from "../../commons/resp";
 import { LoginModel } from "../../models/acesso/loginModel";
@@ -13,12 +14,13 @@ class OTPController {
     ) {}
 
     async sendOTP(request: Request, response: Response) {
-        const email = request.body?.email;
-        if (typeof email !== "string" || email.trim().length === 0) {
-            return Resp.sendValidation(response, 400, "emailObrigatorio", true, LogTypes.VALIDATION);
-        }
-
         try {
+            Log.printUrl(request);
+            const email = request.body?.email;
+            if (typeof email !== "string" || email.trim().length === 0) {
+                return Resp.sendValidation(response, 400, "emailObrigatorio", true, LogTypes.VALIDATION);
+            }
+
             const normalizedEmail = email.trim();
             const user = await this.acessoRepository.getUserId(normalizedEmail);
 
@@ -63,7 +65,7 @@ class OTPController {
                 token: await generateToken(normalizedEmail),
             };
 
-            return response.status(200).send(loginModel);
+            return Resp.send(response, 200, loginModel);
         } catch (error: unknown) {
             return Resp.sendError(response, error, 500, "erroGenerico", "verifyOTP", LogTypes.ERROR, 1);
         }

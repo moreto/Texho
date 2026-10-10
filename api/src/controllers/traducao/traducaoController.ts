@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { LogTypes } from "../../commons/enum";
+import { Log } from "../../commons/log";
 import { Resp } from "../../commons/resp";
 import { TraducaoRepositoryContract } from "../../repositories/commonRepositoryContracts";
 
@@ -8,6 +9,7 @@ class TraducaoController {
 
     async traducao(request: Request, response: Response) {
         try {
+            Log.printUrl(request);
             const retorno = await this.repository.get();
 
             return response.status(200).send(retorno);
