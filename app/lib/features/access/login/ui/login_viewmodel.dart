@@ -116,7 +116,6 @@ class LoginViewmodel extends ChangeNotifier {
 
     switch (useCaseResult) {
       case Ok<UsuarioDispositivoModel>():
-        // UsuarioSession.instance.setUsuarioDetalhe(useCaseResult.value);
         break;
       case Error<UsuarioDispositivoModel>(error: final exception):
         if (exception is HandledException) {
