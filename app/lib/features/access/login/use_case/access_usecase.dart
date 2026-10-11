@@ -6,6 +6,7 @@ import 'package:commons/result.dart';
 
 import '../../../../data/model/access/logn_model.dart';
 import '../../../../data/model/usuario/usuario_detalhe_model.dart';
+import '../../../../data/model/usuario/usuario_dispositivo_model.dart';
 import '../repository/access_repository.dart';
 
 class AccessUseCase {
@@ -49,12 +50,12 @@ class AccessUseCase {
     }
   }
 
-  Future<Result<UsuarioDetalheModel>> usuarioDispositivo(UsuarioDispositivoBodyModel model) async {
+  Future<Result<UsuarioDispositivoModel>> usuarioDispositivo(UsuarioDispositivoBodyModel model) async {
     final serviceResult = await _accessRepository.usuarioDispositivo(model);
     switch (serviceResult) {
-      case Ok<UsuarioDetalheModel>():
+      case Ok<UsuarioDispositivoModel>():
         return Result.ok(serviceResult.value);
-      case Error<UsuarioDetalheModel>():
+      case Error<UsuarioDispositivoModel>():
         return Result.error(serviceResult.error);
     }
   }

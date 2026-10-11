@@ -11,6 +11,7 @@ import '../../../../config/usuario_session.dart';
 import '../../../../data/model/access/access_body_model.dart';
 import '../../../../data/model/access/logn_model.dart';
 import '../../../../data/model/usuario/usuario_detalhe_model.dart';
+import '../../../../data/model/usuario/usuario_dispositivo_model.dart';
 import '../use_case/access_usecase.dart';
 
 class LoginViewmodel extends ChangeNotifier {
@@ -47,7 +48,7 @@ class LoginViewmodel extends ChangeNotifier {
     switch (useCaseResult) {
       case Ok<LoginModel>():
         _loginResult = true;
-        // _usuarioDispositivo();
+        _usuarioDispositivo();
         await usuarioDetalheCommand.execute();
         break;
 
@@ -89,13 +90,16 @@ class LoginViewmodel extends ChangeNotifier {
     return useCaseResult;
   }
 
-  Future<Result<UsuarioDetalheModel>> _usuarioDispositivo() async {
+  Future<Result<UsuarioDispositivoModel>> _usuarioDispositivo() async {
     _notifyListenersIfNotDisposed();
 
+    List<String> ipList = [];
     for (var interface in await NetworkInterface.list()) {
-      Log.print('== Interface: ${interface.name} ==');
+      ipList.add(interface.name);
+      // Log.print('== Interface: ${interface.name} ==');
       for (var addr in interface.addresses) {
-        Log.print('${addr.address} ${addr.host} ${addr.isLoopback} ${addr.rawAddress} ${addr.type.name}');
+        ipList.add(addr.address);
+        // Log.print('${addr.address} ${addr.host} ${addr.isLoopback} ${addr.rawAddress} ${addr.type.name}');
       }
     }
 
@@ -105,16 +109,16 @@ class LoginViewmodel extends ChangeNotifier {
       udisDeviceId: DeviceInfo.instance.deviceId,
       udisNome: DeviceInfo.instance.name,
       udisSistemaOperacional: DeviceInfo.instance.operatingSystem,
-      udloIp: '0',
+      udloIp: ipList.toString(),
     );
 
     final useCaseResult = await _accessUseCase.usuarioDispositivo(model);
 
     switch (useCaseResult) {
-      case Ok<UsuarioDetalheModel>():
-        UsuarioSession.instance.setUsuarioDetalhe(useCaseResult.value);
+      case Ok<UsuarioDispositivoModel>():
+        // UsuarioSession.instance.setUsuarioDetalhe(useCaseResult.value);
         break;
-      case Error<UsuarioDetalheModel>(error: final exception):
+      case Error<UsuarioDispositivoModel>(error: final exception):
         if (exception is HandledException) {
           Log.print(exception.message, name: kApp, title: 'Erro');
         } else if (exception is HttpServiceException) {

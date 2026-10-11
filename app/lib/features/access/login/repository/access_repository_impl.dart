@@ -9,6 +9,7 @@ import 'package:service/api/enum.dart';
 
 import '../../../../data/model/access/logn_model.dart';
 import '../../../../data/model/usuario/usuario_detalhe_model.dart';
+import '../../../../data/model/usuario/usuario_dispositivo_model.dart';
 
 class AccessRepositoryImpl implements AccessRepository {
   @override
@@ -61,12 +62,12 @@ class AccessRepositoryImpl implements AccessRepository {
   }
 
   @override
-  Future<Result<UsuarioDetalheModel>> usuarioDispositivo(UsuarioDispositivoBodyModel model) async {
+  Future<Result<UsuarioDispositivoModel>> usuarioDispositivo(UsuarioDispositivoBodyModel model) async {
     try {
       final response = await DioProvider.of(ApiCore.usuarioDispositivo).request(verb: Verb.post, body: model.toJson());
       switch (response) {
         case Ok():
-          final model = UsuarioDetalheModel.fromJson(Map<String, dynamic>.from(response.value));
+          final model = UsuarioDispositivoModel.fromJson(Map<String, dynamic>.from(response.value));
           return Result.ok(model);
         case Error():
           return Result.error(response.error);

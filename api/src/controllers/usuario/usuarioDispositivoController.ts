@@ -30,12 +30,20 @@ class UsuarioDispositivoController {
                 const modelBodyCheck = UsuarioDispositivoBodyModelConvert.toUsuarioDispositivoBodyModel(
                     JSON.stringify(retorno),
                 );
+                modelBodyCheck.udloIp = modelBody.udloIp ?? "0";
                 await this.repositoryLog.post(modelBodyCheck);
                 Resp.send(response, 200, modelBodyCheck);
             } else {
                 retorno = await this.repository.post(modelBody);
                 retorno = await this.repository.getByDeviceId(modelBody.udisDeviceId);
-                await this.repositoryLog.post(modelBody);
+                if (retorno != undefined) {
+                    const modelBodyCheck = UsuarioDispositivoBodyModelConvert.toUsuarioDispositivoBodyModel(
+                        JSON.stringify(retorno),
+                    );
+                    modelBodyCheck.udloIp = modelBody.udloIp ?? "0";
+                    await this.repositoryLog.post(modelBodyCheck);
+                }
+
                 return Resp.send(response, 200, retorno);
             }
         } catch (error: unknown) {
