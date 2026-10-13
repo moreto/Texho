@@ -4,7 +4,7 @@ enum HeaderType { minimal, basicInfo, loggedArea }
 
 // const String kDesHost = 'http://192.168.1.70:3000/api';
 // const String kPrdHost = 'http://192.168.1.70:3000/api';
-const String kDesHost = 'http://172.20.10.14:3000/api';
+const String kDesHost = 'http://10.0.2.2:3000/api';
 const String kPrdHost = 'http://172.20.10.14:3000/api';
 
 enum ApiCore {
