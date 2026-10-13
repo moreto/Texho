@@ -8,7 +8,6 @@ import { EmpresaRepositoryContract } from "../../repositories/empresaRepositoryC
 class EmpresaController {
     constructor(private readonly repository: EmpresaRepositoryContract) {}
 
-    // async getById(request: Request, response: Response) {
     async getById(request: Request, response: Response) {
         try {
             Log.printUrl(request);

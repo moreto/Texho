@@ -1,11 +1,11 @@
 info:
-  name: menu copy
+  name: empresa-by-id
   type: http
   seq: 2
 
 http:
   method: GET
-  url: "{{HOST}}/v1/menu"
+  url: "{{HOST}}/v1/empresa/get-by-id/1"
   headers:
     - name: x-token
       value: "{{TOKEN}}"
