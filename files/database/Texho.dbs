@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="PostgreSQL" database="PostgreSQL" id="30577235-8c64-49d8-ae6a-ec3569f2bcc2" >
+	<schema name="public" catalogname="postgres" >
+		<comment><![CDATA[standard public schema]]></comment>
+		<table name="empresa" row_count="1" spec="" >
+			<column name="empr_id" type="bigint" mandatory="y" >
+				<defo><![CDATA[nextval('empresa_empr_id_seq'::regclass)]]></defo>
+			</column>
+			<column name="empr_uuid" type="uuid" mandatory="y" />
+			<column name="empr_nome" type="varchar" length="90" />
+			<column name="created_at" type="timestamp" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="updated_at" type="timestamp" />
+			<index name="pk_empresa" unique="PRIMARY_KEY" >
+				<column name="empr_id" />
+			</index>
+		</table>
+		<table name="empresa_plano" row_count="0" spec="" >
+			<column name="epla_id" type="bigint" mandatory="y" >
+				<defo><![CDATA[nextval('empresa_plano_epla_id_seq'::regclass)]]></defo>
+			</column>
+			<column name="empr_id" type="bigint" mandatory="y" />
+			<column name="plan_id" type="bigint" mandatory="y" />
+			<index name="pk_empresa_plano" unique="PRIMARY_KEY" >
+				<column name="epla_id" />
+			</index>
+			<fk name="epla_empr" to_schema="postgres.public" to_table="empresa" delete_action="cascade" options="" >
+				<fk_column name="empr_id" pk="empr_id" />
+			</fk>
+			<fk name="epla_plan" to_schema="postgres.public" to_table="plano" options="" >
+				<fk_column name="plan_id" pk="plan_id" />
+			</fk>
+		</table>
+		<table name="empresa_usuario" row_count="1" spec="" >
+			<column name="eusu_id" type="bigint" mandatory="y" >
+				<defo><![CDATA[nextval('empresa_usuario_eusu_id_seq'::regclass)]]></defo>
+			</column>
+			<column name="empr_id" type="bigint" mandatory="y" />
+			<column name="usua_id" type="bigint" mandatory="y" />
+			<index name="pk_empresa_usuario" unique="PRIMARY_KEY" >
+				<column name="eusu_id" />
+			</index>
+			<fk name="eusu_empr" to_schema="postgres.public" to_table="empresa" delete_action="cascade" options="" >
+				<fk_column name="empr_id" pk="empr_id" />
+			</fk>
+			<fk name="eusu_usua" to_schema="postgres.public" to_table="usuario" options="" >
+				<fk_column name="usua_id" pk="usua_id" />
+			</fk>
+		</table>
+		<table name="log" row_count="94" spec="" >
+			<column name="log_id" type="bigint" mandatory="y" >
+				<defo><![CDATA[nextval('log_log_id_seq'::regclass)]]></defo>
+			</column>
+			<column name="log_tipo" type="varchar" length="6" />
+			<column name="log_data" type="timestamp" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="log_info" type="text" />
+			<column name="usua_id" type="bigint" />
+			<column name="log_texto" type="varchar" length="256" />
+			<index name="log_pk" unique="PRIMARY_KEY" >
+				<column name="log_id" />
+			</index>
+		</table>
+		<table name="menu" row_count="3" spec="" >
+			<column name="menu_id" type="bigint" mandatory="y" >
+				<defo><![CDATA[nextval('menu_menu_id_seq'::regclass)]]></defo>
+			</column>
+			<column name="menu_nome" type="varchar" length="60" mandatory="y" />
+			<column name="menu_chave" type="varchar" length="30" mandatory="y" />
+			<column name="menu_icone" type="varchar" length="90" />
+			<column name="menu_sequencia" type="integer" />
+			<column name="menu_parent_id" type="bigint" />
+			<index name="pk_menu" unique="PRIMARY_KEY" >
+				<column name="menu_id" />
+			</index>
+			<fk name="menu_menu" to_schema="postgres.public" to_table="menu" options="" >
+				<fk_column name="menu_parent_id" pk="menu_id" />
+			</fk>
+		</table>
+		<table name="notificacao" row_count="92" spec="" >
+			<column name="noti_id" type="bigint" mandatory="y" >
+				<defo><![CDATA[nextval('notificacao_noti_id_seq'::regclass)]]></defo>
+			</column>
+			<column name="noti_data" type="timestamp" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="noti_tipo" type="varchar" length="12" mandatory="y" />
+			<column name="noti_texto" type="varchar" length="256" />
+			<column name="usua_id" type="bigint" />
+			<column name="log_id" type="bigint" />
+			<index name="noti_pk" unique="PRIMARY_KEY" >
+				<column name="noti_id" />
+			</index>
+		</table>
+		<table name="plano" row_count="0" spec="" >
+			<column name="plan_id" type="bigint" mandatory="y" >
+				<defo><![CDATA[nextval('plano_plan_id_seq'::regclass)]]></defo>
+			</column>
+			<column name="plan_nome" type="varchar" length="60" mandatory="y" />
+			<column name="plan_valor" type="numeric" length="12" decimal="2" />
+			<column name="plan_qtd_dias" type="integer" >
+				<defo><![CDATA[30]]></defo>
+			</column>
+			<column name="plan_descricao" type="varchar" length="750" />
+			<column name="plan_qtd_log" type="integer" >
+				<defo><![CDATA[500]]></defo>
+			</column>
+			<column name="plan_qtd_notificacao" type="integer" >
+				<defo><![CDATA[500]]></defo>
+			</column>
+			<index name="pk_plano" unique="PRIMARY_KEY" >
+				<column name="plan_id" />
+			</index>
+		</table>
+		<table name="traducao" row_count="94" spec="" >
+			<column name="trad_id" type="bigint" mandatory="y" >
+				<defo><![CDATA[nextval('traducao_trad_id_seq'::regclass)]]></defo>
+			</column>
+			<column name="trad_chave" type="varchar" length="30" mandatory="y" />
+			<column name="trad_pt_br" type="varchar" length="255" mandatory="y" />
+			<column name="trad_es_es" type="varchar" length="255" />
+			<column name="trad_en_us" type="varchar" length="255" />
+			<column name="created_at" type="timestamp" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="updated_at" type="timestamp" />
+			<column name="usua_id" type="bigint" />
+			<column name="trad_status" type="boolean" mandatory="y" >
+				<defo><![CDATA[true]]></defo>
+			</column>
+			<index name="pk_traducao" unique="PRIMARY_KEY" >
+				<column name="trad_id" />
+			</index>
+			<index name="unq_traducao_trad_chave" unique="UNIQUE_INDEX" spec="USING  btree" >
+				<column name="trad_chave" />
+			</index>
+		</table>
+		<table name="usuario" row_count="2" spec="" >
+			<column name="usua_id" type="bigint" mandatory="y" >
+				<defo><![CDATA[nextval('usuario_usua_id_seq'::regclass)]]></defo>
+			</column>
+			<column name="usua_email" type="varchar" length="90" mandatory="y" />
+			<column name="usua_senha" type="varchar" length="60" mandatory="y" />
+			<column name="usua_ativo" type="boolean" mandatory="y" >
+				<defo><![CDATA[false]]></defo>
+			</column>
+			<column name="created_at" type="timestamp" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="updated_at" type="timestamp" />
+			<column name="usua_uuid" type="uuid" />
+			<index name="pk_usuario" unique="PRIMARY_KEY" >
+				<column name="usua_id" />
+			</index>
+			<index name="unq_email" unique="UNIQUE_INDEX" spec="USING  btree" >
+				<column name="usua_email" />
+			</index>
+		</table>
+		<table name="usuario_detalhe" row_count="1" spec="" >
+			<column name="udet_id" type="bigint" mandatory="y" >
+				<defo><![CDATA[nextval('usuario_detalhe_udet_id_seq'::regclass)]]></defo>
+			</column>
+			<column name="usua_id" type="bigint" mandatory="y" />
+			<column name="udet_nome" type="varchar" length="70" />
+			<column name="udet_usuario" type="varchar" length="30" />
+			<index name="pk_usuario_detalhe" unique="PRIMARY_KEY" >
+				<column name="udet_id" />
+			</index>
+			<index name="udet_usuario_idx" unique="UNIQUE_KEY" >
+				<column name="udet_usuario" />
+			</index>
+			<fk name="udet_usua" to_schema="postgres.public" to_table="usuario" delete_action="cascade" options="" >
+				<fk_column name="usua_id" pk="usua_id" />
+			</fk>
+		</table>
+		<table name="usuario_dispositivo" row_count="3" spec="" >
+			<column name="udis_id" type="bigint" mandatory="y" >
+				<defo><![CDATA[nextval('usuario_dispositivo_udis_id_seq'::regclass)]]></defo>
+			</column>
+			<column name="empr_id" type="bigint" mandatory="y" />
+			<column name="udis_device_id" type="varchar" length="90" />
+			<column name="udis_nome" type="varchar" length="90" />
+			<column name="udis_sistema_operacional" type="varchar" length="60" />
+			<index name="pk_usuario_dispositivo" unique="PRIMARY_KEY" >
+				<column name="udis_id" />
+			</index>
+			<index name="unq_udis_device_id" unique="UNIQUE_INDEX" spec="USING  btree" >
+				<column name="udis_device_id" />
+			</index>
+			<fk name="fk_usuario_dispositivo_empresa" to_schema="postgres.public" to_table="empresa" delete_action="cascade" options="" >
+				<fk_column name="empr_id" pk="empr_id" />
+			</fk>
+		</table>
+		<table name="usuario_dispositivo_log" row_count="14" spec="" >
+			<column name="udlo_id" type="bigint" mandatory="y" >
+				<defo><![CDATA[nextval('usuario_dispositivo_log_udlo_id_seq'::regclass)]]></defo>
+			</column>
+			<column name="udis_id" type="bigint" mandatory="y" />
+			<column name="udlo_ip" type="varchar" length="255" />
+			<column name="created_at" type="timestamp" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<index name="pk_usuario_dispositivo_log" unique="PRIMARY_KEY" >
+				<column name="udlo_id" />
+			</index>
+			<fk name="udlo_udis" to_schema="postgres.public" to_table="usuario_dispositivo" delete_action="cascade" options="" >
+				<fk_column name="udis_id" pk="udis_id" />
+			</fk>
+		</table>
+		<table name="usuario_otp" row_count="19" spec="" >
+			<column name="uotp_id" type="bigint" mandatory="y" >
+				<defo><![CDATA[nextval('usuario_otp_uotp_id_seq'::regclass)]]></defo>
+			</column>
+			<column name="usua_id" type="bigint" mandatory="y" />
+			<column name="uotp_key" type="integer" mandatory="y" />
+			<column name="uotp_verified" type="boolean" mandatory="y" >
+				<defo><![CDATA[false]]></defo>
+			</column>
+			<column name="created_at" type="timestamp" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="updated_at" type="timestamp" />
+			<index name="pk_usuario_otp" unique="PRIMARY_KEY" >
+				<column name="uotp_id" />
+			</index>
+			<fk name="uotp_usua" to_schema="postgres.public" to_table="usuario" delete_action="cascade" options="" >
+				<fk_column name="usua_id" pk="usua_id" />
+			</fk>
+		</table>
+		<sequence name="empresa_empr_id_seq" options="START WITH 1 INCREMENT BY 1" />
+		<sequence name="empresa_plano_epla_id_seq" options="START WITH 1 INCREMENT BY 1" />
+		<sequence name="empresa_usuario_eusu_id_seq" options="START WITH 1 INCREMENT BY 1" />
+		<sequence name="log_log_id_seq" options="START WITH 1 INCREMENT BY 1" />
+		<sequence name="menu_menu_id_seq" options="START WITH 1 INCREMENT BY 1" />
+		<sequence name="notificacao_noti_id_seq" options="START WITH 1 INCREMENT BY 1" />
+		<sequence name="plano_plan_id_seq" options="START WITH 1 INCREMENT BY 1" />
+		<sequence name="traducao_trad_id_seq" options="START WITH 1 INCREMENT BY 1" />
+		<sequence name="usuario_detalhe_udet_id_seq" options="START WITH 1 INCREMENT BY 1" />
+		<sequence name="usuario_dispositivo_log_udlo_id_seq" options="START WITH 1 INCREMENT BY 1" />
+		<sequence name="usuario_dispositivo_udis_id_seq" options="START WITH 1 INCREMENT BY 1" />
+		<sequence name="usuario_otp_uotp_id_seq" options="START WITH 1 INCREMENT BY 1" />
+		<sequence name="usuario_usua_id_seq" options="START WITH 1 INCREMENT BY 1" />
+		<function name="updatedat" id="029c653a-7214-455d-8af6-20425371102e" isSystem="false" params_known="n" >
+			<string><![CDATA[CREATE OR REPLACE FUNCTION public.updatedat()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$function$;]]></string>
+		</function>
+		<trigger name="trgupdateat" table="empresa" id="9de9981b-5854-4da5-83b9-785f2293e93c" isSystem="false" >
+			<string><![CDATA[CREATE TRIGGER ${name} BEFORE UPDATE ON public.empresa FOR EACH ROW EXECUTE FUNCTION updatedat()]]></string>
+		</trigger>
+		<trigger name="trgupdateat" table="traducao" id="a8f9f5f3-f0a5-47a7-92c2-985ce2f4b16e" isSystem="false" >
+			<string><![CDATA[CREATE TRIGGER ${name} BEFORE UPDATE ON public.traducao FOR EACH ROW EXECUTE FUNCTION updatedat()]]></string>
+		</trigger>
+		<trigger name="trgupdateat" table="usuario" id="098f49a6-fe60-47e0-94f5-690eff51fa93" isSystem="false" >
+			<string><![CDATA[CREATE TRIGGER ${name} BEFORE UPDATE ON public.usuario FOR EACH ROW EXECUTE FUNCTION updatedat()]]></string>
+		</trigger>
+		<trigger name="trgupdateat" table="usuario_otp" id="c59b1080-0ca4-4c5d-9046-849473bcc167" isSystem="false" >
+			<string><![CDATA[CREATE TRIGGER ${name} BEFORE UPDATE ON public.usuario_otp FOR EACH ROW EXECUTE FUNCTION updatedat()]]></string>
+		</trigger>
+	</schema>
+	<diagram_group name="Default" id="24df372d-1678-4033-9b7b-2bee59b3dbdd" >
+		<diagram name="Main Diagram" id="b6b7512c-e8df-44ea-bfd7-308bc40a45f4" show_relation="columns" >
+			<entity schema="postgres.public" name="empresa" color="C7F4BE" x="912" y="798" />
+			<entity schema="postgres.public" name="empresa_plano" color="C7F4BE" x="1406" y="1064" />
+			<entity schema="postgres.public" name="empresa_usuario" color="C7F4BE" x="1406" y="1349" />
+			<entity schema="postgres.public" name="log" color="BED3F4" x="57" y="95" />
+			<entity schema="postgres.public" name="menu" color="F4DDBE" x="551" y="95" />
+			<entity schema="postgres.public" name="notificacao" color="BED3F4" x="285" y="95" />
+			<entity schema="postgres.public" name="plano" color="C7F4BE" x="874" y="1064" />
+			<entity schema="postgres.public" name="traducao" color="BED3F4" x="285" y="380" />
+			<entity schema="postgres.public" name="usuario" color="C7F4BE" x="627" y="1064" />
+			<entity schema="postgres.public" name="usuario_detalhe" color="C7F4BE" x="1159" y="1368" />
+			<entity schema="postgres.public" name="usuario_dispositivo" color="C7F4BE" x="551" y="1368" />
+			<entity schema="postgres.public" name="usuario_dispositivo_log" color="C7F4BE" x="874" y="1368" />
+			<entity schema="postgres.public" name="usuario_otp" color="C7F4BE" x="1159" y="1064" />
+			<group name="log" color="ECF0F7" >
+				<entity schema="postgres.public" name="log" />
+				<entity schema="postgres.public" name="notificacao" />
+				<entity schema="postgres.public" name="traducao" />
+			</group>
+			<group name="menu" color="F7F2EC" >
+				<entity schema="postgres.public" name="menu" />
+			</group>
+			<group name="plano" color="EEF7EC" >
+				<entity schema="postgres.public" name="empresa" />
+				<entity schema="postgres.public" name="empresa_plano" />
+				<entity schema="postgres.public" name="empresa_usuario" />
+				<entity schema="postgres.public" name="plano" />
+				<entity schema="postgres.public" name="usuario" />
+				<entity schema="postgres.public" name="usuario_detalhe" />
+				<entity schema="postgres.public" name="usuario_dispositivo" />
+				<entity schema="postgres.public" name="usuario_dispositivo_log" />
+				<entity schema="postgres.public" name="usuario_otp" />
+			</group>
+		</diagram>
+		<diagram name="~Diagram with Sample Tools" id="214c28c1-cf22-4988-a12d-9868886dd70a" show_column_type="y" show_relation="columns" >
+			<entity schema="postgres.public" name="empresa" color="C7F4BE" x="1406" y="760" />
+			<entity schema="postgres.public" name="empresa_plano" color="C7F4BE" x="1691" y="1026" />
+			<entity schema="postgres.public" name="empresa_usuario" color="C7F4BE" x="1159" y="798" />
+			<entity schema="postgres.public" name="log" color="BED3F4" x="57" y="57" />
+			<entity schema="postgres.public" name="menu" color="F4DDBE" x="703" y="57" />
+			<entity schema="postgres.public" name="notificacao" color="BED3F4" x="361" y="57" />
+			<entity schema="postgres.public" name="plano" color="C7F4BE" x="1083" y="1026" />
+			<entity schema="postgres.public" name="traducao" color="BED3F4" x="361" y="342" />
+			<entity schema="postgres.public" name="usuario" color="C7F4BE" x="779" y="1026" />
+			<entity schema="postgres.public" name="usuario_detalhe" color="C7F4BE" x="1406" y="1330" />
+			<entity schema="postgres.public" name="usuario_dispositivo" color="C7F4BE" x="703" y="1330" />
+			<entity schema="postgres.public" name="usuario_dispositivo_log" color="C7F4BE" x="1083" y="1330" />
+			<entity schema="postgres.public" name="usuario_otp" color="C7F4BE" x="1406" y="1026" />
+			<script name="SQL Editor" id="fa4eddf9-5ac3-4055-b2a6-e2d225cb6517" language="SQL" >
+				<string><![CDATA[SELECT
+	empr_id, empr_uuid, empr_nome, created_at, updated_at
+FROM
+	"public".empresa a;]]></string>
+			</script>
+			<browser id="9bcb6fa8-77f8-472a-b4d7-5d57258223fc" name="Relational Data Editor" confirm_updates="y" >
+				<browse_table schema="postgres.public" entity="empresa" fk_out="n" x="20" y="20" width="270" height="-60" >
+					<browse_table schema="postgres.public" entity="empresa_plano" fk="epla_empr" fk_out="y" x="310" y="20" width="500" height="350" >
+						<browse_table schema="postgres.public" entity="plano" fk="epla_plan" fk_out="n" x="830" y="20" width="500" height="350" record_view="y" />
+					</browse_table>
+				</browse_table>
+			</browser>
+			<query id="c1752656-5423-47a5-8a7a-b3b53c285b6d" name="Query Builder" >
+				<query_table schema="postgres.public" name="empresa" alias="e" x="57" y="57" >
+					<column name="empr_id" />
+					<column name="empr_uuid" />
+					<column name="empr_nome" />
+					<column name="created_at" />
+					<column name="updated_at" />
+					<query_table schema="postgres.public" name="empresa_plano" alias="ep" x="285" y="57" fk="epla_empr" type="Inner Join" >
+						<column name="epla_id" />
+						<column name="empr_id" />
+						<column name="plan_id" />
+						<query_table schema="postgres.public" name="plano" alias="p" x="513" y="57" fk="epla_plan" type="Inner Join" >
+							<column name="plan_id" />
+							<column name="plan_nome" />
+							<column name="plan_valor" />
+							<column name="plan_qtd_dias" />
+							<column name="plan_descricao" />
+							<column name="plan_qtd_log" />
+							<column name="plan_qtd_notificacao" />
+						</query_table>
+					</query_table>
+				</query_table>
+			</query>
+		</diagram>
+	</diagram_group>
+</project>

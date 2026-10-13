@@ -37,4 +37,14 @@ export class Header {
             throw error;
         }
     }
+
+    static async getEpresa(request: Request) {
+        try {
+            const headers = request.headers;
+            const user = headers[Config.emprId];
+            return parseInt(user!.toString());
+        } catch (error) {
+            throw error;
+        }
+    }
 }

@@ -28,37 +28,5 @@ SELECT * FROM public.empresa_usuario eu ;
 SELECT * FROM public.usuario_dispositivo ud;
 SELECT * FROM public.usuario_dispositivo_log udl;
 
-SELECT u.usua_id, u.usua_uuid, u.usua_email, u.usua_ativo, ud.udet_nome, ud.udet_usuario, e.empr_id, e.empr_nome 
-FROM public.usuario u INNER JOIN public.usuario_detalhe ud ON u.usua_id = ud.usua_id 
-INNER JOIN public.empresa_usuario eu ON eu.usua_id = u.usua_id 
-INNER JOIN public.empresa e ON e.empr_id = eu.empr_id 
-WHERE u.usua_id = 1;
+SELECT empr_id, empr_uuid, empr_nome, created_at, updated_at FROM public.empresa WHERE empr_id = 1;
 
-
-SELECT u.usua_id, u.usua_uuid, u.usua_email, u.usua_ativo, ud.udet_nome, ud.udet_usuario FROM public.usuario u
-                    INNER JOIN public.usuario_detalhe ud ON u.usua_id = ud.usua_id 
-                    INNER JOIN public.empresa_usuario eu ON eu.usua_id = u.usua_id 
-                    INNER JOIN public.empresa e ON e.empr_id = eu.empr_id 
-                    WHERE u.usua_id = 1;
-
-SELECT * FROM empresa e ;
-SELECT * FROM usuario_otp uo ;
-
-SELECT noti_id, noti_data, noti_tipo, noti_texto, usua_id, log_id FROM notificacao ORDER BY noti_id;
-
-SELECT noti_id, noti_data, noti_tipo, noti_texto, usua_id, log_id
-FROM notificacao;
-
-INSERT INTO log (log_tipo, log_data, log_info, usua_id, log_texto)
-VALUES('', CURRENT_TIMESTAMP, '', 0, '');
-
-
-SELECT noti_id, noti_data, noti_texto, noti_erro, noti_tipo, usua_id, log_id FROM notificacao;
-
-SELECT noti_id, noti_data, noti_tipo, noti_texto, usua_id, log_id
-FROM notificacao;
-
-SELECT * FROM menu m ;
-
-INSERT INTO public.usuario_dispositivo_log (udis_id, udlo_ip)
-VALUES(0, '');
