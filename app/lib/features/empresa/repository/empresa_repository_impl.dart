@@ -1,7 +1,8 @@
-import 'package:app/data/healt_model.dart';
+import 'package:commons/api_core.dart';
 import 'package:commons/commons.dart';
 import 'package:service/service.dart';
 
+import '../../../data/model/healt_model.dart';
 import 'empresa_repository.dart';
 
 class EmpresaRepositoryImpl implements EmpresaRepository {

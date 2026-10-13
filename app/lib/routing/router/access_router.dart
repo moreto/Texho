@@ -1,20 +1,20 @@
 import 'package:app/features/dashboard/use_case/dashboard_usecase.dart';
 import 'package:go_router/go_router.dart';
 
-import '../config/dependencies.dart';
-import '../features/access/home/ui/home_view.dart';
-import '../features/access/home/ui/home_viewmodel.dart';
-import '../features/access/home/use_case/home_usecase.dart';
-import '../features/access/login/repository/access_repository.dart';
-import '../features/access/login/ui/login_view.dart';
-import '../features/access/login/ui/login_viewmodel.dart';
-import '../features/access/login/ui/register_view.dart';
-import '../features/access/login/ui/register_viewmodel.dart';
-import '../features/access/login/use_case/access_usecase.dart';
-import '../features/dashboard/repository/dashboard_repository.dart';
-import '../features/dashboard/ui/dashboard_view.dart';
-import '../features/dashboard/ui/dashboard_viewmodel.dart';
-import 'routes.dart';
+import '../../config/dependencies.dart';
+import '../../features/access/home/ui/home_view.dart';
+import '../../features/access/home/ui/home_viewmodel.dart';
+import '../../features/access/home/use_case/home_usecase.dart';
+import '../../features/access/login/repository/access_repository.dart';
+import '../../features/access/login/ui/login_view.dart';
+import '../../features/access/login/ui/login_viewmodel.dart';
+import '../../features/access/login/ui/register_view.dart';
+import '../../features/access/login/ui/register_viewmodel.dart';
+import '../../features/access/login/use_case/access_usecase.dart';
+import '../../features/dashboard/repository/dashboard_repository.dart';
+import '../../features/dashboard/ui/dashboard_view.dart';
+import '../../features/dashboard/ui/dashboard_viewmodel.dart';
+import '../routes.dart';
 
 class AccessRouter {
   static Set<GoRoute> get routes => {

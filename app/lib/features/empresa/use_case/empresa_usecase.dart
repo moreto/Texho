@@ -1,6 +1,6 @@
 import 'package:commons/commons.dart';
 
-import '../../../data/healt_model.dart';
+import '../../../data/model/healt_model.dart';
 import '../repository/empresa_repository.dart';
 
 class EmpresaUseCase {

@@ -11,5 +11,7 @@ abstract final class Routes {
 
   // app
   static const dashboard = '/dashboard';
-  //
+
+  // empesa
+  static const empresa = '/empresa';
 }

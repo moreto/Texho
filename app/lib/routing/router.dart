@@ -1,4 +1,4 @@
-import 'package:app/routing/access_router.dart';
+import 'package:app/routing/router/access_router.dart';
 import 'package:go_router/go_router.dart';
 
 import 'routes.dart';
