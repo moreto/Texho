@@ -1,7 +1,7 @@
 info:
   name: acesso
   type: folder
-  seq: 5
+  seq: 2
 
 request:
   auth: inherit

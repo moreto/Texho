@@ -3,6 +3,7 @@ import express, { NextFunction, Request, Response } from "express";
 import acessoRoutes from "./routes/accessRoutes";
 import commonRoutes from "./routes/commonRoutes";
 import defaultRoutes from "./routes/defaultRoutes";
+import empresaRoutes from "./routes/empresaRoutes";
 import usuarioRoutes from "./routes/usuarioRoutes";
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(defaultRoutes);
 app.use(acessoRoutes);
 app.use(commonRoutes);
 app.use(usuarioRoutes);
+app.use(empresaRoutes);
 
 interface ErrorWithStack extends Error {
     stack?: string;

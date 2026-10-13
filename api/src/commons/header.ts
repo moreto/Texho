@@ -13,8 +13,15 @@ export class Header {
                 const accessToken = headers[Config.accessToken];
                 const token = headers[Config.token];
                 const user = headers[Config.userId];
+                const empresa = headers[Config.emprId];
 
-                if (Util.isEmpty(token) || Util.isEmpty(token) || Util.isEmpty(accessToken) || Util.isEmpty(user)) {
+                if (
+                    Util.isEmpty(token) ||
+                    Util.isEmpty(token) ||
+                    Util.isEmpty(accessToken) ||
+                    Util.isEmpty(user) ||
+                    Util.isEmpty(empresa)
+                ) {
                     bRet = false;
                 } else {
                     if (accessToken != Config.accessTokenId) {
