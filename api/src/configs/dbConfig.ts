@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-var types = require("pg").types;
+const types = require("pg").types;
 
 // export default new Pool({
 //   types: types.setTypeParser(20, parseInt),
@@ -42,16 +42,33 @@ var types = require("pg").types;
 //   keepAliveInitialDelayMillis: 30000,
 // });
 
+// export default new Pool({
+//     types: types.setTypeParser(20, parseInt),
+//     statement_timeout: 10000,
+//     host: "192.168.1.45",
+//     // host: host,
+//     user: "casaos",
+//     password: "casaos",
+//     port: 5432,
+//     database: "texho",
+//     // ssl: { rejectUnauthorized: false },
+//     max: 10,
+//     connectionTimeoutMillis: 10000,
+//     idleTimeoutMillis: 25000,
+//     query_timeout: 5000,
+//     keepAlive: true,
+//     keepAliveInitialDelayMillis: 30000,
+// });
+
 export default new Pool({
     types: types.setTypeParser(20, parseInt),
     statement_timeout: 10000,
-    host: "192.168.1.45",
-    // host: host,
-    user: "casaos",
-    password: "casaos",
+    host: "db.tstkchztmidmmifvelll.supabase.co",
+    user: "postgres",
+    password: "EjgNpR1EbZCmRGRq",
     port: 5432,
-    database: "texho",
-    // ssl: { rejectUnauthorized: false },
+    database: "postgres",
+    ssl: { rejectUnauthorized: false },
     max: 10,
     connectionTimeoutMillis: 10000,
     idleTimeoutMillis: 25000,
