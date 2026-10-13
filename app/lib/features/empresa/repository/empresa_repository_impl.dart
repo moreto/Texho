@@ -2,17 +2,17 @@ import 'package:commons/api_core.dart';
 import 'package:commons/commons.dart';
 import 'package:service/service.dart';
 
-import '../../../data/model/healt_model.dart';
+import '../../../data/model/empresa/empresa_body_model.dart';
 import 'empresa_repository.dart';
 
 class EmpresaRepositoryImpl implements EmpresaRepository {
   @override
-  Future<Result<HealtModel>> healt() async {
+  Future<Result<EmpresaModel>> getEmpresa() async {
     try {
-      final response = await DioProvider.of(ApiCore.healt).request(verb: Verb.get);
+      final response = await DioProvider.of(ApiCore.empresa).request(verb: Verb.get);
       switch (response) {
         case Ok(value: final value) when value is Map:
-          return Result.ok(HealtModel.fromJson(Map<String, dynamic>.from(value)));
+          return Result.ok(EmpresaModel.fromJson(Map<String, dynamic>.from(value)));
         case Error(error: final error):
           return Result.error(error);
         default:

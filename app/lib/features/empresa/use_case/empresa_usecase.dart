@@ -1,6 +1,6 @@
 import 'package:commons/commons.dart';
 
-import '../../../data/model/healt_model.dart';
+import '../../../data/model/empresa/empresa_body_model.dart';
 import '../repository/empresa_repository.dart';
 
 class EmpresaUseCase {
@@ -10,12 +10,12 @@ class EmpresaUseCase {
 
   final EmpresaRepository empresaRepository;
 
-  Future<Result<HealtModel>> healt() async {
-    final result = await empresaRepository.healt();
+  Future<Result<EmpresaModel>> getEmpresa() async {
+    final result = await empresaRepository.getEmpresa();
     switch (result) {
-      case Ok<HealtModel>():
+      case Ok<EmpresaModel>():
         return Result.ok(result.value);
-      case Error<HealtModel>():
+      case Error<EmpresaModel>():
         return Result.error(result.error);
     }
   }
