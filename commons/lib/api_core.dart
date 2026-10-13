@@ -50,11 +50,12 @@ class Header {
     final session = AuthSession.instance;
     final token = session.token;
     final userId = session.userId;
+    final emprId = session.emprId;
     if (token == null || userId == null) {
       throw StateError('headerInvalido');
     }
 
-    return {...buildHeaders(), 'x-token': token, 'x-user': userId.toString()};
+    return {...buildHeaders(), 'x-token': token, 'x-user': userId.toString(), 'x-empresa': emprId.toString()};
   }
 
   static Map<String, String> buildHeaders() {
