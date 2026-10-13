@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { sign, verify } from "jsonwebtoken";
-import type { SignOptions } from "jsonwebtoken";
 import * as Config from "../configs/config.json";
 import { LogTypes } from "./enum";
 import { Resp } from "./resp";
@@ -20,19 +19,19 @@ import { Resp } from "./resp";
 
 async function generateToken(payload: string) {
     return sign({ data: payload }, Config.saltKey, {
-        expiresIn: Config.expiresTime as SignOptions["expiresIn"],
+        expiresIn: Config.expiresTime,
     });
 }
 
 async function generateAdminToken(payload: string) {
     return sign({ data: payload }, Config.saltKey, {
-        expiresIn: Config.expiresTimeAdmin as SignOptions["expiresIn"],
+        expiresIn: Config.expiresTimeAdmin,
     });
 }
 
 async function generateNoHeader(payload: string) {
     return sign({ data: payload }, Config.saltKey, {
-        expiresIn: Config.expiresTimeNoHeader as SignOptions["expiresIn"],
+        expiresIn: Config.expiresTimeNoHeader,
     });
 }
 
