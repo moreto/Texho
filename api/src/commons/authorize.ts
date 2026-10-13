@@ -19,19 +19,19 @@ import { Resp } from "./resp";
 
 async function generateToken(payload: string) {
     return sign({ data: payload }, Config.saltKey, {
-        expiresIn: Config.expiresTime,
+        expiresIn: Number(Config.expiresTime),
     });
 }
 
 async function generateAdminToken(payload: string) {
     return sign({ data: payload }, Config.saltKey, {
-        expiresIn: Config.expiresTimeAdmin,
+        expiresIn: Number(Config.expiresTimeAdmin),
     });
 }
 
 async function generateNoHeader(payload: string) {
     return sign({ data: payload }, Config.saltKey, {
-        expiresIn: Config.expiresTimeNoHeader,
+        expiresIn: Number(Config.expiresTimeNoHeader),
     });
 }
 
