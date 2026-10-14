@@ -20,6 +20,7 @@ select row_to_json(row) from (
  SELECT * FROM public.empresa
 ) row;
 
+SELECT * FROM public.menu m;
 SELECT * FROM public.traducao t;
 SELECT * FROM public.usuario;
 SELECT * FROM public.usuario_detalhe ud ;
