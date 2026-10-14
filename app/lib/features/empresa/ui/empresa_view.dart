@@ -1,5 +1,5 @@
-import 'package:app/l10n/app_localizations.dart';
 import 'package:app/config/command.dart';
+import 'package:app/l10n/app_localizations.dart';
 import 'package:commons/commons.dart';
 import 'package:components/components.dart';
 import 'package:flutter/material.dart';
@@ -140,6 +140,8 @@ class _EmpresaViewState extends State<EmpresaView> {
         title: const Text('Empresa'),
         elevation: 0,
         centerTitle: true,
+        // automaticallyImplyActions: true,
+        leading: IconButton(tooltip: 'Voltar', onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back)),
         actions: [
           IconButton(
             tooltip: 'Atualizar empresa',
@@ -204,12 +206,15 @@ class _EmpresaViewState extends State<EmpresaView> {
                         FilledButton.icon(
                           onPressed: isSaving || _loadFailed || viewModel.getEmpresaCommand.running ? null : _save,
                           icon: isSaving
-                              ? const SizedBox.square(
-                                  dimension: 18,
-                                  child: CircularProgressIndicator(strokeWidth: 2),
-                                )
+                              ? const SizedBox.square(dimension: 18, child: CircularProgressIndicator(strokeWidth: 2))
                               : Icon(empresa == null ? Icons.add : Icons.save_outlined),
-                          label: Text(isSaving ? 'Salvando...' : empresa == null ? 'Cadastrar empresa' : 'Salvar alterações'),
+                          label: Text(
+                            isSaving
+                                ? 'Salvando...'
+                                : empresa == null
+                                ? 'Cadastrar empresa'
+                                : 'Salvar alterações',
+                          ),
                         ),
                         if (empresa == null) ...[
                           const SizedBox(height: 12),

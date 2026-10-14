@@ -16,7 +16,7 @@ class EmpresaController {
             if (!(await Header.verificaHeader(request, true))) {
                 return Resp.sendValidation(response, 400, "headerInvalido", true, LogTypes.SECURITY);
             }
-
+ 
             const emprId = await Header.getEpresa(request);
 
             const retorno = await this.repository.getById(emprId);

@@ -13,7 +13,8 @@ class EmpresaViewmodel extends ChangeNotifier {
 
   final EmpresaUseCase empresaUseCase;
 
-  late final Command0<EmpresaModel?> getEmpresaCommand = Command0(_getEmpresa);
+  late final Command0<EmpresaModel?> 
+  getEmpresaCommand = Command0(_getEmpresa);
   late final Command1<EmpresaModel, String> postEmpresaCommand = Command1(_postEmpresa);
   late final Command1<EmpresaModel, String> putEmpresaCommand = Command1(_putEmpresa);
 
