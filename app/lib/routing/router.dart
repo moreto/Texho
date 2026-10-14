@@ -1,4 +1,5 @@
 import 'package:app/routing/router/access_router.dart';
+import 'package:app/routing/router/empresa_router.dart';
 import 'package:go_router/go_router.dart';
 
 import 'routes.dart';
@@ -9,5 +10,5 @@ GoRouter router() => GoRouter(
   // redirect: _redirect,
   // refreshListenable: authRepository,
 
-  routes: [...AccessRouter.routes],
+  routes: [...AccessRouter.routes, ...EmpresaRouter.routes],
 );
