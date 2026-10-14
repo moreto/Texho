@@ -20,27 +20,27 @@ class _EmpresaViewState extends State<EmpresaView> {
   @override
   void initState() {
     super.initState();
-    widget.viewModel.healtCommand.addListener(_onResult);
+    widget.viewModel.empresaCommand.addListener(_onResult);
   }
 
   @override
   void didUpdateWidget(covariant EmpresaView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    oldWidget.viewModel.healtCommand.removeListener(_onResult);
-    widget.viewModel.healtCommand.addListener(_onResult);
+    oldWidget.viewModel.empresaCommand.removeListener(_onResult);
+    widget.viewModel.empresaCommand.addListener(_onResult);
   }
 
   @override
   void dispose() {
-    widget.viewModel.healtCommand.removeListener(_onResult);
+    widget.viewModel.empresaCommand.removeListener(_onResult);
     super.dispose();
   }
 
   void _onResult() {
-    if (widget.viewModel.healtCommand.error) {
+    if (widget.viewModel.empresaCommand.error) {
       String msgError = kDefaultAppError;
 
-      final commandResult = widget.viewModel.healtCommand.result;
+      final commandResult = widget.viewModel.empresaCommand.result;
       if (commandResult case Error(error: final exception)) {
         if (exception is HandledException) {
           msgError = exception.message;
@@ -65,15 +65,15 @@ class _EmpresaViewState extends State<EmpresaView> {
         ),
       ).showModal(context);
 
-      widget.viewModel.healtCommand.clearResult();
-    } else if (widget.viewModel.healtCommand.completed) {
+      widget.viewModel.empresaCommand.clearResult();
+    } else if (widget.viewModel.empresaCommand.completed) {
       // widget.viewModel.statusCoreBankingCommand.clearResult();
       // redirect
     }
   }
 
   Widget _screen() {
-    if (widget.viewModel.healtCommand.running) {
+    if (widget.viewModel.empresaCommand.running) {
       return Loading();
     }
 
