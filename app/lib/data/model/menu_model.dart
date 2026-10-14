@@ -26,6 +26,7 @@ class Menu {
   final String menuChave;
   final String menuIcone;
   final int menuSequencia;
+  final String menuRota;
 
   Menu({
     required this.menuId,
@@ -34,6 +35,7 @@ class Menu {
     required this.menuChave,
     required this.menuIcone,
     required this.menuSequencia,
+    required this.menuRota,
   });
 
   factory Menu.fromJson(Map<String, dynamic> json) => Menu(
@@ -43,6 +45,7 @@ class Menu {
     menuChave: json['menuChave'],
     menuIcone: json['menuIcone'],
     menuSequencia: json['menuSequencia'],
+    menuRota: json['menuRota'],
   );
 
   Map<String, dynamic> toJson() => {
@@ -52,5 +55,6 @@ class Menu {
     'menuChave': menuChave,
     'menuIcone': menuIcone,
     'menuSequencia': menuSequencia,
+    'menuRota': menuRota,
   };
 }

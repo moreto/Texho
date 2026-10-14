@@ -9,8 +9,9 @@ abstract final class Routes {
   static const login = '/login';
   static const registro = '/registro';
 
-  // app
+  // app commons
   static const dashboard = '/dashboard';
+  static const notificacao = '/notificacao';
 
   // empesa
   static const empresa = '/empresa';

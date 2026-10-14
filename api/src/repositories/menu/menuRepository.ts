@@ -13,6 +13,7 @@ class MenuRepository implements MenuRepositoryContract {
                     " 'menuChave', p.menu_chave," +
                     " 'menuIcone', p.menu_icone," +
                     " 'menuSequencia', p.menu_sequencia," +
+                    " 'menuRota', p.menu_rota," +
                     " 'children'," +
                     " COALESCE(" +
                     " (" +
@@ -22,7 +23,8 @@ class MenuRepository implements MenuRepositoryContract {
                     " 'menuNome', f.menu_nome," +
                     " 'menuChave', f.menu_chave," +
                     " 'menuIcone', f.menu_icone," +
-                    " 'menuSequencia', f.menu_sequencia" +
+                    " 'menuSequencia', f.menu_sequencia," +
+                    " 'menuRota', f.menu_rota" +
                     " )" +
                     " ORDER BY f.menu_sequencia" +
                     " )" +

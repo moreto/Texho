@@ -1,8 +1,8 @@
 import 'package:app/config/command.dart';
-import 'package:app/data/healt_model.dart';
 import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
 
+import '../../../data/model/healt_model.dart';
 import '../use_case/notificacao_usecase.dart';
 
 class NotificacaoViewmodel extends ChangeNotifier {
