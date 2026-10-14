@@ -19,7 +19,7 @@ class EmpresaRepository implements EmpresaRepositoryContract {
     async post(model: EmpresaBodyModel) {
         try {
             const query = {
-                text: "INSERT INTO public.empresa ( empr_uuid, empr_nome) VALUES ( $1, gen_random_uuid());",
+                text: "INSERT INTO public.empresa ( empr_uuid, empr_nome) VALUES ( gen_random_uuid(), $1) RETURNING empr_id, empr_uuid, empr_nome;",
                 values: [model.empr_nome],
             };
             return await Database.DbQuery(query);
@@ -31,7 +31,7 @@ class EmpresaRepository implements EmpresaRepositoryContract {
     async put(model: EmpresaModel) {
         try {
             const query = {
-                text: "UPDATE public.empresa SET empr_nome=$1 WHERE empr_id=$2;",
+                text: "UPDATE public.empresa SET empr_nome=$1 WHERE empr_id=$2 RETURNING empr_id, empr_uuid, empr_nome;",
                 values: [model.empr_nome, model.empr_id],
             };
             return await Database.DbQuery(query);

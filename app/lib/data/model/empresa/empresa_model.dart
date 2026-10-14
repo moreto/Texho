@@ -15,8 +15,11 @@ class EmpresaModel {
 
   EmpresaModel({required this.emprId, required this.emprUuid, required this.emprNome});
 
-  factory EmpresaModel.fromJson(Map<String, dynamic> json) =>
-      EmpresaModel(emprId: json['empr_id'], emprUuid: json['empr_uuid'], emprNome: json['empr_nome']);
+  factory EmpresaModel.fromJson(Map<String, dynamic> json) => EmpresaModel(
+    emprId: json['emprId'] ?? json['empr_id'],
+    emprUuid: json['emprUuid'] ?? json['empr_uuid'],
+    emprNome: json['emprNome'] ?? json['empr_nome'],
+  );
 
   Map<String, dynamic> toJson() => {'empr_id': emprId, 'empr_uuid': emprUuid, 'empr_nome': emprNome};
 }
