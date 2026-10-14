@@ -5,8 +5,8 @@ class IconsMap {
   static final Map<String, IconData> mdiIcons = {
     'home': MdiIcons.home,
     'cellphone-text': MdiIcons.cellphoneText,
-    'abjadArabic': MdiIcons.abjadArabic,
-    'abjadHebrew': MdiIcons.abjadHebrew,
+    'factory': MdiIcons.factory,
+    'message-fast-outline': MdiIcons.messageFastOutline,
     'account': MdiIcons.account,
     'accountAlert': MdiIcons.accountAlert,
     'accountArrowDown': MdiIcons.accountArrowDown,

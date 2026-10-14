@@ -26,7 +26,7 @@ class Menu {
   final String menuChave;
   final String menuIcone;
   final int menuSequencia;
-  final String menuRota;
+  final String? menuRota;
 
   Menu({
     required this.menuId,
@@ -35,7 +35,7 @@ class Menu {
     required this.menuChave,
     required this.menuIcone,
     required this.menuSequencia,
-    required this.menuRota,
+    this.menuRota,
   });
 
   factory Menu.fromJson(Map<String, dynamic> json) => Menu(

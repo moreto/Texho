@@ -14,8 +14,8 @@ class DashboardViewmodel extends ChangeNotifier {
   final DashboardUseCase _dashboardUseCase;
 
   late final Command0<MenuModel> menuCommand = Command0(_menu);
-  late MenuModel _menuModel;
-  MenuModel get menuModel => _menuModel;
+  MenuModel? _menuModel;
+  MenuModel? get menuModel => _menuModel;
 
   Future<Result<MenuModel>> _menu() async {
     notifyListeners();
