@@ -2,29 +2,29 @@ import 'package:app/config/command.dart';
 import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
 
-import '../../../data/model/healt_model.dart';
+import '../../../data/model/log_model.dart';
 import '../use_case/log_usecase.dart';
 
 class LogViewmodel extends ChangeNotifier {
   LogViewmodel({required this.logUseCase}) {
     Log.print(super.runtimeType);
-    healtCommand.execute();
+    getLogsCommand.execute();
   }
 
   final LogUseCase logUseCase;
 
-  late final Command0<HealtModel> healtCommand = Command0(_healt);
-  late HealtModel _healtModel;
-  HealtModel get healtModel => _healtModel;
+  late final Command0<List<LogModel>> getLogsCommand = Command0(_getLogs);
+  List<LogModel>? _logs;
+  List<LogModel>? get logs => _logs;
 
-  Future<Result<HealtModel>> _healt() async {
+  Future<Result<List<LogModel>>> _getLogs() async {
     notifyListeners();
 
-    final result = await logUseCase.healt();
+    final result = await logUseCase.getLogs();
     switch (result) {
-      case Ok<HealtModel>():
-        _healtModel = result.value;
-      case Error<HealtModel>(error: final error):
+      case Ok<List<LogModel>>():
+        _logs = result.value;
+      case Error<List<LogModel>>(error: final error):
         Log.print(error.toString(), name: kApp, title: 'Erro');
     }
 

@@ -1,7 +1,7 @@
 import 'package:commons/commons.dart';
 
-import '../../../data/model/healt_model.dart';
+import '../../../data/model/log_model.dart';
 
 abstract class LogRepository {
-  Future<Result<HealtModel>> healt();
+  Future<Result<List<LogModel>>> getLogs();
 }
