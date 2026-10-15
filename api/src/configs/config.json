@@ -1,8 +1,8 @@
 {
     "saltKey": "*xMMx#",
-    "expiresTime": 900,
-    "expiresTimeAdmin": 259200,
-    "expiresTimeNoHeader": 1800,
+    "expiresTime": 60000,
+    "expiresTimeAdmin": 3600000,
+    "expiresTimeNoHeader": 86400000,
     "emailContact": "mmoreto@gmail.com",
     "interfaceAcesso": "x-access-interface",
     "accessToken": "x-access-token",

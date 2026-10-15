@@ -1,7 +1,11 @@
 import 'package:app/config/icons_map.dart';
 import 'package:app/data/model/menu_model.dart';
+import 'package:app/l10n/app_localizations.dart';
+import 'package:commons/commons.dart';
+import 'package:components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:service/service.dart';
 
 import 'dashboard_viewmodel.dart';
 
@@ -16,6 +20,59 @@ class DashboardView extends StatefulWidget {
 
 class _DashboardViewState extends State<DashboardView> {
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.viewModel.menuCommand.addListener(_onResult);
+  }
+
+  @override
+  void didUpdateWidget(covariant DashboardView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    oldWidget.viewModel.menuCommand.removeListener(_onResult);
+    widget.viewModel.menuCommand.addListener(_onResult);
+  }
+
+  @override
+  void dispose() {
+    widget.viewModel.menuCommand.removeListener(_onResult);
+    super.dispose();
+  }
+
+  void _onResult() {
+    final command = widget.viewModel.menuCommand;
+    if (command.error) {
+      var message = kDefaultAppError;
+      if (command.result case Error(error: final exception)) {
+        if (exception is HandledException) {
+          message = exception.message;
+        } else if (exception is HttpServiceException) {
+          message = exception.message ?? exception.toString();
+        } else {
+          message = exception.toString();
+        }
+      }
+
+      DialogBottomSheetWarning(
+        dialogWarning: DialogWarning(
+          title: AppLocalizations.of(context).translate('error'),
+          titleButtonPrimary: AppLocalizations.of(context).translate('ok'),
+          titleButtonSecondary: AppLocalizations.of(context).translate('ok'),
+          isDismissible: false,
+          typeButtonsDialog: DialogBottomSheetTypeButtons.horizontalButtons,
+          description: AppLocalizations.of(context).translate(message),
+          statusDialog: DialogBottomSheetStatus.statusCritical,
+          onPressedPrimary: () => context.pop(),
+          onPressedSecondary: () => context.pop(),
+        ),
+      ).showModal(context);
+
+      command.clearResult();
+    } else if (command.completed) {
+      command.clearResult();
+    }
+  }
 
   void _selectMenu(Menu menu, int index) {
     setState(() => _currentIndex = index);
@@ -68,12 +125,11 @@ class _DashboardViewState extends State<DashboardView> {
 
   void _navigateTo(Menu menu) {
     final route = menu.menuRota;
-    if (route == null && route == '') {
+    if (route == null || route.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Rota não definida para ${menu.menuNome}')));
       return;
-    } else {
-      context.push(route!);
     }
+    context.push(route);
   }
 
   Icon _iconFor(Menu menu) {
@@ -112,34 +168,38 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
+  Widget _screen() {
+    final menuCommand = widget.viewModel.menuCommand;
+    final menuModel = widget.viewModel.menuModel;
+
+    if (menuCommand.running && menuModel == null) {
+      return const Loading();
+    }
+
+    if (menuModel != null) {
+      return _buildMenu(menuModel);
+    }
+
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Não foi possível carregar o menu'),
+            const SizedBox(height: 16),
+            FilledButton(
+              onPressed: menuCommand.running ? null : menuCommand.execute,
+              child: const Text('Tentar novamente'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: widget.viewModel,
-      builder: (context, child) {
-        final menuModel = widget.viewModel.menuModel;
-        if (menuModel != null) {
-          return _buildMenu(menuModel);
-        }
-
-        if (widget.viewModel.menuCommand.running) {
-          return const Scaffold(body: Center(child: CircularProgressIndicator()));
-        }
-
-        return Scaffold(
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Não foi possível carregar o menu'),
-                const SizedBox(height: 16),
-                FilledButton(onPressed: widget.viewModel.menuCommand.execute, child: const Text('Tentar novamente')),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+    return ListenableBuilder(listenable: widget.viewModel, builder: (context, child) => _screen());
   }
 }
 
