@@ -72,7 +72,7 @@ class _DashboardViewState extends State<DashboardView> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Rota não definida para ${menu.menuNome}')));
       return;
     } else {
-      context.go(route!);
+      context.push(route!);
     }
   }
 

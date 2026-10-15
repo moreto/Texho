@@ -140,8 +140,8 @@ class _EmpresaViewState extends State<EmpresaView> {
         title: const Text('Empresa'),
         elevation: 0,
         centerTitle: true,
-        // automaticallyImplyActions: true,
-        leading: IconButton(tooltip: 'Voltar', onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back)),
+        automaticallyImplyLeading: true,
+        // leading: IconButton(tooltip: 'Voltar', onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back)),
         actions: [
           IconButton(
             tooltip: 'Atualizar empresa',

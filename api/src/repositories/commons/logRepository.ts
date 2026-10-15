@@ -18,6 +18,20 @@ class LogRepository implements LogRepositoryContract {
             throw error;
         }
     }
+
+    async get(usuaId: number) {
+        try {
+            const query = {
+                text: "SELECT log_id, log_tipo, log_data, log_info, usua_id, log_texto FROM public.log WHERE usua_id = $1 ORDER BY log_id DESC;",
+                values: [usuaId],
+            };
+
+            const ret = await Database.DbQueryList(query);
+            return ret;
+        } catch (error: unknown) {
+            throw error;
+        }
+    }
 }
 
 export { LogRepository };

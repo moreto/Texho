@@ -22,7 +22,7 @@ class UsuarioController {
 
             return Resp.send(response, 200, retorno);
         } catch (error: unknown) {
-            return Resp.sendError(response, error, 500, "erroGeral", "usuarioDetalheById", LogTypes.ERROR, 1);
+            return Resp.sendError(response, error, 500, "erroGeral", "udet.usuarioDetalheById", LogTypes.ERROR, 1);
         }
     }
 }
