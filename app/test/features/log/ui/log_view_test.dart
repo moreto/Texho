@@ -28,14 +28,14 @@ class _FakeLogRepository implements LogRepository {
   @override
   Future<Result<List<LogModel>>> getLogs() async {
     return Result.ok([
-      LogModel(
-        logId: 1,
-        logTipo: 'ERROR',
-        logData: DateTime.utc(2026, 10, 15),
-        logInfo: 'Detalhe do erro',
-        usuaId: 1,
-        logTexto: 'Falha no processamento',
-      ),
+      LogModel.fromJson({
+        'logId': 1,
+        'logTipo': 'ERROR',
+        'logData': '2026-10-15T00:00:00.000Z',
+        'logInfo': 'Detalhe do erro',
+        'usuaId': 1,
+        'logTexto': 'Falha no processamento',
+      }),
     ]);
   }
 }

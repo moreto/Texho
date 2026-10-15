@@ -1,12 +1,16 @@
 import { Database } from "../../commons/database";
 import { NotificacaoModel } from "../../models/notificacaoModel";
-import { NotificacaoRepositoryContract } from "../acessoRepositoryContracts";
+import { NotificacaoRepositoryContract } from "../notificacaoRepositoryContracts";
 
 class NotificacaoRepository implements NotificacaoRepositoryContract {
     async get() {
         try {
             const query = {
-                text: "SELECT noti_id, noti_data, noti_tipo, noti_texto, usua_id, log_id FROM notificacao ORDER BY noti_id desc;",
+                text:
+                    "SELECT n.noti_id, n.noti_data, n.noti_tipo, n.noti_texto, n.usua_id, n.log_id, l.log_tipo, l.log_info, l.log_texto " +
+                    "FROM public.notificacao n " +
+                    "LEFT OUTER JOIN public.log l ON n.log_id = l.log_id " +
+                    "ORDER BY noti_id desc;",
                 values: [],
             };
             return await Database.DbQueryList(query);

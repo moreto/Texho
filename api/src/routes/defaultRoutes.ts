@@ -19,8 +19,7 @@ const traducaoController = new TraducaoController(new TraducaoRepository());
 
 defaultRoutes.get("/api", rootController.root);
 defaultRoutes.get("/api/v1/traducao", (request, response) => traducaoController.traducao(request, response));
-defaultRoutes.get("/api/v1/notificacao", (request, response) => notificacaoController.listar(request, response));
-defaultRoutes.post("/api/v1/notificacao", (request, response) => notificacaoController.notificar(request, response));
+
 // defaultRoutes.post("/api/v1/log", (request, response) => logController.gravar(request, response));
 
 export default defaultRoutes;

@@ -5,6 +5,7 @@ import commonRoutes from "./routes/commonRoutes";
 import defaultRoutes from "./routes/defaultRoutes";
 import empresaRoutes from "./routes/empresaRoutes";
 import logRoutes from "./routes/logRoutes";
+import notificacaoRoutes from "./routes/notificacaoRoutes";
 import usuarioRoutes from "./routes/usuarioRoutes";
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(commonRoutes);
 app.use(usuarioRoutes);
 app.use(empresaRoutes);
 app.use(logRoutes);
+app.use(notificacaoRoutes);
 
 interface ErrorWithStack extends Error {
     stack?: string;
