@@ -31,10 +31,7 @@ SELECT * FROM public.usuario_dispositivo_log udl;
 
 SELECT empr_id, empr_uuid, empr_nome, created_at, updated_at FROM public.empresa WHERE empr_id = 1;
 
-INSERT INTO public.empresa ( empr_uuid, empr_nome) VALUES( ?, '');
 
-
-UPDATE public.empresa SET empr_uuid=?, empr_nome='' WHERE empr_id=$1;
 
 
 

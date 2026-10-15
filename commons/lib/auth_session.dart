@@ -20,4 +20,12 @@ class AuthSession {
     _userId = userId;
     _emprId = emprId;
   }
+
+  void setEmpresa({required int emprId}) {
+    if (emprId <= 0) {
+      throw ArgumentError('tokenInvalido');
+    }
+
+    _emprId = emprId;
+  }
 }

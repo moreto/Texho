@@ -52,6 +52,7 @@ class AccessRepositoryImpl implements AccessRepository {
       switch (response) {
         case Ok():
           final model = UsuarioDetalheModel.fromJson(Map<String, dynamic>.from(response.value));
+          _setEmpresa(model.emprId);
           return Result.ok(model);
         case Error():
           return Result.error(response.error);
@@ -132,5 +133,9 @@ class AccessRepositoryImpl implements AccessRepository {
 
   void _setLoggedUser(LoginModel loginModel, {int? emprId}) {
     AuthSession.instance.setLoggedUser(token: loginModel.token, userId: loginModel.usuaId, emprId: emprId);
+  }
+
+  void _setEmpresa(int emprId) {
+    AuthSession.instance.setEmpresa(emprId: emprId);
   }
 }

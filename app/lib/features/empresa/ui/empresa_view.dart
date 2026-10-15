@@ -29,7 +29,7 @@ class _EmpresaViewState extends State<EmpresaView> {
     widget.viewModel.getEmpresaCommand.addListener(_onGetResult);
     widget.viewModel.postEmpresaCommand.addListener(_onPostResult);
     widget.viewModel.putEmpresaCommand.addListener(_onPutResult);
-    widget.viewModel.getEmpresaCommand.execute();
+    // widget.viewModel.getEmpresaCommand.execute();
   }
 
   @override
