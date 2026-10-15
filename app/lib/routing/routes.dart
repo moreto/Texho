@@ -12,6 +12,7 @@ abstract final class Routes {
   // app commons
   static const dashboard = '/dashboard';
   static const notificacao = '/notificacao';
+  static const log = '/log';
 
   // empesa
   static const empresa = '/empresa';

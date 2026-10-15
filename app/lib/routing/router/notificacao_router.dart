@@ -7,7 +7,7 @@ import '../../features/notificacao/ui/notificacao_viewmodel.dart';
 import '../../features/notificacao/use_case/notificacao_usecase.dart';
 import '../routes.dart';
 
-class CommonsRouter {
+class NotificacaoRouter {
   static Set<GoRoute> get routes => {
     GoRoute(
       path: Routes.notificacao,
