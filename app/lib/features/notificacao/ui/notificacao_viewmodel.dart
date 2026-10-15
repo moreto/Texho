@@ -2,29 +2,29 @@ import 'package:app/config/command.dart';
 import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
 
-import '../../../data/model/healt_model.dart';
+import '../../../data/model/notificacao_model.dart';
 import '../use_case/notificacao_usecase.dart';
 
 class NotificacaoViewmodel extends ChangeNotifier {
   NotificacaoViewmodel({required this.notificacaoUseCase}) {
     Log.print(super.runtimeType);
-    healtCommand.execute();
+    getNotificacoesCommand.execute();
   }
 
   final NotificacaoUseCase notificacaoUseCase;
 
-  late final Command0<HealtModel> healtCommand = Command0(_healt);
-  late HealtModel _healtModel;
-  HealtModel get healtModel => _healtModel;
+  late final Command0<List<NotificacaoModel>> getNotificacoesCommand = Command0(_getNotificacoes);
+  List<NotificacaoModel>? _notificacoes;
+  List<NotificacaoModel>? get notificacoes => _notificacoes;
 
-  Future<Result<HealtModel>> _healt() async {
+  Future<Result<List<NotificacaoModel>>> _getNotificacoes() async {
     notifyListeners();
 
-    final result = await notificacaoUseCase.healt();
+    final result = await notificacaoUseCase.getNotificacoes();
     switch (result) {
-      case Ok<HealtModel>():
-        _healtModel = result.value;
-      case Error<HealtModel>(error: final error):
+      case Ok<List<NotificacaoModel>>():
+        _notificacoes = result.value;
+      case Error<List<NotificacaoModel>>(error: final error):
         Log.print(error.toString(), name: kApp, title: 'Erro');
     }
 

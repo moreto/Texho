@@ -1,6 +1,6 @@
 import 'package:commons/commons.dart';
 
-import '../../../data/model/healt_model.dart';
+import '../../../data/model/notificacao_model.dart';
 import '../repository/notificacao_repository.dart';
 
 class NotificacaoUseCase {
@@ -10,12 +10,12 @@ class NotificacaoUseCase {
 
   final NotificacaoRepository notificacaoRepository;
 
-  Future<Result<HealtModel>> healt() async {
-    final result = await notificacaoRepository.healt();
+  Future<Result<List<NotificacaoModel>>> getNotificacoes() async {
+    final result = await notificacaoRepository.getNotificacoes();
     switch (result) {
-      case Ok<HealtModel>():
+      case Ok<List<NotificacaoModel>>():
         return Result.ok(result.value);
-      case Error<HealtModel>():
+      case Error<List<NotificacaoModel>>():
         return Result.error(result.error);
     }
   }

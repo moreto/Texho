@@ -14,6 +14,7 @@ enum ApiCore {
   login('/v1/acesso/login', kDesHost, kPrdHost, HeaderType.basicInfo),
   menu('/v1/menu', kDesHost, kPrdHost, HeaderType.loggedArea),
   log('/v1/log', kDesHost, kPrdHost, HeaderType.loggedArea),
+  notificacao('/v1/notificacao', kDesHost, kPrdHost, HeaderType.loggedArea),
   requestOtp('/v1/otp/send', kDesHost, kPrdHost, HeaderType.basicInfo),
   verifyOtp('/v1/otp/verify', kDesHost, kPrdHost, HeaderType.basicInfo),
   empresa('/v1/empresa', kDesHost, kPrdHost, HeaderType.loggedArea),
