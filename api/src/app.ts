@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 
 import acessoRoutes from "./routes/accessRoutes";
-import defaultRoutes from "./routes/defaultRoutes";
+import defaultRoutes from "./routes/rootRoutes";
 import empresaRoutes from "./routes/empresaRoutes";
 import logRoutes from "./routes/logRoutes";
 import menuRoutes from "./routes/menuRoutes";
