@@ -4,8 +4,8 @@ import { Header } from "../../commons/header";
 import { Log } from "../../commons/log";
 import { Resp } from "../../commons/resp";
 import { UsuarioDispositivoBodyModelConvert } from "../../models/usuario/usuario_dispositivo_body_model";
-import { UsuarioDispositivoLogRepositoryContract } from "../../repositories/usuarioDispositivoLogRepositoryContract";
-import { UsuarioDispositivoRepositoryContract } from "../../repositories/usuarioDispositivoRepositoryContract";
+import { UsuarioDispositivoLogRepositoryContract } from "../../repositories/usuario/usuarioDispositivoLogRepositoryContract";
+import { UsuarioDispositivoRepositoryContract } from "../../repositories/usuario/usuarioDispositivoRepositoryContract";
 
 class UsuarioDispositivoController {
     constructor(

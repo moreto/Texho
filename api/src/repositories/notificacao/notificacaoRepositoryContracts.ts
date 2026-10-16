@@ -1,4 +1,4 @@
-import { NotificacaoModel } from "../models/notificacaoModel";
+import { NotificacaoModel } from "../../models/notificacaoModel";
 
 export interface NotificacaoRepositoryContract {
     get(): Promise<unknown[]>;

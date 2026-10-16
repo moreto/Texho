@@ -5,7 +5,7 @@ import { Log } from "../../commons/log";
 import { generateOTP, sendOTPEmail } from "../../commons/otp";
 import { Resp } from "../../commons/resp";
 import { LoginModel } from "../../models/acesso/loginModel";
-import { AcessoRepositoryContract, OTPRepositoryContract } from "../../repositories/acessoRepositoryContracts";
+import { AcessoRepositoryContract, OTPRepositoryContract } from "../../repositories/accesso/acessoRepositoryContracts";
 
 class OTPController {
     constructor(

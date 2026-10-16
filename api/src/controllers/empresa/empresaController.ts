@@ -5,7 +5,7 @@ import { Log } from "../../commons/log";
 import { Resp } from "../../commons/resp";
 import { EmpresaBodyModelConvert } from "../../models/empresa/empresaBodyModel";
 import { EmpresaModelConvert } from "../../models/empresa/empresaModel";
-import { EmpresaRepositoryContract } from "../../repositories/empresaRepositoryContract";
+import { EmpresaRepositoryContract } from "../../repositories/empresa/empresaRepositoryContract";
 
 class EmpresaController {
     constructor(private readonly repository: EmpresaRepositoryContract) {}
@@ -16,7 +16,7 @@ class EmpresaController {
             if (!(await Header.verificaHeader(request, true))) {
                 return Resp.sendValidation(response, 400, "headerInvalido", true, LogTypes.SECURITY);
             }
- 
+
             const emprId = await Header.getEpresa(request);
 
             const retorno = await this.repository.getById(emprId);

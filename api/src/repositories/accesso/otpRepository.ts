@@ -1,6 +1,6 @@
 import { Database } from "../../commons/database";
 import { OTPModel } from "../../models/acesso/otpModel";
-import { OTPRepositoryContract } from "../acessoRepositoryContracts";
+import { OTPRepositoryContract } from "./acessoRepositoryContracts";
 
 class OTPRepository implements OTPRepositoryContract {
     async send(model: Pick<OTPModel, "usua_id" | "uotp_key">) {

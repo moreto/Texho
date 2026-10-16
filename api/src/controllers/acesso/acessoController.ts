@@ -10,7 +10,7 @@ import * as Config from "../../configs/config.json";
 import { ConvertAcessoBodyModel } from "../../models/acesso/acessoBodyModel";
 import { LoginModel } from "../../models/acesso/loginModel";
 import { ConvertUsuarioModel } from "../../models/acesso/usuarioModel";
-import { AcessoRepositoryContract } from "../../repositories/acessoRepositoryContracts";
+import { AcessoRepositoryContract } from "../../repositories/accesso/acessoRepositoryContracts";
 
 class AcessoController {
     constructor(private readonly repository: AcessoRepositoryContract) {}

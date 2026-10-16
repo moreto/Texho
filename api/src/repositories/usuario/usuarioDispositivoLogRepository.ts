@@ -1,6 +1,6 @@
 import { Database } from "../../commons/database";
 import { UsuarioDispositivoBodyModel } from "../../models/usuario/usuario_dispositivo_body_model";
-import { UsuarioDispositivoLogRepositoryContract } from "../usuarioDispositivoLogRepositoryContract";
+import { UsuarioDispositivoLogRepositoryContract } from "./usuarioDispositivoLogRepositoryContract";
 
 class UsuarioDispositivoLogRepository implements UsuarioDispositivoLogRepositoryContract {
     async post(model: UsuarioDispositivoBodyModel) {

@@ -1,7 +1,7 @@
 import { Router } from "express";
-import NotificacaoController from "../controllers/notificacaoController";
-import { LogRepository } from "../repositories/commons/logRepository";
-import { NotificacaoRepository } from "../repositories/commons/notificacaoRepository";
+import NotificacaoController from "../controllers/notificacao/notificacaoController";
+import { LogRepository } from "../repositories/log/logRepository";
+import { NotificacaoRepository } from "../repositories/notificacao/notificacaoRepository";
 
 const notificacaoController = new NotificacaoController(new NotificacaoRepository(), new LogRepository());
 

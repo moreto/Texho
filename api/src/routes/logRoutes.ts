@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authorize } from "../commons/authorize";
-import LogController from "../controllers/logController";
-import { LogRepository } from "../repositories/commons/logRepository";
+import LogController from "../controllers/log/logController";
+import { LogRepository } from "../repositories/log/logRepository";
 
 const logController = new LogController(new LogRepository());
 

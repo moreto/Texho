@@ -3,7 +3,7 @@ import { LogTypes } from "../../commons/enum";
 import { Header } from "../../commons/header";
 import { Log } from "../../commons/log";
 import { Resp } from "../../commons/resp";
-import { UsuarioRepositoryContract } from "../../repositories/usuarioRepositoryContract";
+import { UsuarioRepositoryContract } from "../../repositories/usuario/usuarioRepositoryContract";
 
 class UsuarioController {
     constructor(private readonly repository: UsuarioRepositoryContract) {}

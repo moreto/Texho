@@ -2,7 +2,7 @@ import { Response } from "express";
 import * as Config from "../configs/config.json";
 import { LogBodyModel } from "../models/logBodyModel";
 import { NotificacaoModel } from "../models/notificacaoModel";
-import { LogRepository } from "../repositories/commons/logRepository";
+import { LogRepository } from "../repositories/log/logRepository";
 import { LogTypes } from "./enum";
 import { Log } from "./log";
 import { Notificacao } from "./notificacao";

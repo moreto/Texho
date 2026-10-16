@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { LogTypes } from "../commons/enum";
-import { Log } from "../commons/log";
-import { Resp } from "../commons/resp";
-import { Util } from "../commons/util";
-import { LogBodyModel } from "../models/logBodyModel";
-import { ConvertNotificacaoModel } from "../models/notificacaoModel";
-import { NotificacaoRepositoryContract } from "../repositories/acessoRepositoryContracts";
-import { LogRepositoryContract } from "../repositories/logRepositoryContract";
+import { LogTypes } from "../../commons/enum";
+import { Log } from "../../commons/log";
+import { Resp } from "../../commons/resp";
+import { Util } from "../../commons/util";
+import { LogBodyModel } from "../../models/logBodyModel";
+import { ConvertNotificacaoModel } from "../../models/notificacaoModel";
+import { LogRepositoryContract } from "../../repositories/log/logRepositoryContract";
+import { NotificacaoRepositoryContract } from "../../repositories/notificacao/notificacaoRepositoryContracts";
 
 export default class NotificacaoController {
     constructor(

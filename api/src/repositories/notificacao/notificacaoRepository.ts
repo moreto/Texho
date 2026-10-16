@@ -1,6 +1,6 @@
 import { Database } from "../../commons/database";
 import { NotificacaoModel } from "../../models/notificacaoModel";
-import { NotificacaoRepositoryContract } from "../notificacaoRepositoryContracts";
+import { NotificacaoRepositoryContract } from "./notificacaoRepositoryContracts";
 
 class NotificacaoRepository implements NotificacaoRepositoryContract {
     async get() {

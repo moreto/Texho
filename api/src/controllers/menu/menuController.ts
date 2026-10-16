@@ -3,7 +3,7 @@ import { LogTypes } from "../../commons/enum";
 import { Header } from "../../commons/header";
 import { Log } from "../../commons/log";
 import { Resp } from "../../commons/resp";
-import { MenuRepositoryContract } from "../../repositories/MenuRepositoryContract";
+import { MenuRepositoryContract } from "../../repositories/menu/MenuRepositoryContract";
 
 class MenuController {
     constructor(private readonly repository: MenuRepositoryContract) {}

@@ -1,6 +1,6 @@
 import { Database } from "../../commons/database";
 import { LogBodyModel } from "../../models/logBodyModel";
-import { LogRepositoryContract } from "../logRepositoryContract";
+import { LogRepositoryContract } from "./logRepositoryContract";
 
 class LogRepository implements LogRepositoryContract {
     async post(model: LogBodyModel) {

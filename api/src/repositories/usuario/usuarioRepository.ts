@@ -1,5 +1,5 @@
 import { Database } from "../../commons/database";
-import { UsuarioRepositoryContract } from "../usuarioRepositoryContract";
+import { UsuarioRepositoryContract } from "./usuarioRepositoryContract";
 
 class UsuarioRepository implements UsuarioRepositoryContract {
     async usuarioDetalheById(usuaId: number) {

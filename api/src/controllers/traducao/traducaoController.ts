@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { LogTypes } from "../../commons/enum";
 import { Log } from "../../commons/log";
 import { Resp } from "../../commons/resp";
-import { TraducaoRepositoryContract } from "../../repositories/commonRepositoryContracts";
+import { TraducaoRepositoryContract } from "../../repositories/commons/commonRepositoryContracts";
 
 class TraducaoController {
     constructor(private readonly repository: TraducaoRepositoryContract) {}

@@ -1,5 +1,5 @@
-import { AcessoBodyModel } from "../models/acesso/acessoBodyModel";
-import { OTPModel } from "../models/acesso/otpModel";
+import { AcessoBodyModel } from "../../models/acesso/acessoBodyModel";
+import { OTPModel } from "../../models/acesso/otpModel";
 
 export interface AcessoRepositoryContract {
     check(email: string): Promise<{ emailExiste: boolean }>;

@@ -1,4 +1,4 @@
-import { LogBodyModel } from "../models/logBodyModel";
+import { LogBodyModel } from "../../models/logBodyModel";
 
 export interface LogDbRepositoryContract {
     post(model: LogBodyModel): Promise<{ logId: number } | undefined>;

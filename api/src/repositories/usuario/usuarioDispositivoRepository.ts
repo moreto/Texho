@@ -1,6 +1,6 @@
 import { Database } from "../../commons/database";
 import { UsuarioDispositivoBodyModel } from "../../models/usuario/usuario_dispositivo_body_model";
-import { UsuarioDispositivoRepositoryContract } from "../usuarioDispositivoRepositoryContract";
+import { UsuarioDispositivoRepositoryContract } from "./usuarioDispositivoRepositoryContract";
 
 class UsuarioDispositivoRepository implements UsuarioDispositivoRepositoryContract {
     async getByDeviceId(deviceId: string) {

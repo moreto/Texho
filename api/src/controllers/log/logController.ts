@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 
-import { LogTypes } from "../commons/enum";
-import { Header } from "../commons/header";
-import { Log } from "../commons/log";
-import { Resp } from "../commons/resp";
-import { LogBodyModelConvert } from "../models/logBodyModel";
-import { LogRepositoryContract } from "../repositories/logRepositoryContract";
+import { LogTypes } from "../../commons/enum";
+import { Header } from "../../commons/header";
+import { Log } from "../../commons/log";
+import { Resp } from "../../commons/resp";
+import { LogBodyModelConvert } from "../../models/logBodyModel";
+import { LogRepositoryContract } from "../../repositories/log/logRepositoryContract";
 
 export default class LogController {
     constructor(private readonly repository: LogRepositoryContract) {}

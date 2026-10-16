@@ -1,7 +1,7 @@
 import { Database } from "../../commons/database";
 import { EmpresaBodyModel } from "../../models/empresa/empresaBodyModel";
 import { EmpresaModel } from "../../models/empresa/empresaModel";
-import { EmpresaRepositoryContract } from "../empresaRepositoryContract";
+import { EmpresaRepositoryContract } from "./empresaRepositoryContract";
 
 class EmpresaRepository implements EmpresaRepositoryContract {
     async getById(emprId: number) {

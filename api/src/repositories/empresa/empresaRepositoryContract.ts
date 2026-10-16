@@ -1,5 +1,5 @@
-import { EmpresaBodyModel } from "../models/empresa/empresaBodyModel";
-import { EmpresaModel } from "../models/empresa/empresaModel";
+import { EmpresaBodyModel } from "../../models/empresa/empresaBodyModel";
+import { EmpresaModel } from "../../models/empresa/empresaModel";
 
 export interface EmpresaRepositoryContract {
     getById(emprId: number): Promise<unknown[]>;

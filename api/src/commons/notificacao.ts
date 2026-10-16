@@ -1,6 +1,6 @@
 import { InsertedModelConvert } from "../models/insertedModel";
 import { NotificacaoModel } from "../models/notificacaoModel";
-import { NotificacaoRepository } from "../repositories/commons/notificacaoRepository";
+import { NotificacaoRepository } from "../repositories/notificacao/notificacaoRepository";
 
 export class Notificacao {
     static async notificar(notificacao: NotificacaoModel) {

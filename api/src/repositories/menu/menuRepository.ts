@@ -1,5 +1,5 @@
 import { Database } from "../../commons/database";
-import { MenuRepositoryContract } from "../MenuRepositoryContract";
+import { MenuRepositoryContract } from "./MenuRepositoryContract";
 
 class MenuRepository implements MenuRepositoryContract {
     async menu() {
