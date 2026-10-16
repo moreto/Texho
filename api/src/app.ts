@@ -1,11 +1,12 @@
 import express, { NextFunction, Request, Response } from "express";
 
 import acessoRoutes from "./routes/accessRoutes";
-import commonRoutes from "./routes/commonRoutes";
 import defaultRoutes from "./routes/defaultRoutes";
 import empresaRoutes from "./routes/empresaRoutes";
 import logRoutes from "./routes/logRoutes";
+import menuRoutes from "./routes/menuRoutes";
 import notificacaoRoutes from "./routes/notificacaoRoutes";
+import traducaoRoutes from "./routes/traducaoRoutes";
 import usuarioRoutes from "./routes/usuarioRoutes";
 
 const app = express();
@@ -16,11 +17,12 @@ app.use(express.json());
 // Rotas
 app.use(defaultRoutes);
 app.use(acessoRoutes);
-app.use(commonRoutes);
+app.use(menuRoutes);
 app.use(usuarioRoutes);
 app.use(empresaRoutes);
 app.use(logRoutes);
 app.use(notificacaoRoutes);
+app.use(traducaoRoutes);
 
 interface ErrorWithStack extends Error {
     stack?: string;

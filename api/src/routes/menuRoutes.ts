@@ -5,6 +5,6 @@ import { MenuRepository } from "../repositories/menu/menuRepository";
 
 const menuRepository = new MenuController(new MenuRepository());
 
-const commonRoutes = Router();
-commonRoutes.get("/api/v1/menu", authorize, (request, response) => menuRepository.menu(request, response));
-export default commonRoutes;
+const menuRoutes = Router();
+menuRoutes.get("/api/v1/menu", authorize, (request, response) => menuRepository.menu(request, response));
+export default menuRoutes;

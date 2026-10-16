@@ -1,5 +1,5 @@
 import { Database } from "../../commons/database";
-import { TraducaoRepositoryContract } from "../commons/commonRepositoryContracts";
+import { TraducaoRepositoryContract } from "./traducaoRepositoryContracts";
 
 class TraducaoRepository implements TraducaoRepositoryContract {
     async get() {
