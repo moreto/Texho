@@ -14,7 +14,7 @@ SELECT log_id, log_tipo, log_data, log_info, usua_id, log_texto FROM public.log 
 
 
 SELECT noti_id, noti_data, noti_tipo, noti_texto, usua_id, log_id
-FROM public.notificacao;
+FROM public.notificacao ORDER BY noti_id DESC;
 
 
 select row_to_json(row) from (
@@ -35,7 +35,7 @@ SELECT empr_id, empr_uuid, empr_nome, created_at, updated_at, FROM public.empres
 
 SELECT n.noti_id, n.noti_data, n.noti_tipo, n.noti_texto, n.usua_id, n.log_id, l.log_tipo, l.log_info, l.log_texto 
 FROM public.notificacao n
-RIGHT OUTER JOIN public.log l ON n.log_id = l.log_id  
+LEFT OUTER JOIN public.log l ON n.log_id = l.log_id  
 ORDER BY noti_id desc;
 
 

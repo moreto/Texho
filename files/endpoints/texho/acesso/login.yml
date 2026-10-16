@@ -13,8 +13,8 @@ http:
     type: json
     data: |-
       {
-      "email": "mmoreto@msn.com",
-      "senha": "TGgsbwoeg2kG+k61ryT8Nji39whVqH7bNM+AVUWvhA=="
+        "email": "mmoreto@msn.com",
+        "senha": "TGgsbwoeg2kG+k61ryT8Nji39whVqH7bNM+AVUWvhA=="
       }
   auth: inherit
 
@@ -28,3 +28,4 @@ settings:
   timeout: 0
   followRedirects: true
   maxRedirects: 5
+  forwardAuthorizationHeader: true
