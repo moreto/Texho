@@ -183,7 +183,7 @@ class _EmpresaViewState extends State<EmpresaView> {
                         if (empresa != null) ...[
                           const SizedBox(height: 8),
                           Text(
-                            'Código: ${empresa.emprId}',
+                            'Código: ${empresa.emprCodigo}',
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
