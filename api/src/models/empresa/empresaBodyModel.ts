@@ -5,8 +5,8 @@
 //   const empresaBodyModel = Convert.toEmpresaBodyModel(json);
 
 export interface EmpresaBodyModel {
-    empr_nome: string;
-    empr_codigo: string;
+    emprNome: string;
+    emprCodigo: string;
 }
 
 // Converts JSON strings to/from your types

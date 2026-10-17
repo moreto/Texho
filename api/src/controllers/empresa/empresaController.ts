@@ -28,6 +28,27 @@ class EmpresaController {
         }
     }
 
+    async getByCodigo(request: Request, response: Response) {
+        try {
+            Log.printUrl(request);
+            if (!(await Header.verificaHeader(request, true))) {
+                return Resp.sendValidation(response, 400, "headerInvalido", true, LogTypes.SECURITY);
+            }
+
+            const model = EmpresaBodyModelConvert.toEmpresaBodyModel(JSON.stringify(request.body));
+
+            if (Util.isEmpty(model.emprCodigo)) {
+                return Resp.sendValidation(response, 400, "codigoObrigatorio", true, LogTypes.VALIDATION);
+            }
+
+            const retorno = await this.repository.getByCodigo(model.emprCodigo);
+
+            return Resp.send(response, 200, retorno);
+        } catch (error: unknown) {
+            return Resp.sendError(response, error, 500, "erroGeral", "empr.getBgetByCodigoyId", LogTypes.ERROR, 1);
+        }
+    }
+
     async post(request: Request, response: Response) {
         try {
             Log.printUrl(request);
@@ -38,7 +59,7 @@ class EmpresaController {
             const codigo = Util.getCode();
 
             const model = EmpresaBodyModelConvert.toEmpresaBodyModel(JSON.stringify(request.body));
-            model.empr_codigo = codigo;
+            model.emprCodigo = codigo;
 
             const retorno = await this.repository.post(model);
 
