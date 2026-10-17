@@ -3,6 +3,7 @@ import { LogTypes } from "../../commons/enum";
 import { Header } from "../../commons/header";
 import { Log } from "../../commons/log";
 import { Resp } from "../../commons/resp";
+import { Util } from "../../commons/util";
 import { EmpresaBodyModelConvert } from "../../models/empresa/empresaBodyModel";
 import { EmpresaModelConvert } from "../../models/empresa/empresaModel";
 import { EmpresaRepositoryContract } from "../../repositories/empresa/empresaRepositoryContract";
@@ -34,7 +35,10 @@ class EmpresaController {
                 return Resp.sendValidation(response, 400, "headerInvalido", true, LogTypes.SECURITY);
             }
 
+            const codigo = Util.getCode();
+
             const model = EmpresaBodyModelConvert.toEmpresaBodyModel(JSON.stringify(request.body));
+            model.empr_codigo = codigo;
 
             const retorno = await this.repository.post(model);
 

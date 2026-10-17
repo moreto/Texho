@@ -17,4 +17,12 @@ export class Util {
     static isEmpty(value: any) {
         return value === undefined || value == null || value.length <= 0 ? true : false;
     }
+
+    static getCode(tamanho: number = 6): string {
+        const caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*";
+
+        const valoresAleatorios = crypto.getRandomValues(new Uint32Array(tamanho));
+
+        return Array.from(valoresAleatorios, (valor) => caracteres[valor % caracteres.length]).join("");
+    }
 }

@@ -1,0 +1,32 @@
+info:
+  name: empresa-post
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{HOST}}/v1/empresa"
+  headers:
+    - name: x-token
+      value: "{{TOKEN}}"
+    - name: x-user
+      value: "1"
+    - name: x-access-interface
+      value: App
+    - name: x-access-token
+      value: 56ce516cb9f3a0095e069b0610db7017
+    - name: x-empresa
+      value: "1"
+  body:
+    type: json
+    data: |-
+      {
+        "empr_nome": "Teste Codigo"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

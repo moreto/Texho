@@ -6,6 +6,7 @@
 
 export interface EmpresaBodyModel {
     empr_nome: string;
+    empr_codigo: string;
 }
 
 // Converts JSON strings to/from your types
