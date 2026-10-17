@@ -289,9 +289,7 @@ class _LoginViewState extends State<LoginView> {
                                         viewModel.loginCommand.execute();
                                       }
                                     },
-                              child: viewModel.loginCommand.running
-                                  ? const CircularProgressIndicator()
-                                  : Text(strings.translate('login')),
+                              child: viewModel.loginCommand.running ? Loading() : Text(strings.translate('login')),
                             ),
                           ),
                         ] else ...[
@@ -364,7 +362,7 @@ class _LoginViewState extends State<LoginView> {
                                         }
                                       },
                                 child: viewModel.verifyOtpCommand.running
-                                    ? const CircularProgressIndicator()
+                                    ? Loading()
                                     : Text(strings.translate('login')),
                               ),
                             ),
@@ -386,7 +384,7 @@ class _LoginViewState extends State<LoginView> {
                                         }
                                       },
                                 child: viewModel.requestOtpCommand.running
-                                    ? const CircularProgressIndicator()
+                                    ? Loading()
                                     : Text(strings.translate('Enviar código')),
                               ),
                             ),

@@ -76,9 +76,7 @@ class _NotificacaoViewState extends State<NotificacaoView> {
   String _formatDate(DateTime date) {
     final localDate = date.toLocal();
     final formattedDate = MaterialLocalizations.of(context).formatMediumDate(localDate);
-    final formattedTime = MaterialLocalizations.of(context).formatTimeOfDay(
-      TimeOfDay.fromDateTime(localDate),
-    );
+    final formattedTime = MaterialLocalizations.of(context).formatTimeOfDay(TimeOfDay.fromDateTime(localDate));
     return '$formattedDate $formattedTime';
   }
 
@@ -132,10 +130,14 @@ class _NotificacaoViewState extends State<NotificacaoView> {
     final notificacoes = widget.viewModel.notificacoes;
 
     if (command.running && notificacoes == null) {
-      return const Scaffold(body: Center(child: Loading()));
+      return const Scaffold(
+        body: Center(child: Loading()),
+        bottomNavigationBar: ViewBottomActions(),
+      );
     }
 
     return Scaffold(
+      bottomNavigationBar: const ViewBottomActions(),
       appBar: AppBar(
         title: const Text('Notificações'),
         elevation: 0,
@@ -168,7 +170,7 @@ class _NotificacaoViewState extends State<NotificacaoView> {
           ? const Center(child: Text('Nenhuma notificação encontrada.'))
           : Column(
               children: [
-                if (command.running) const LinearProgressIndicator(),
+                if (command.running) Loading(),
                 Expanded(
                   child: RefreshIndicator(
                     onRefresh: command.execute,

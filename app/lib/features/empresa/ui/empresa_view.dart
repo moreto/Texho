@@ -132,10 +132,14 @@ class _EmpresaViewState extends State<EmpresaView> {
     final isSaving = viewModel.postEmpresaCommand.running || viewModel.putEmpresaCommand.running;
 
     if (viewModel.getEmpresaCommand.running && empresa == null) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(
+        body: Center(child: Loading()),
+        bottomNavigationBar: ViewBottomActions(),
+      );
     }
 
     return Scaffold(
+      bottomNavigationBar: const ViewBottomActions(),
       appBar: AppBar(
         title: const Text('Empresa'),
         elevation: 0,
@@ -206,7 +210,7 @@ class _EmpresaViewState extends State<EmpresaView> {
                         FilledButton.icon(
                           onPressed: isSaving || _loadFailed || viewModel.getEmpresaCommand.running ? null : _save,
                           icon: isSaving
-                              ? const SizedBox.square(dimension: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                              ? const SizedBox.square(dimension: 18, child: Loading())
                               : Icon(empresa == null ? Icons.add : Icons.save_outlined),
                           label: Text(
                             isSaving

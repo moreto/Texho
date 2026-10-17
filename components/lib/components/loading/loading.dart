@@ -70,7 +70,7 @@ class _BBLoading extends State<Loading> with SingleTickerProviderStateMixin {
     // }
 
     return Container(
-      color: Color(0xffFFED01),
+      color: Colors.transparent,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

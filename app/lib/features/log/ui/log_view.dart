@@ -110,10 +110,14 @@ class _LogViewState extends State<LogView> {
     final logs = widget.viewModel.logs;
 
     if (command.running && logs == null) {
-      return const Scaffold(body: Center(child: Loading()));
+      return const Scaffold(
+        body: Center(child: Loading()),
+        bottomNavigationBar: ViewBottomActions(),
+      );
     }
 
     return Scaffold(
+      bottomNavigationBar: const ViewBottomActions(),
       appBar: AppBar(
         title: const Text('Log'),
         elevation: 0,
