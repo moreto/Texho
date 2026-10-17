@@ -9,7 +9,7 @@ class IconsMap {
     'message-fast-outline': MdiIcons.messageFastOutline,
     'account': MdiIcons.account,
     'accountAlert': MdiIcons.accountAlert,
-    'accountArrowDown': MdiIcons.accountArrowDown,
+    'badge-account': MdiIcons.badgeAccount,
     // ...
   };
 }

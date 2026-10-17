@@ -16,4 +16,5 @@ abstract final class Routes {
 
   // empesa
   static const empresa = '/empresa';
+  static const empresaUsuario = '/empresa-usuario';
 }

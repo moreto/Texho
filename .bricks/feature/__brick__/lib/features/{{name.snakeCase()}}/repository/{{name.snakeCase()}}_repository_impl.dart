@@ -1,7 +1,7 @@
-import 'package:app/data/healt_model.dart';
 import 'package:commons/commons.dart';
 import 'package:service/service.dart';
 
+import '../../../data/model/healt_model.dart';
 import '{{name.snakeCase()}}_repository.dart';
 
 class {{name.pascalCase()}}RepositoryImpl implements {{name.pascalCase()}}Repository {
