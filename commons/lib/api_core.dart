@@ -18,6 +18,7 @@ enum ApiCore {
   requestOtp('/v1/otp/send', kDesHost, kPrdHost, HeaderType.basicInfo),
   verifyOtp('/v1/otp/verify', kDesHost, kPrdHost, HeaderType.basicInfo),
   empresa('/v1/empresa', kDesHost, kPrdHost, HeaderType.loggedArea),
+  empresaUsuarioDetalhe('/v1/empresa/usuario/detalhe', kDesHost, kPrdHost, HeaderType.loggedArea),
   usuarioDetalheById('/v1/usuario/usuario-detalhe-by-id', kDesHost, kPrdHost, HeaderType.loggedArea),
   usuarioDispositivo('/v1/usuario-dispositivo', kDesHost, kPrdHost, HeaderType.loggedArea);
 

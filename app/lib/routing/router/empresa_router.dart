@@ -19,7 +19,10 @@ class EmpresaRouter {
         final viewModel = EmpresaViewmodel(
           empresaUseCase: EmpresaUseCase(empresaRepository: locator<EmpresaRepository>()),
         );
-        return EmpresaView(viewModel: viewModel);
+        final empresaUsuarioViewModel = EmpresaUsuarioViewmodel(
+          empresaUsuarioUseCase: EmpresaUsuarioUseCase(empresaUsuarioRepository: locator<EmpresaUsuarioRepository>()),
+        );
+        return EmpresaView(viewModel: viewModel, empresaUsuarioViewModel: empresaUsuarioViewModel);
       },
     ),
 
