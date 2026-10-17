@@ -3,7 +3,7 @@ import * as Config from "../configs/config.json";
 import { Util } from "./util";
 
 export class Header {
-    static async verificaHeader(request: Request, valida: boolean) {
+    static async verificaHeader(request: Request, valida: boolean, requireEmpresa: boolean = true) {
         try {
             let bRet = true;
 
@@ -17,10 +17,9 @@ export class Header {
 
                 if (
                     Util.isEmpty(token) ||
-                    Util.isEmpty(token) ||
                     Util.isEmpty(accessToken) ||
                     Util.isEmpty(user) ||
-                    Util.isEmpty(empresa)
+                    (requireEmpresa && Util.isEmpty(empresa))
                 ) {
                     bRet = false;
                 } else {

@@ -21,6 +21,9 @@ empresaRoutes.post("/api/v1/empresa/codigo", authorize, (request, response) =>
 empresaRoutes.post("/api/v1/empresa/usuario", authorize, (request, response) =>
     empresaUsuarioController.post(request, response),
 );
+empresaRoutes.post("/api/v1/empresa/usuario/vincular", authorize, (request, response) =>
+    empresaUsuarioController.vincular(request, response),
+);
 empresaRoutes.get("/api/v1/empresa/usuario/detalhe", authorize, (request, response) =>
     empresaUsuarioController.getByEmpresaIdDetalhe(request, response),
 );

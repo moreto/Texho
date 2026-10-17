@@ -1,6 +1,6 @@
 import 'package:commons/commons.dart';
 
-enum HeaderType { minimal, basicInfo, loggedArea }
+enum HeaderType { minimal, basicInfo, loggedUser, loggedArea }
 
 const String kDesHost = 'http://192.168.1.70:3000/api';
 const String kPrdHost = 'http://192.168.1.70:3000/api';
@@ -18,6 +18,7 @@ enum ApiCore {
   requestOtp('/v1/otp/send', kDesHost, kPrdHost, HeaderType.basicInfo),
   verifyOtp('/v1/otp/verify', kDesHost, kPrdHost, HeaderType.basicInfo),
   empresa('/v1/empresa', kDesHost, kPrdHost, HeaderType.loggedArea),
+  empresaUsuarioVincular('/v1/empresa/usuario/vincular', kDesHost, kPrdHost, HeaderType.loggedUser),
   empresaUsuarioDetalhe('/v1/empresa/usuario/detalhe', kDesHost, kPrdHost, HeaderType.loggedArea),
   usuarioDetalheById('/v1/usuario/usuario-detalhe-by-id', kDesHost, kPrdHost, HeaderType.loggedArea),
   usuarioDispositivo('/v1/usuario-dispositivo', kDesHost, kPrdHost, HeaderType.loggedArea);
@@ -44,6 +45,8 @@ class Header {
         return header;
       case HeaderType.basicInfo:
         return buildHeaders();
+      case HeaderType.loggedUser:
+        return buildHeadersLoggedUserOnly();
       case HeaderType.loggedArea:
         return buildHeadersLoggedUser();
     }
@@ -59,6 +62,17 @@ class Header {
     }
 
     return {...buildHeaders(), 'x-token': token, 'x-user': userId.toString(), 'x-empresa': emprId.toString()};
+  }
+
+  static Map<String, String> buildHeadersLoggedUserOnly() {
+    final session = AuthSession.instance;
+    final token = session.token;
+    final userId = session.userId;
+    if (token == null || userId == null) {
+      throw StateError('headerInvalido');
+    }
+
+    return {...buildHeaders(), 'x-token': token, 'x-user': userId.toString()};
   }
 
   static Map<String, String> buildHeaders() {
