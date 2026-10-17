@@ -1,6 +1,7 @@
 import { EmpresaUsuarioBodyModel } from "../../models/empresa/empresaUsuarioBodyModel";
 
 export interface EmpresaUsuarioRepositoryContract {
-    getByEmpresaId(emprId: number): Promise<unknown[]>;
+    getByEmpresaUsuarioId(emprId: number): Promise<unknown[]>;
+    getByEmpresaUsuarioIdDetalhe(emprId: number): Promise<unknown[]>;
     post(emprId: number, model: EmpresaUsuarioBodyModel): Promise<unknown>;
 }

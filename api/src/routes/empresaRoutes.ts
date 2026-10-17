@@ -18,5 +18,7 @@ empresaRoutes.get("/api/v1/empresa/usuario", authorize, (request, response) =>
 empresaRoutes.post("/api/v1/empresa/usuario", authorize, (request, response) =>
     empresaUsuarioController.post(request, response),
 );
-
+empresaRoutes.get("/api/v1/empresa/usuario/detalhe", authorize, (request, response) =>
+    empresaUsuarioController.getByEmpresaIdDetalhe(request, response),
+);
 export default empresaRoutes;

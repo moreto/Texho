@@ -1,7 +1,7 @@
 -- gen_random_uuid()
 
 CREATE TRIGGER trgUpdateAt
-BEFORE UPDATE ON usuario_otp
+BEFORE UPDATE ON menu
 FOR EACH ROW
 EXECUTE FUNCTION updatedAt();
 
@@ -38,7 +38,11 @@ FROM public.notificacao n
 LEFT OUTER JOIN public.log l ON n.log_id = l.log_id  
 ORDER BY noti_id desc;
 
-
+SELECT e.empr_id, e.empr_nome, u.usua_id, u.usua_email, ud.udet_nome, ud.udet_usuario 
+FROM empresa e INNER JOIN empresa_usuario eu ON e.empr_id = eu.empr_id 
+INNER JOIN usuario u ON eu.usua_id = u.usua_id 
+INNER JOIN usuario_detalhe ud ON u.usua_id = ud.usua_id 
+WHERE e.empr_id = 1 ORDER BY ud.udet_nome;
 
 
 

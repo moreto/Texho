@@ -17,10 +17,25 @@ class EmpresaUsuarioController {
             }
 
             const emprId = await Header.getEpresa(request);
-            const retorno = await this.repository.getByEmpresaId(emprId);
+            const retorno = await this.repository.getByEmpresaUsuarioId(emprId);
             return Resp.send(response, 200, retorno);
         } catch (error: unknown) {
-            return Resp.sendError(response, error, 500, "erroGeral", "emprUsuario.getByEmpresaId", LogTypes.ERROR, 1);
+            return Resp.sendError(response, error, 500, "erroGeral", "empr_usua.getByEmpresaId", LogTypes.ERROR, 1);
+        }
+    }
+
+    async getByEmpresaIdDetalhe(request: Request, response: Response) {
+        try {
+            Log.printUrl(request);
+            if (!(await Header.verificaHeader(request, true))) {
+                return Resp.sendValidation(response, 400, "headerInvalido", true, LogTypes.SECURITY);
+            }
+
+            const emprId = await Header.getEpresa(request);
+            const retorno = await this.repository.getByEmpresaUsuarioIdDetalhe(emprId);
+            return Resp.send(response, 200, retorno);
+        } catch (error: unknown) {
+            return Resp.sendError(response, error, 500, "erroGeral", "empr_usua.getByEmpresaIdFull", LogTypes.ERROR, 1);
         }
     }
 
@@ -48,7 +63,7 @@ class EmpresaUsuarioController {
             const retorno = await this.repository.post(emprId, model);
             return Resp.send(response, 200, retorno);
         } catch (error: unknown) {
-            return Resp.sendError(response, error, 500, "erroGeral", "emprUsuario.post", LogTypes.ERROR, 1);
+            return Resp.sendError(response, error, 500, "erroGeral", "empr_usua.post", LogTypes.ERROR, 1);
         }
     }
 }
