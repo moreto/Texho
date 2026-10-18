@@ -7,108 +7,74 @@ import 'package:service/api/service_exception.dart';
 
 class DioProvider {
   final Dio _dio = Dio();
-  final CancelToken _cancelToken = CancelToken();
+  final Set<CancelToken> _activeCancelTokens = {};
   final Map<String, dynamic> bytes = {};
   final ApiCore _apiCore;
-  late Map<String, String>? _header;
+  final Map<String, String> _header;
+  final String _url;
 
-  Response _response = Response(
-    requestOptions: RequestOptions(),
-    statusCode: 500,
-    data: {'status': 500, 'message': 'erroGenerico'},
-  );
-  String _url = '';
-
-  DioProvider.of(this._apiCore) {
-    _header = Header.getHeader(_apiCore.headerType);
-
-    _url = _apiCore.des + _apiCore.endpoint;
-    if (kReleaseMode) {
-      _url = _apiCore.prd + _apiCore.endpoint;
-    }
-  }
+  DioProvider.of(this._apiCore)
+    : _header = Header.getHeader(_apiCore.headerType),
+      _url = (kReleaseMode ? _apiCore.prd : _apiCore.des) + _apiCore.endpoint;
 
   Future<Result<dynamic>> request({
     required Verb verb,
-    dynamic pathParam,
-    dynamic queryParam,
-    Map? body,
+    Object? pathParam,
+    Object? queryParam,
+    Map<String, dynamic>? body,
     int timeout = 30,
   }) async {
-    var stopWatch = Stopwatch();
-    stopWatch.start();
+    if (timeout <= 0) {
+      throw ArgumentError.value(timeout, 'timeout', 'Must be greater than zero');
+    }
 
-    final options = Options(
-      method: verb.name,
-      headers: _header,
-      contentType: Headers.jsonContentType,
-      responseType: ResponseType.json,
-      followRedirects: false,
-      sendTimeout: Duration(seconds: timeout),
-      receiveDataWhenStatusError: true,
-      receiveTimeout: const Duration(minutes: 1),
-    );
-
-    pathParam = pathParam != null ? '/$pathParam' : '';
-    queryParam = queryParam != null ? '?$queryParam' : '';
-    if (pathParam != null && pathParam != '') Log.print(pathParam.toString(), title: 'Provider Param', name: kApi);
-
-    Uri uri = Uri.parse("$_url$pathParam$queryParam");
+    final stopWatch = Stopwatch()..start();
+    final cancelToken = CancelToken();
+    _activeCancelTokens.add(cancelToken);
+    bytes.clear();
+    var status = 500;
 
     try {
-      switch (verb) {
-        case Verb.get:
-          _response = await _dio.getUri(
-            uri,
-            cancelToken: _cancelToken,
-            options: options,
-            onReceiveProgress: (count, total) => _receiveProgress(count, total),
-          );
-          Log.print(_response.toString(), title: 'Provider Response', name: kApi);
-          break;
-        case Verb.post:
-          _response = await _dio.postUri(
-            uri,
-            cancelToken: _cancelToken,
-            options: options,
-            data: body != null ? _nonNull(body) : null,
-            onReceiveProgress: (count, total) => _receiveProgress(count, total),
-            onSendProgress: (count, total) => _sendProgress(count, total),
-          );
-          Log.print(_response.toString(), title: 'Body', name: kApi);
-          Log.print(_response.toString(), title: 'Provider Response', name: kApi);
-          break;
-        case Verb.delete:
-          _response = await _dio.deleteUri(uri, cancelToken: _cancelToken, options: options);
-          Log.print(_response.toString(), title: 'Provider Response', name: kApi);
-          break;
-        case Verb.put:
-          _response = await _dio.putUri(
-            uri,
-            options: options,
-            cancelToken: _cancelToken,
-            data: _nonNull(body!),
-            onReceiveProgress: (count, total) => _receiveProgress(count, total),
-            onSendProgress: (count, total) => _sendProgress(count, total),
-          );
-          Log.print(_response.toString(), title: 'Provider Response', name: kApi);
-          break;
+      if (verb == Verb.put && body == null) {
+        return Result.error(
+          HttpServiceException(
+            exception: Exception('Request body is required for PUT'),
+            message: 'Request body is required for PUT',
+          ),
+        );
       }
-      return Result.ok(_response.data);
+
+      final duration = Duration(seconds: timeout);
+      final options = Options(
+        method: verb.name,
+        headers: _header,
+        contentType: Headers.jsonContentType,
+        responseType: ResponseType.json,
+        followRedirects: false,
+        connectTimeout: duration,
+        sendTimeout: duration,
+        receiveDataWhenStatusError: true,
+        receiveTimeout: duration,
+      );
+      final uri = _buildUri(pathParam, queryParam);
+      final response = await _dio.requestUri<dynamic>(
+        uri,
+        cancelToken: cancelToken,
+        options: options,
+        data: verb == Verb.post || verb == Verb.put ? _withoutNullValues(body) : null,
+        onReceiveProgress: _receiveProgress,
+        onSendProgress: _sendProgress,
+      );
+      status = response.statusCode ?? 500;
+      return Result.ok(response.data);
     } on DioException catch (e) {
-      // if (e.type == DioExceptionType.cancel) {
-      //   return Result.ok({});
-      // }
       final response = e.response;
-      _response =
-          response ??
-          Response(requestOptions: e.requestOptions, statusCode: 500, data: {'status': 500, 'message': 'erroGenerico'});
+      status = response?.statusCode ?? 500;
       final responseData = response?.data;
       final responseModel = responseData is Map
           ? HttpServiceExceptionModel.fromJson(Map<String, dynamic>.from(responseData))
           : null;
 
-      // throw HttpServiceException(
       return Result.error(
         HttpServiceException(
           code: response?.statusCode,
@@ -122,14 +88,11 @@ class DioProvider {
         ),
       );
     } finally {
-      int status = _response.statusCode ?? 500;
+      _activeCancelTokens.remove(cancelToken);
       stopWatch.stop();
-      var elapsedSeconds = stopWatch.elapsed.inSeconds;
-      var elapsedMilliseconds = stopWatch.elapsed.inMilliseconds;
-
-      Log.print('');
       Log.print(
-        '${_apiCore.endpoint}, s: $elapsedSeconds, ms: $elapsedMilliseconds',
+        '${_apiCore.endpoint}, s: ${stopWatch.elapsed.inSeconds}, '
+        'ms: ${stopWatch.elapsed.inMilliseconds}',
         title: 'Provider ${verb.name.toUpperCase()} $status',
         name: kApi,
       );
@@ -137,27 +100,55 @@ class DioProvider {
   }
 
   void cancel() {
-    bool isCancel = _cancelToken.isCancelled;
-    if (!isCancel) {
-      _cancelToken.cancel();
+    for (final cancelToken in _activeCancelTokens.toList()) {
+      if (!cancelToken.isCancelled) {
+        cancelToken.cancel();
+      }
     }
   }
 
-  Future<void> _receiveProgress(int count, int total) async {
-    bytes.addAll({
-      'download': {'count': count, 'total': total},
-    });
+  Uri _buildUri(Object? pathParam, Object? queryParam) {
+    final baseUri = Uri.parse(_url);
+    final path = pathParam == null ? baseUri.path : '${baseUri.path}/$pathParam';
+    if (queryParam == null) {
+      return baseUri.replace(path: path);
+    }
+
+    if (queryParam is Map) {
+      final queryParameters = <String, String>{};
+      for (final entry in queryParam.entries) {
+        final key = entry.key;
+        if (key is! String) {
+          throw ArgumentError.value(queryParam, 'queryParam', 'Query parameter keys must be strings');
+        }
+        if (entry.value != null) {
+          queryParameters[key] = entry.value.toString();
+        }
+      }
+      return baseUri.replace(path: path, queryParameters: queryParameters);
+    }
+
+    if (queryParam is String) {
+      final query = queryParam.startsWith('?') ? queryParam.substring(1) : queryParam;
+      return baseUri.replace(path: path, query: query);
+    }
+
+    throw ArgumentError.value(queryParam, 'queryParam', 'Must be a query string or a map');
   }
 
-  Future<void> _sendProgress(int count, int total) async {
-    bytes.addAll({
-      'upload': {'count': count, 'total': total},
-    });
+  void _receiveProgress(int count, int total) {
+    bytes['download'] = {'count': count, 'total': total};
   }
 
-  Map<dynamic, dynamic> _nonNull(Map body) {
-    body.removeWhere((key, value) => value == null || value == '');
-    return body;
+  void _sendProgress(int count, int total) {
+    bytes['upload'] = {'count': count, 'total': total};
+  }
+
+  Map<String, dynamic>? _withoutNullValues(Map<String, dynamic>? body) {
+    if (body == null) {
+      return null;
+    }
+    return Map<String, dynamic>.fromEntries(body.entries.where((entry) => entry.value != null));
   }
 
   String _messageForException(DioExceptionType type) {
