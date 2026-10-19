@@ -6,7 +6,7 @@ import { LogTypes } from "../../commons/enum";
 import { Log } from "../../commons/log";
 import { Resp } from "../../commons/resp";
 import { Util } from "../../commons/util";
-import * as Config from "../../configs/config.json";
+import { Config } from "../../configs/config";
 import { ConvertAcessoBodyModel } from "../../models/acesso/acessoBodyModel";
 import { LoginModel } from "../../models/acesso/loginModel";
 import { ConvertUsuarioModel } from "../../models/acesso/usuarioModel";

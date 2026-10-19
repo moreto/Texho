@@ -1,5 +1,5 @@
 import { Response } from "express";
-import * as Config from "../configs/config.json";
+import { Config } from "../configs/config";
 import { LogBodyModel } from "../models/logBodyModel";
 import { NotificacaoModel } from "../models/notificacaoModel";
 import { LogRepository } from "../repositories/log/logRepository";

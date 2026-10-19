@@ -1,5 +1,5 @@
 import { Request } from "express";
-import * as Config from "../configs/config.json";
+import { Config } from "../configs/config";
 import { Util } from "./util";
 
 export class Header {

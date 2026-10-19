@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import * as Package from "../../package.json";
 import { Log } from "../commons/log";
 import { Resp } from "../commons/resp";
-import * as Config from "../configs/config.json";
+import { Config } from "../configs/config";
 
 class RootController {
     constructor() {}

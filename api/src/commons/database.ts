@@ -1,12 +1,13 @@
 import camelcaseKeys from "camelcase-keys";
-import * as Config from "../configs/config.json";
+import { QueryConfig } from "pg";
+import { Config } from "../configs/config";
 import pool from "../configs/dbConfig";
 import { Log } from "./log";
 
 export class Database {
     // constructor() {}
 
-    static async DbQuery(query: { text: string; values: any }, status: string = "") {
+    static async DbQuery(query: QueryConfig) {
         const start = Date.now();
         const client = await pool.connect();
         try {
@@ -36,7 +37,7 @@ export class Database {
         }
     }
 
-    static async DbQueryList(query: { text: string; values: any }, status: string = "") {
+    static async DbQueryList(query: QueryConfig) {
         const start = Date.now();
         const client = await pool.connect();
         try {

@@ -1,10 +1,10 @@
 import { Request } from "express";
-import * as Config from "../configs/config.json";
+import { Config } from "../configs/config";
 
 export class Log {
     // constructor(parameters) {}
 
-    static print(text: object) {
+    static print(text: unknown) {
         const textLog = text;
 
         if (Config.showConsole) {

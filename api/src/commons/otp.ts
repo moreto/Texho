@@ -6,13 +6,10 @@ export function generateOTP(): string {
 }
 
 export async function sendOTPEmail(recipientEmail: string, otp: string): Promise<void> {
-    // user: "texhoapiservice@gmail.com", // seu email
-    // pass: "enjb twqz akwf pxey", // senha de app do Gmail
-
-    const user = "texhoapiservice@gmail.com";
-    const password = "enjb twqz akwf pxey";
+    const user = process.env.OTP_EMAIL_USER?.trim();
+    const password = process.env.OTP_EMAIL_PASSWORD;
     if (!user || !password) {
-        throw new Error("OTP email credentials are not configured.");
+        throw new Error("OTP_EMAIL_USER and OTP_EMAIL_PASSWORD must be configured.");
     }
 
     const transporter = nodemailer.createTransport({

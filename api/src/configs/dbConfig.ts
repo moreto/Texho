@@ -1,78 +1,48 @@
-import { Pool } from "pg";
-const types = require("pg").types;
+import { Pool, types } from "pg";
 
-// export default new Pool({
-//   types: types.setTypeParser(20, parseInt),
-//   statement_timeout: 10000,
-//   host: "192.168.1.10",
-//   // host: host,
-//   user: "mmoreto",
-//   password: "mm007007",
-//   port: 5432,
-//   database: "texho",
-//   // ssl: { rejectUnauthorized: false },
-//   max: 10,
-//   connectionTimeoutMillis: 10000,
-//   idleTimeoutMillis: 25000,
-//   query_timeout: 5000,
-//   keepAlive: true,
-//   keepAliveInitialDelayMillis: 30000,
-// });
+function requiredEnvironmentVariable(name: string): string {
+    const value = process.env[name]?.trim();
+    if (!value) {
+        throw new Error(`Missing required environment variable: ${name}`);
+    }
+    return value;
+}
 
-// PGHOST='ep-long-shape-a8gj1nho-pooler.eastus2.azure.neon.tech'
-// PGDATABASE='neondb'
-// PGUSER='neondb_owner'
-// PGPASSWORD='npg_Cx1BrHeVF2NO'
+const portValue = process.env.PGPORT ?? "5432";
+const port = Number(portValue);
+if (!Number.isInteger(port) || port < 1 || port > 65535) {
+    throw new Error("PGPORT must be an integer between 1 and 65535.");
+}
 
-// export default new Pool({
-//   types: types.setTypeParser(20, parseInt),
-//   statement_timeout: 10000,
-//   host: "ep-long-shape-a8gj1nho-pooler.eastus2.azure.neon.tech",
-//   // host: host,
-//   user: "neondb_owner",
-//   password: "npg_Cx1BrHeVF2NO",
-//   port: 5432,
-//   database: "neondb",
-//   ssl: { rejectUnauthorized: false },
-//   max: 10,
-//   connectionTimeoutMillis: 10000,
-//   idleTimeoutMillis: 25000,
-//   query_timeout: 5000,
-//   keepAlive: true,
-//   keepAliveInitialDelayMillis: 30000,
-// });
+const poolMax = Number(process.env.PGPOOL_MAX ?? "3");
+if (!Number.isInteger(poolMax) || poolMax < 1) {
+    throw new Error("PGPOOL_MAX must be a positive integer.");
+}
 
-// export default new Pool({
-//     types: types.setTypeParser(20, parseInt),
-//     statement_timeout: 10000,
-//     host: "192.168.1.45",
-//     // host: host,
-//     user: "casaos",
-//     password: "casaos",
-//     port: 5432,
-//     database: "texho",
-//     // ssl: { rejectUnauthorized: false },
-//     max: 10,
-//     connectionTimeoutMillis: 10000,
-//     idleTimeoutMillis: 25000,
-//     query_timeout: 5000,
-//     keepAlive: true,
-//     keepAliveInitialDelayMillis: 30000,
-// });
+const rejectUnauthorizedValue = process.env.PGSSL_REJECT_UNAUTHORIZED?.toLowerCase();
+if (rejectUnauthorizedValue && !["true", "false"].includes(rejectUnauthorizedValue)) {
+    throw new Error("PGSSL_REJECT_UNAUTHORIZED must be true or false.");
+}
+
+const ssl =
+    process.env.PGSSL?.toLowerCase() === "false"
+        ? false
+        : { rejectUnauthorized: rejectUnauthorizedValue !== "false" };
+
+types.setTypeParser(20, (value) => Number.parseInt(value, 10));
 
 export default new Pool({
-    types: types.setTypeParser(20, parseInt),
-    statement_timeout: 10000,
-    host: "db.tstkchztmidmmifvelll.supabase.co",
-    user: "postgres",
-    password: "EjgNpR1EbZCmRGRq",
-    port: 5432,
-    database: "postgres",
-    ssl: { rejectUnauthorized: false },
-    max: 10,
+    host: requiredEnvironmentVariable("PGHOST"),
+    port,
+    database: requiredEnvironmentVariable("PGDATABASE"),
+    user: requiredEnvironmentVariable("PGUSER"),
+    password: requiredEnvironmentVariable("PGPASSWORD"),
+    ssl,
+    max: poolMax,
     connectionTimeoutMillis: 10000,
     idleTimeoutMillis: 25000,
     query_timeout: 5000,
+    statement_timeout: 10000,
     keepAlive: true,
     keepAliveInitialDelayMillis: 30000,
 });

@@ -14,8 +14,13 @@ export class Util {
         return false;
     }
 
-    static isEmpty(value: any) {
-        return value === undefined || value == null || value.length <= 0 ? true : false;
+    static isEmpty(value: unknown): boolean {
+        if (value == null) return true;
+        if (typeof value === "string" || Array.isArray(value)) return value.length === 0;
+        if (typeof value === "object" && "length" in value && typeof value.length === "number") {
+            return value.length <= 0;
+        }
+        return false;
     }
 
     static getCode(tamanho: number = 6): string {

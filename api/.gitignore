@@ -1,3 +1,6 @@
 /node_modules
 /build
-/.env
+/.vercel
+/dist
+.env*
+!.env.example

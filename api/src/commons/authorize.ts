@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { sign, verify } from "jsonwebtoken";
-import * as Config from "../configs/config.json";
+import { Config } from "../configs/config";
 import { LogTypes } from "./enum";
 import { Resp } from "./resp";
 

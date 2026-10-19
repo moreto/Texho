@@ -4,7 +4,7 @@ import { LogTypes } from "../../commons/enum";
 import { Header } from "../../commons/header";
 import { Log } from "../../commons/log";
 import { Resp } from "../../commons/resp";
-import * as Config from "../../configs/config.json";
+import { Config } from "../../configs/config";
 import {
     EmpresaUsuarioBodyModel,
     EmpresaUsuarioVinculoBodyModel,
