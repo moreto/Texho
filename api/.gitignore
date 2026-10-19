@@ -4,3 +4,7 @@
 /dist
 
 /api/*.js
+
+
+.env*
+!.env.example
