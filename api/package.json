@@ -1,10 +1,10 @@
 {
   "name": "texho_api",
-  "version": "0.0.114",
+  "version": "0.0.115",
   "description": "",
   "main": "dist/index.js",
   "engines": {
-    "node": "22.x"
+    "node": "24.x"
   },
   "scripts": {
     "lint": "eslint src",
