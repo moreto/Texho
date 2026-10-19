@@ -2,5 +2,4 @@
 /build
 /.vercel
 /dist
-.env*
-!.env.example
+
