@@ -78,9 +78,9 @@ class _EmpresaViewState extends State<EmpresaView> with SingleTickerProviderStat
     }
   }
 
-  void _onPostResult() => _onSaveResult(widget.viewModel.postEmpresaCommand, 'Empresa cadastrada com sucesso.');
+  void _onPostResult() => _onSaveResult(widget.viewModel.postEmpresaCommand, 'empresaCadastrada');
 
-  void _onPutResult() => _onSaveResult(widget.viewModel.putEmpresaCommand, 'Empresa atualizada com sucesso.');
+  void _onPutResult() => _onSaveResult(widget.viewModel.putEmpresaCommand, 'empresaAtualizada');
 
   void _onUsuariosResult() {
     final command = widget.empresaUsuarioViewModel.getUsuariosCommand;
@@ -100,7 +100,8 @@ class _EmpresaViewState extends State<EmpresaView> with SingleTickerProviderStat
     if (command.result case Ok<EmpresaModel>(value: final empresa)) {
       _nomeController.text = empresa.emprNome;
       _loadFailed = false;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(successMessage)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).translate(successMessage))));
       command.clearResult();
     }
   }
@@ -168,14 +169,16 @@ class _EmpresaViewState extends State<EmpresaView> with SingleTickerProviderStat
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        empresa == null ? 'Cadastrar empresa' : 'Dados da empresa',
+                        empresa == null
+                            ? AppLocalizations.of(context).translate('cadastrarEmpresa')
+                            : AppLocalizations.of(context).translate('dadosEmpresa'),
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       if (empresa != null) ...[
                         const SizedBox(height: 8),
                         Text(
-                          'Código: ${empresa.emprCodigo}',
+                          '${AppLocalizations.of(context).translate('codigo')}: ${empresa.emprCodigo}',
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
@@ -186,13 +189,13 @@ class _EmpresaViewState extends State<EmpresaView> with SingleTickerProviderStat
                         maxLength: 120,
                         textCapitalization: TextCapitalization.words,
                         textInputAction: TextInputAction.done,
-                        decoration: const InputDecoration(
-                          labelText: 'Nome da empresa',
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context).translate('nomeEmpresa'),
                           prefixIcon: Icon(Icons.business_outlined),
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Informe o nome da empresa.';
+                            return AppLocalizations.of(context).translate('informeNomeEmpresa');
                           }
                           return null;
                         },
@@ -206,23 +209,25 @@ class _EmpresaViewState extends State<EmpresaView> with SingleTickerProviderStat
                             : Icon(empresa == null ? Icons.add : Icons.save_outlined),
                         label: Text(
                           isSaving
-                              ? 'Salvando...'
+                              ? AppLocalizations.of(context).translate('salvando')
                               : empresa == null
-                              ? 'Cadastrar empresa'
-                              : 'Salvar alterações',
+                              ? AppLocalizations.of(context).translate('cadastrarEmpresa')
+                              : AppLocalizations.of(context).translate('salvarAlteracoes'),
                         ),
                       ),
                       if (empresa == null) ...[
                         const SizedBox(height: 12),
                         if (_loadFailed)
                           Text(
-                            'Não foi possível consultar a empresa. Atualize os dados antes de cadastrar.',
+                            '${AppLocalizations.of(context).translate('falhaConsultarEmpresa')} '
+                            '${AppLocalizations.of(context).translate('atualizeAntesCadastrar')}',
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodySmall,
                           )
                         else
                           Text(
-                            'Nenhuma empresa cadastrada. Preencha o nome para criar uma.',
+                            '${AppLocalizations.of(context).translate('nenhumaEmpresaCadastrada')} '
+                            '${AppLocalizations.of(context).translate('preenchaNomeParaCriar')}',
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
@@ -250,12 +255,12 @@ class _EmpresaViewState extends State<EmpresaView> with SingleTickerProviderStat
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Não foi possível carregar os usuários da empresa.'),
+            Text(AppLocalizations.of(context).translate('falhaCarregarUsuarios')),
             const SizedBox(height: 12),
             FilledButton.icon(
               onPressed: viewModel.getUsuariosCommand.running ? null : viewModel.getUsuariosCommand.execute,
               icon: const Icon(Icons.refresh),
-              label: const Text('Tentar novamente'),
+              label: Text(AppLocalizations.of(context).translate('tentarNovamente')),
             ),
           ],
         ),
@@ -266,12 +271,12 @@ class _EmpresaViewState extends State<EmpresaView> with SingleTickerProviderStat
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Nenhum usuário vinculado à empresa.'),
+            Text(AppLocalizations.of(context).translate('nenhumUsuarioVinculado')),
             const SizedBox(height: 12),
             FilledButton.icon(
               onPressed: viewModel.getUsuariosCommand.running ? null : viewModel.getUsuariosCommand.execute,
               icon: const Icon(Icons.refresh),
-              label: const Text('Atualizar usuários'),
+              label: Text(AppLocalizations.of(context).translate('atualizarUsuarios')),
             ),
           ],
         ),
@@ -315,35 +320,44 @@ class _EmpresaViewState extends State<EmpresaView> with SingleTickerProviderStat
   }
 
   Widget _screen() {
+    final strings = AppLocalizations.of(context);
     final viewModel = widget.viewModel;
     final empresa = viewModel.empresaModel;
     final isSaving = viewModel.postEmpresaCommand.running || viewModel.putEmpresaCommand.running;
 
     if (viewModel.getEmpresaCommand.running && empresa == null) {
-      return const Scaffold(
+      return Scaffold(
         body: Center(child: Loading()),
-        bottomNavigationBar: ViewBottomActions(),
+        bottomNavigationBar: ViewBottomActions(
+          backLabel: strings.translate('voltar'),
+          hideActionsTooltip: strings.translate('ocultarAcoes'),
+          showActionsTooltip: strings.translate('exibirAcoes'),
+        ),
       );
     }
 
     return Scaffold(
-      bottomNavigationBar: const ViewBottomActions(),
+      bottomNavigationBar: ViewBottomActions(
+        backLabel: strings.translate('voltar'),
+        hideActionsTooltip: strings.translate('ocultarAcoes'),
+        showActionsTooltip: strings.translate('exibirAcoes'),
+      ),
       appBar: AppBar(
-        title: const Text('Empresa'),
+        title: Text(strings.translate('empresa')),
         elevation: 0,
         centerTitle: true,
         automaticallyImplyLeading: true,
         bottom: TabBar(
           controller: _tabController,
-          tabs: const [
-            Tab(text: 'Empresa', icon: Icon(Icons.business_outlined)),
-            Tab(text: 'Usuários', icon: Icon(Icons.people_outline)),
+          tabs: [
+            Tab(text: strings.translate('empresa'), icon: Icon(Icons.business_outlined)),
+            Tab(text: strings.translate('usuarios'), icon: Icon(Icons.people_outline)),
           ],
         ),
         // leading: IconButton(tooltip: 'Voltar', onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back)),
         actions: [
           IconButton(
-            tooltip: 'Atualizar empresa',
+            tooltip: strings.translate('atualizarEmpresa'),
             onPressed: viewModel.getEmpresaCommand.running ? null : viewModel.getEmpresaCommand.execute,
             icon: const Icon(Icons.refresh),
           ),

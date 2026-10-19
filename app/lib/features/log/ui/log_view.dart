@@ -82,7 +82,10 @@ class _LogViewState extends State<LogView> {
   }
 
   Widget _buildLog(LogModel log) {
-    final title = log.logTexto?.trim().isNotEmpty == true ? log.logTexto! : 'Log ${log.logId}';
+    final strings = AppLocalizations.of(context);
+    final title = log.logTexto?.trim().isNotEmpty == true
+        ? log.logTexto!
+        : '${strings.translate('log')} ${log.logId}';
     final details = log.logInfo;
 
     return Card(
@@ -93,7 +96,7 @@ class _LogViewState extends State<LogView> {
           color: log.logTipo?.toUpperCase() == 'ERROR' ? Theme.of(context).colorScheme.error : null,
         ),
         title: Text(title),
-        subtitle: Text('${log.logTipo ?? 'Log'} · ${_formatDate(log.logData)}'),
+        subtitle: Text('${log.logTipo ?? strings.translate('log')} · ${_formatDate(log.logData)}'),
         children: [
           if (details?.isNotEmpty == true)
             Padding(
@@ -106,25 +109,34 @@ class _LogViewState extends State<LogView> {
   }
 
   Widget _screen() {
+    final strings = AppLocalizations.of(context);
     final command = widget.viewModel.getLogsCommand;
     final logs = widget.viewModel.logs;
 
     if (command.running && logs == null) {
-      return const Scaffold(
+      return Scaffold(
         body: Center(child: Loading()),
-        bottomNavigationBar: ViewBottomActions(),
+        bottomNavigationBar: ViewBottomActions(
+          backLabel: strings.translate('voltar'),
+          hideActionsTooltip: strings.translate('ocultarAcoes'),
+          showActionsTooltip: strings.translate('exibirAcoes'),
+        ),
       );
     }
 
     return Scaffold(
-      bottomNavigationBar: const ViewBottomActions(),
+      bottomNavigationBar: ViewBottomActions(
+        backLabel: strings.translate('voltar'),
+        hideActionsTooltip: strings.translate('ocultarAcoes'),
+        showActionsTooltip: strings.translate('exibirAcoes'),
+      ),
       appBar: AppBar(
-        title: const Text('Log'),
+        title: Text(strings.translate('log')),
         elevation: 0,
         centerTitle: true,
         actions: [
           IconButton(
-            tooltip: 'Atualizar logs',
+            tooltip: strings.translate('atualizarLogs'),
             onPressed: command.running ? null : command.execute,
             icon: const Icon(Icons.refresh),
           ),
@@ -136,18 +148,18 @@ class _LogViewState extends State<LogView> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('Não foi possível carregar os logs.'),
+                  Text(strings.translate('falhaCarregarLogs')),
                   const SizedBox(height: 12),
                   FilledButton.icon(
                     onPressed: command.running ? null : command.execute,
                     icon: const Icon(Icons.refresh),
-                    label: const Text('Tentar novamente'),
+                    label: Text(strings.translate('tentarNovamente')),
                   ),
                 ],
               ),
             )
           : logs.isEmpty
-          ? const Center(child: Text('Nenhum log encontrado.'))
+          ? Center(child: Text(strings.translate('nenhumLogEncontrado')))
           : Column(
               children: [
                 if (command.running) const LinearProgressIndicator(),

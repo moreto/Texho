@@ -17,12 +17,18 @@ class ViewBottomActions extends StatefulWidget {
     this.optionButton2,
     this.isVisible = true,
     this.initiallyExpanded = true,
+    this.backLabel = 'Voltar',
+    this.hideActionsTooltip = 'Ocultar ações inferiores',
+    this.showActionsTooltip = 'Exibir ações inferiores',
   });
 
   final ViewBottomAction? optionButton1;
   final ViewBottomAction? optionButton2;
   final bool isVisible;
   final bool initiallyExpanded;
+  final String backLabel;
+  final String hideActionsTooltip;
+  final String showActionsTooltip;
 
   @override
   State<ViewBottomActions> createState() => _ViewBottomActionsState();
@@ -51,7 +57,7 @@ class _ViewBottomActionsState extends State<ViewBottomActions> {
             alignment: Alignment.centerRight,
             child: IconButton(
               visualDensity: VisualDensity.compact,
-              tooltip: _isExpanded ? 'Ocultar ações inferiores' : 'Exibir ações inferiores',
+              tooltip: _isExpanded ? widget.hideActionsTooltip : widget.showActionsTooltip,
               onPressed: () => setState(() => _isExpanded = !_isExpanded),
               icon: Icon(_isExpanded ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up),
             ),
@@ -66,7 +72,7 @@ class _ViewBottomActionsState extends State<ViewBottomActions> {
                     child: FilledButton.icon(
                       onPressed: () => Navigator.of(context).maybePop(),
                       icon: const Icon(Icons.arrow_back),
-                      label: const Text('Voltar'),
+                      label: Text(widget.backLabel),
                     ),
                   ),
                 ],

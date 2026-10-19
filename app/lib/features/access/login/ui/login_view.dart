@@ -81,8 +81,9 @@ class _LoginViewState extends State<LoginView> {
         _clearOtpFields();
       });
       _otpFocusNodes.first.requestFocus();
+      final strings = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Se o e-mail estiver cadastrado, você receberá um código em instantes.')),
+        SnackBar(content: Text(strings.translate('codigoEnviadoSeguro'))),
       );
       command.clearResult();
     }
@@ -259,7 +260,7 @@ class _LoginViewState extends State<LoginView> {
                             autofillHints: const [AutofillHints.password],
                             decoration: InputDecoration(
                               counterText: '',
-                              labelText: strings.translate('Senha'),
+                              labelText: strings.translate('senha'),
                               hintText: strings.translate('informeSenha'),
                               prefixIcon: const Icon(Icons.lock_outline),
                             ),
@@ -370,7 +371,7 @@ class _LoginViewState extends State<LoginView> {
                               onPressed: viewModel.requestOtpCommand.running
                                   ? null
                                   : viewModel.requestOtpCommand.execute,
-                              child: Text(strings.translate('Reenviar código')),
+                              child: Text(strings.translate('reenviarCodigo')),
                             ),
                           ] else ...[
                             ListenableBuilder(
@@ -385,12 +386,12 @@ class _LoginViewState extends State<LoginView> {
                                       },
                                 child: viewModel.requestOtpCommand.running
                                     ? Loading()
-                                    : Text(strings.translate('Enviar código')),
+                                    : Text(strings.translate('enviarCodigo')),
                               ),
                             ),
                           ],
                           const SizedBox(height: 8),
-                          TextButton(onPressed: _switchToPassword, child: Text(strings.translate('voltarEntraSenha'))),
+                          TextButton(onPressed: _switchToPassword, child: Text(strings.translate('voltarSenha'))),
                         ],
                         const Divider(height: 32),
                         OutlinedButton(

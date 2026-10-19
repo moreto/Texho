@@ -81,9 +81,10 @@ class _NotificacaoViewState extends State<NotificacaoView> {
   }
 
   Widget _buildNotificacao(NotificacaoModel notificacao) {
+    final strings = AppLocalizations.of(context);
     final title = notificacao.notiTexto?.trim().isNotEmpty == true
         ? notificacao.notiTexto!
-        : 'Notificação ${notificacao.notiId}';
+        : '${strings.translate('notificacao')} ${notificacao.notiId}';
     final hasAssociatedLog = notificacao.logId != null;
 
     return Card(
@@ -104,9 +105,13 @@ class _NotificacaoViewState extends State<NotificacaoView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Log associado #${notificacao.logId}', style: Theme.of(context).textTheme.titleSmall),
-                    if (notificacao.logTipo != null) Text('Tipo: ${notificacao.logTipo}'),
-                    if (notificacao.logTexto?.isNotEmpty == true) Text('Descrição: ${notificacao.logTexto}'),
+                    Text(
+                      '${strings.translate('logAssociado')} #${notificacao.logId}',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    if (notificacao.logTipo != null) Text('${strings.translate('tipo')}: ${notificacao.logTipo}'),
+                    if (notificacao.logTexto?.isNotEmpty == true)
+                      Text('${strings.translate('descricao')}: ${notificacao.logTexto}'),
                     if (notificacao.logInfo?.isNotEmpty == true) ...[
                       const SizedBox(height: 8),
                       SelectableText(notificacao.logInfo!),
@@ -116,9 +121,9 @@ class _NotificacaoViewState extends State<NotificacaoView> {
               ),
             )
           else
-            const Padding(
+            Padding(
               padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
-              child: SizedBox(width: double.infinity, child: Text('Sem log associado.')),
+              child: SizedBox(width: double.infinity, child: Text(strings.translate('semLogAssociado'))),
             ),
         ],
       ),
@@ -126,25 +131,34 @@ class _NotificacaoViewState extends State<NotificacaoView> {
   }
 
   Widget _screen() {
+    final strings = AppLocalizations.of(context);
     final command = widget.viewModel.getNotificacoesCommand;
     final notificacoes = widget.viewModel.notificacoes;
 
     if (command.running && notificacoes == null) {
-      return const Scaffold(
+      return Scaffold(
         body: Center(child: Loading()),
-        bottomNavigationBar: ViewBottomActions(),
+        bottomNavigationBar: ViewBottomActions(
+          backLabel: strings.translate('voltar'),
+          hideActionsTooltip: strings.translate('ocultarAcoes'),
+          showActionsTooltip: strings.translate('exibirAcoes'),
+        ),
       );
     }
 
     return Scaffold(
-      bottomNavigationBar: const ViewBottomActions(),
+      bottomNavigationBar: ViewBottomActions(
+        backLabel: strings.translate('voltar'),
+        hideActionsTooltip: strings.translate('ocultarAcoes'),
+        showActionsTooltip: strings.translate('exibirAcoes'),
+      ),
       appBar: AppBar(
-        title: const Text('Notificações'),
+        title: Text(strings.translate('notificacoes')),
         elevation: 0,
         centerTitle: true,
         actions: [
           IconButton(
-            tooltip: 'Atualizar notificações',
+            tooltip: strings.translate('atualizarNotificacoes'),
             onPressed: command.running ? null : command.execute,
             icon: const Icon(Icons.refresh),
           ),
@@ -156,18 +170,18 @@ class _NotificacaoViewState extends State<NotificacaoView> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('Não foi possível carregar as notificações.'),
+                  Text(strings.translate('falhaCarregarAvisos')),
                   const SizedBox(height: 12),
                   FilledButton.icon(
                     onPressed: command.running ? null : command.execute,
                     icon: const Icon(Icons.refresh),
-                    label: const Text('Tentar novamente'),
+                    label: Text(strings.translate('tentarNovamente')),
                   ),
                 ],
               ),
             )
           : notificacoes.isEmpty
-          ? const Center(child: Text('Nenhuma notificação encontrada.'))
+          ? Center(child: Text(strings.translate('semNotificacoes')))
           : Column(
               children: [
                 if (command.running) Loading(),

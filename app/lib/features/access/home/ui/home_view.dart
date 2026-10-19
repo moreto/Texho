@@ -40,9 +40,9 @@ class _HomeViewState extends State<HomeView> {
           _showSetting(index);
         },
         destinations: [
-          NavigationDestination(icon: Icon(Icons.text_fields), label: strings.translate('Fonte')),
-          NavigationDestination(icon: Icon(Icons.palette_outlined), label: strings.translate('Tema')),
-          NavigationDestination(icon: Icon(Icons.language), label: strings.translate('Idioma')),
+          NavigationDestination(icon: Icon(Icons.text_fields), label: strings.translate('fonte')),
+          NavigationDestination(icon: Icon(Icons.palette_outlined), label: strings.translate('tema')),
+          NavigationDestination(icon: Icon(Icons.language), label: strings.translate('idioma')),
         ],
       ),
     );
@@ -51,9 +51,9 @@ class _HomeViewState extends State<HomeView> {
   void _showSetting(int index) {
     final strings = AppLocalizations.of(context);
     final title = switch (index) {
-      0 => strings.translate('Fonte'),
-      1 => strings.translate('Tema'),
-      _ => strings.translate('Idioma'),
+      0 => strings.translate('fonte'),
+      1 => strings.translate('tema'),
+      _ => strings.translate('idioma'),
     };
 
     showModalBottomSheet<void>(
@@ -80,7 +80,7 @@ class _HomeViewState extends State<HomeView> {
     final strings = AppLocalizations.of(context);
     return DropdownButtonFormField<AppFont>(
       initialValue: context.watch<AppConfig>().font,
-      decoration: InputDecoration(labelText: strings.translate('Fonte')),
+      decoration: InputDecoration(labelText: strings.translate('fonte')),
       items: [for (final font in AppFont.values) DropdownMenuItem(value: font, child: Text(font.label))],
       onChanged: (font) {
         if (font != null) context.read<AppConfig>().setFont(font);
@@ -96,17 +96,17 @@ class _HomeViewState extends State<HomeView> {
         ButtonSegment(
           value: ThemeMode.system,
           icon: Icon(Icons.brightness_auto_outlined),
-          label: Text(strings.translate('Sistema')),
+          label: Text(strings.translate('sistema')),
         ),
         ButtonSegment(
           value: ThemeMode.light,
           icon: Icon(Icons.light_mode_outlined),
-          label: Text(strings.translate('Claro')),
+          label: Text(strings.translate('claro')),
         ),
         ButtonSegment(
           value: ThemeMode.dark,
           icon: Icon(Icons.dark_mode_outlined),
-          label: Text(strings.translate('Escuro')),
+          label: Text(strings.translate('escuro')),
         ),
       ],
       selected: {context.watch<AppConfig>().mode},
@@ -120,9 +120,9 @@ class _HomeViewState extends State<HomeView> {
     final strings = AppLocalizations.of(context);
     return DropdownButtonFormField<Locale?>(
       initialValue: context.watch<AppConfig>().locale,
-      decoration: InputDecoration(labelText: strings.translate('Idioma')),
+      decoration: InputDecoration(labelText: strings.translate('idioma')),
       items: [
-        DropdownMenuItem(value: null, child: Text(strings.translate('Sistema'))),
+        DropdownMenuItem(value: null, child: Text(strings.translate('sistema'))),
         DropdownMenuItem(value: Locale('pt', 'BR'), child: Text('Português')),
         DropdownMenuItem(value: Locale('es', 'ES'), child: Text('Español')),
         DropdownMenuItem(value: Locale('en', 'US'), child: Text('English')),

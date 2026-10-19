@@ -126,7 +126,10 @@ class _DashboardViewState extends State<DashboardView> {
   void _navigateTo(Menu menu) {
     final route = menu.menuRota;
     if (route == null || route.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Rota não definida para ${menu.menuNome}')));
+      final strings = AppLocalizations.of(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('${strings.translate('rotaNaoDefinida')}: ${menu.menuNome}')),
+      );
       return;
     }
     context.push(route);
@@ -143,7 +146,7 @@ class _DashboardViewState extends State<DashboardView> {
   Widget _buildMenu(MenuModel menuModel) {
     final menus = menuModel.menu;
     if (menus.isEmpty) {
-      return const Scaffold(body: Center(child: Text('Nenhum menu disponível')));
+      return Scaffold(body: Center(child: Text(AppLocalizations.of(context).translate('nenhumMenuDisponivel'))));
     }
 
     final selectedIndex = _currentIndex < menus.length ? _currentIndex : 0;
@@ -185,11 +188,11 @@ class _DashboardViewState extends State<DashboardView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Não foi possível carregar o menu'),
+            Text(AppLocalizations.of(context).translate('falhaCarregarMenu')),
             const SizedBox(height: 16),
             FilledButton(
               onPressed: menuCommand.running ? null : menuCommand.execute,
-              child: const Text('Tentar novamente'),
+              child: Text(AppLocalizations.of(context).translate('tentarNovamente')),
             ),
           ],
         ),

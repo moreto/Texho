@@ -55,9 +55,9 @@ class _RegisterViewState extends State<RegisterView> {
 
       DialogBottomSheetWarning(
         dialogWarning: DialogWarning(
-          title: 'Erro',
-          titleButtonPrimary: 'Ok',
-          titleButtonSecondary: 'Ok',
+          title: AppLocalizations.of(context).translate('error'),
+          titleButtonPrimary: AppLocalizations.of(context).translate('ok'),
+          titleButtonSecondary: AppLocalizations.of(context).translate('ok'),
           isDismissible: false,
           typeButtonsDialog: DialogBottomSheetTypeButtons.horizontalButtons,
           description: AppLocalizations.of(context).translate(msgError),
@@ -110,7 +110,7 @@ class _RegisterViewState extends State<RegisterView> {
                   style: Theme.of(context).textTheme.labelMedium,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return strings.translate('Informe o eMail');
+                      return strings.translate('informeEmail');
                     }
                     return null;
                   },
@@ -123,8 +123,8 @@ class _RegisterViewState extends State<RegisterView> {
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     counterText: '',
-                    label: Text(strings.translate('Senha'), style: Theme.of(context).textTheme.bodyLarge),
-                    hintText: strings.translate('Informe a Senha'),
+                    label: Text(strings.translate('senha'), style: Theme.of(context).textTheme.bodyLarge),
+                    hintText: strings.translate('informeSenha'),
                     prefixIcon: Icon(
                       // MdiIcons.formTextboxPassword,
                       Icons.password,
@@ -153,7 +153,7 @@ class _RegisterViewState extends State<RegisterView> {
                   style: Theme.of(context).textTheme.labelMedium,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return strings.translate('Informe a Senha');
+                      return strings.translate('informeSenha');
                     }
                     return null;
                   },

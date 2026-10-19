@@ -15,7 +15,7 @@ class EmpresaUsuarioRepositoryImpl implements EmpresaUsuarioRepository {
             value
                 .map((item) {
                   if (item is! Map) {
-                    throw const FormatException('Formato de usuário da empresa inválido.');
+                    throw const FormatException('formatoUsuarioInvalido');
                   }
                   return EmpresaUsuarioModel.fromJson(Map<String, dynamic>.from(item));
                 })
@@ -24,8 +24,10 @@ class EmpresaUsuarioRepositoryImpl implements EmpresaUsuarioRepository {
         case Error(error: final error):
           return Result.error(error);
         default:
-          return Result.error(HandledException(message: 'Formato de resposta da API inválido.'));
+          return Result.error(HandledException(message: 'respostaApiInvalida'));
       }
+    } on FormatException {
+      return Result.error(HandledException(message: 'formatoUsuarioInvalido'));
     } catch (error) {
       return Result.error(error is Exception ? error : Exception(error.toString()));
     }

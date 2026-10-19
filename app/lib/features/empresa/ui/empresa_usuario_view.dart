@@ -68,7 +68,7 @@ class _EmpresaUsuarioViewState extends State<EmpresaUsuarioView> {
     } else if (command.completed) {
       _codigoController.clear();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vinculação à empresa realizada com sucesso.')),
+        SnackBar(content: Text(AppLocalizations.of(context).translate('vinculoRealizado'))),
       );
       command.clearResult();
     }
@@ -84,11 +84,20 @@ class _EmpresaUsuarioViewState extends State<EmpresaUsuarioView> {
     return ListenableBuilder(
       listenable: widget.viewModel,
       builder: (context, child) {
+        final strings = AppLocalizations.of(context);
         final command = widget.viewModel.vincularCommand;
 
         return Scaffold(
-          bottomNavigationBar: const ViewBottomActions(),
-          appBar: AppBar(title: const Text('Vincular empresa'), elevation: 0, centerTitle: true),
+          bottomNavigationBar: ViewBottomActions(
+            backLabel: strings.translate('voltar'),
+            hideActionsTooltip: strings.translate('ocultarAcoes'),
+            showActionsTooltip: strings.translate('exibirAcoes'),
+          ),
+          appBar: AppBar(
+            title: Text(strings.translate('vincularEmpresa')),
+            elevation: 0,
+            centerTitle: true,
+          ),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SafeArea(
             child: Center(
@@ -108,13 +117,13 @@ class _EmpresaUsuarioViewState extends State<EmpresaUsuarioView> {
                             Icon(Icons.business_outlined, size: 48, color: Theme.of(context).colorScheme.primary),
                             const SizedBox(height: 16),
                             Text(
-                              'Vincular-se a uma empresa',
+                              strings.translate('vinculeContaEmpresa'),
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Informe o código da empresa para vincular sua conta.',
+                              strings.translate('informeCodigoVinculo'),
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
@@ -124,13 +133,13 @@ class _EmpresaUsuarioViewState extends State<EmpresaUsuarioView> {
                               textCapitalization: TextCapitalization.none,
                               textInputAction: TextInputAction.done,
                               enabled: !command.running,
-                              decoration: const InputDecoration(
-                                labelText: 'Código da empresa',
+                              decoration: InputDecoration(
+                                labelText: strings.translate('codigoEmpresa'),
                                 prefixIcon: Icon(Icons.key_outlined),
                               ),
                               validator: (value) {
                                 if (value == null || value.trim().isEmpty) {
-                                  return 'Informe o código da empresa.';
+                                  return strings.translate('informeCodigoEmpresa');
                                 }
                                 return null;
                               },
@@ -145,7 +154,9 @@ class _EmpresaUsuarioViewState extends State<EmpresaUsuarioView> {
                                       child: CircularProgressIndicator(strokeWidth: 2),
                                     )
                                   : const Icon(Icons.link),
-                              label: Text(command.running ? 'Vinculando...' : 'Vincular'),
+                              label: Text(
+                                strings.translate(command.running ? 'vinculando' : 'vincular'),
+                              ),
                             ),
                           ],
                         ),

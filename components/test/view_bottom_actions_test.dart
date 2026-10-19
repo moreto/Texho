@@ -82,4 +82,25 @@ void main() {
     expect(find.text('Ação 2'), findsOneWidget);
     expect(find.text('Voltar'), findsOneWidget);
   });
+
+  testWidgets('supports localized back and expansion labels', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          bottomNavigationBar: ViewBottomActions(
+            backLabel: 'Back',
+            hideActionsTooltip: 'Hide actions',
+            showActionsTooltip: 'Show actions',
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('Back'), findsOneWidget);
+    await tester.tap(find.byTooltip('Hide actions'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Show actions'));
+    await tester.pumpAndSettle();
+    expect(find.text('Back'), findsOneWidget);
+  });
 }

@@ -16,7 +16,7 @@ class NotificacaoRepositoryImpl implements NotificacaoRepository {
             value
                 .map((item) {
                   if (item is! Map) {
-                    throw const FormatException('Formato de notificação inválido.');
+                    throw const FormatException('formatoNotificacaoInvalido');
                   }
                   return NotificacaoModel.fromJson(Map<String, dynamic>.from(item));
                 })
@@ -25,8 +25,10 @@ class NotificacaoRepositoryImpl implements NotificacaoRepository {
         case Error(error: final error):
           return Result.error(error);
         default:
-          return Result.error(HandledException(message: 'Formato de resposta da API inválido.'));
+          return Result.error(HandledException(message: 'respostaApiInvalida'));
       }
+    } on FormatException {
+      return Result.error(HandledException(message: 'formatoNotificacaoInvalido'));
     } catch (error) {
       return Result.error(error is Exception ? error : Exception(error.toString()));
     }
