@@ -11,6 +11,7 @@ class DioProvider {
   final Map<String, dynamic> bytes = {};
   final ApiCore _apiCore;
   final Map<String, String> _header;
+
   final String _url;
 
   DioProvider.of(this._apiCore)
@@ -25,7 +26,7 @@ class DioProvider {
     int timeout = 30,
   }) async {
     if (timeout <= 0) {
-      throw ArgumentError.value(timeout, 'timeout', 'Must be greater than zero');
+      throw ArgumentError.value(timeout, 'timeout', 'deveSerMaiorQueZero');
     }
 
     final stopWatch = Stopwatch()..start();
@@ -37,10 +38,7 @@ class DioProvider {
     try {
       if (verb == Verb.put && body == null) {
         return Result.error(
-          HttpServiceException(
-            exception: Exception('Request body is required for PUT'),
-            message: 'Request body is required for PUT',
-          ),
+          HttpServiceException(exception: Exception('oCorpoDaRequisitacaoObrig'), message: 'oCorpoDaRequisitacaoObrig'),
         );
       }
 
@@ -119,7 +117,7 @@ class DioProvider {
       for (final entry in queryParam.entries) {
         final key = entry.key;
         if (key is! String) {
-          throw ArgumentError.value(queryParam, 'queryParam', 'Query parameter keys must be strings');
+          throw ArgumentError.value(queryParam, 'queryParam', 'queryParamStrings');
         }
         if (entry.value != null) {
           queryParameters[key] = entry.value.toString();
@@ -133,7 +131,7 @@ class DioProvider {
       return baseUri.replace(path: path, query: query);
     }
 
-    throw ArgumentError.value(queryParam, 'queryParam', 'Must be a query string or a map');
+    throw ArgumentError.value(queryParam, 'queryParam', 'queryParamStringsMap');
   }
 
   void _receiveProgress(int count, int total) {
