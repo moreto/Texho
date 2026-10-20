@@ -4,12 +4,22 @@ import { Config } from "../configs/config";
 import pool from "../configs/dbConfig";
 import { Log } from "./log";
 
+async function connectClient() {
+    try {
+        return await pool.connect();
+    } catch (err: unknown) {
+        const e = err as { code?: string; message?: string };
+        console.error("[Txh Api] Database connection failed:", e.code ?? "", e.message ?? err);
+        throw err;
+    }
+}
+
 export class Database {
     // constructor() {}
 
     static async DbQuery(query: QueryConfig) {
         const start = Date.now();
-        const client = await pool.connect();
+        const client = await connectClient();
         try {
             const result = await client.query(query);
             if (Config.poolLog)
@@ -39,7 +49,7 @@ export class Database {
 
     static async DbQueryList(query: QueryConfig) {
         const start = Date.now();
-        const client = await pool.connect();
+        const client = await connectClient();
         try {
             const result = await client.query(query);
             if (Config.poolLog)

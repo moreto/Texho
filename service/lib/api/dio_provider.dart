@@ -66,6 +66,7 @@ class DioProvider {
       status = response.statusCode ?? 500;
       return Result.ok(response.data);
     } on DioException catch (e) {
+      Log.print(e, name: kApi);
       final response = e.response;
       status = response?.statusCode ?? 500;
       final responseData = response?.data;
