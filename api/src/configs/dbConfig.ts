@@ -19,13 +19,18 @@ if (!Number.isInteger(poolMax) || poolMax < 1) {
     throw new Error("PGPOOL_MAX must be a positive integer.");
 }
 
-const rejectUnauthorizedValue = process.env.PGSSL_REJECT_UNAUTHORIZED?.toLowerCase();
-if (rejectUnauthorizedValue && !["true", "false"].includes(rejectUnauthorizedValue)) {
-    throw new Error("PGSSL_REJECT_UNAUTHORIZED must be true or false.");
+function booleanEnvironmentVariable(name: string): string | undefined {
+    const value = process.env[name]?.trim().replace(/^["']|["']$/g, "").trim().toLowerCase();
+    if (value && !["true", "false"].includes(value)) {
+        throw new Error(`${name} must be true or false (received "${process.env[name]}").`);
+    }
+    return value || undefined;
 }
 
+const rejectUnauthorizedValue = booleanEnvironmentVariable("PGSSL_REJECT_UNAUTHORIZED");
+
 const ssl =
-    process.env.PGSSL?.toLowerCase() === "false"
+    booleanEnvironmentVariable("PGSSL") === "false"
         ? false
         : { rejectUnauthorized: rejectUnauthorizedValue !== "false" };
 
