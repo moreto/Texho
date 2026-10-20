@@ -10,11 +10,24 @@ class TraducaoController {
     async traducao(request: Request, response: Response) {
         try {
             Log.printUrl(request);
-            const retorno = await this.repository.get();
+            const retorno = await this.repository.traducao();
 
-            return response.status(200).send(retorno);
+            // return response.status(200).send(retorno);
+            Resp.send(response, 200, retorno);
         } catch (error: unknown) {
             return Resp.sendError(response, error, 500, "erroGeral", "traducao", LogTypes.ERROR, 1);
+        }
+    }
+
+    async hash(request: Request, response: Response) {
+        try {
+            Log.printUrl(request);
+            const retorno = await this.repository.hash();
+
+            // return response.status(200).send(retorno);
+            Resp.send(response, 200, retorno);
+        } catch (error: unknown) {
+            return Resp.sendError(response, error, 500, "erroGeral", "hash", LogTypes.ERROR, 1);
         }
     }
 }

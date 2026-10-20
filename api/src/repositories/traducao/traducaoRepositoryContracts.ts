@@ -5,5 +5,6 @@ export interface LogDbRepositoryContract {
 }
 
 export interface TraducaoRepositoryContract {
-    get(): Promise<unknown[]>;
+    traducao(): Promise<unknown[]>;
+    hash(): Promise<unknown[]>;
 }
