@@ -6,5 +6,4 @@
 /api/*.js
 
 
-.env*
-!.env.example
+#.env*
