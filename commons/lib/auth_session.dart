@@ -28,4 +28,10 @@ class AuthSession {
 
     _emprId = emprId;
   }
+
+  void clear() {
+    _token = null;
+    _userId = null;
+    _emprId = null;
+  }
 }

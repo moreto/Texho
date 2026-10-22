@@ -12,4 +12,8 @@ class UsuarioSession {
   void setUsuarioDetalhe(UsuarioDetalheModel usuarioDetalhe) {
     _usuarioDetalhe = usuarioDetalhe;
   }
+
+  void clear() {
+    _usuarioDetalhe = null;
+  }
 }

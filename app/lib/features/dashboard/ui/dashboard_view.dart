@@ -1,6 +1,7 @@
 import 'package:app/config/icons_map.dart';
 import 'package:app/data/model/menu_model.dart';
 import 'package:app/l10n/app_localizations.dart';
+import 'package:app/routing/routes.dart';
 import 'package:commons/commons.dart';
 import 'package:components/components.dart';
 import 'package:flutter/material.dart';
@@ -153,7 +154,16 @@ class _DashboardViewState extends State<DashboardView> {
     final selectedMenu = menus[selectedIndex];
 
     return Scaffold(
-      appBar: AppBar(title: Text(selectedMenu.menuNome)),
+      appBar: AppBar(
+        title: Text(selectedMenu.menuNome),
+        actions: [
+          IconButton(
+            tooltip: AppLocalizations.of(context).translate('Sair'),
+            onPressed: () => context.push(Routes.loggof),
+            icon: const Icon(Icons.logout),
+          ),
+        ],
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

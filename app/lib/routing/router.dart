@@ -1,6 +1,7 @@
 import 'package:app/routing/router/access_router.dart';
 import 'package:app/routing/router/empresa_router.dart';
 import 'package:app/routing/router/log_router.dart';
+import 'package:app/routing/router/loggof_router.dart';
 import 'package:app/routing/router/notificacao_router.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,5 +13,11 @@ GoRouter router() => GoRouter(
   // redirect: _redirect,
   // refreshListenable: authRepository,
 
-  routes: [...AccessRouter.routes, ...EmpresaRouter.routes, ...LogRouter.routes, ...NotificacaoRouter.routes],
+  routes: [
+    ...AccessRouter.routes,
+    ...EmpresaRouter.routes,
+    ...LogRouter.routes,
+    ...LoggofRouter.routes,
+    ...NotificacaoRouter.routes,
+  ],
 );

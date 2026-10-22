@@ -13,6 +13,7 @@ abstract final class Routes {
   static const dashboard = '/dashboard';
   static const notificacao = '/notificacao';
   static const log = '/log';
+  static const loggof = '/loggof';
 
   // empesa
   static const empresa = '/empresa';

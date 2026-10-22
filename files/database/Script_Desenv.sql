@@ -30,19 +30,9 @@ SELECT * FROM public.empresa_usuario eu ;
 SELECT * FROM public.usuario_dispositivo ud;
 SELECT * FROM public.usuario_dispositivo_log udl;
 
-SELECT empr_id, empr_uuid, empr_nome, created_at, updated_at, FROM public.empresa WHERE empr_id = 1;
+SELECT t.created_at, t.updated_at  
+FROM public.traducao t ORDER BY t.created_at DESC LIMIT 1;
 
-
-SELECT n.noti_id, n.noti_data, n.noti_tipo, n.noti_texto, n.usua_id, n.log_id, l.log_tipo, l.log_info, l.log_texto 
-FROM public.notificacao n
-LEFT OUTER JOIN public.log l ON n.log_id = l.log_id  
-ORDER BY noti_id desc;
-
-SELECT e.empr_id, e.empr_nome, u.usua_id, u.usua_email, ud.udet_nome, ud.udet_usuario 
-FROM empresa e INNER JOIN empresa_usuario eu ON e.empr_id = eu.empr_id 
-INNER JOIN usuario u ON eu.usua_id = u.usua_id 
-LEFT OUTER JOIN usuario_detalhe ud ON u.usua_id = ud.usua_id 
-WHERE eu.empr_id = 1 ORDER BY ud.udet_nome;
-
-
+SELECT encode( digest(concat_ws('|', t.created_at, t.updated_at), 'sha256'), 'hex') AS hash
+FROM public.traducao t ORDER BY t.created_at DESC LIMIT 1;
 

@@ -1,0 +1,4 @@
+name: texho Vercel
+variables:
+  - name: HOST
+    value: texho.vercel.app/api
