@@ -12,12 +12,12 @@ services:
       - "3000:3000"
     environment:
       PORT: "3000"
-      PGHOST: aws-1-sa-east-1.pooler.supabase.com
+      PGHOST: "192.168.1.45"
       PGPORT: "6543"
-      PGDATABASE: texho
-      PGUSER: postgres.tstkchztmidmmifvelll
-      PGPASSWORD: EjgNpR1EbZCmRGRq
-      PGSSL: "true"
+      PGDATABASE: biblia
+      PGUSER: casaos
+      PGPASSWORD: casaos
+      PGSSL: "false"
       JWT_SIGNING_KEY: "*xMMx#"
       ACCESS_TOKEN_ID: 56ce516cb9f3a0095e069b0610db7017
       DATA_ENCRYPTION_KEY: 5oAaa+hIOTQzGUxHYn8o6mHfQqEi9PXb4kBGpCQ+fn0=
