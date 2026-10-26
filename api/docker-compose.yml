@@ -1,0 +1,25 @@
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file: .env
+    environment:
+      PGHOST: ${DOCKER_PGHOST:-db}
+      PGSSL: ${DOCKER_PGSSL:-false}
+    depends_on:
+      - db
+
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: ${PGUSER:-postgres}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}
+      POSTGRES_DB: ${PGDATABASE:-texho}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:

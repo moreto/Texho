@@ -1,6 +1,6 @@
 {
   "name": "texho_api",
-  "version": "0.0.119",
+  "version": "0.0.30",
   "description": "",
   "main": "dist/index.js",
   "engines": {
