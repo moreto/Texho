@@ -1,0 +1,50 @@
+name: texho
+services:
+  api:
+    image: node:24-slim
+    working_dir: /app
+    command: sh -c "npm ci && npm run build && node dist/index.js"
+    volumes:
+      - /DATA/Documents/Texho/api:/app
+    container_name: texho-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: "3000"
+      PGHOST: aws-1-sa-east-1.pooler.supabase.com
+      PGPORT: "6543"
+      PGDATABASE: texho
+      PGUSER: postgres.tstkchztmidmmifvelll
+      PGPASSWORD: EjgNpR1EbZCmRGRq
+      PGSSL: "true"
+      JWT_SIGNING_KEY: "*xMMx#"
+      ACCESS_TOKEN_ID: 56ce516cb9f3a0095e069b0610db7017
+      DATA_ENCRYPTION_KEY: 5oAaa+hIOTQzGUxHYn8o6mHfQqEi9PXb4kBGpCQ+fn0=
+      OTP_EMAIL_USER: "texhoapiservice@gmail.com"
+      OTP_EMAIL_PASSWORD: "enjb twqz akwf pxey"
+    depends_on:
+      - db
+    x-casaos:
+      title:
+        en_us: Texho API
+
+  db:
+    image: postgres:17
+    container_name: texho-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: texho
+      POSTGRES_PASSWORD: TROQUE_A_SENHA
+      POSTGRES_DB: texho
+    volumes:
+      - /DATA/AppData/texho/pgdata:/var/lib/postgresql/data
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: api
+  title:
+    en_us: Texho API
+  port_map: "3000"
