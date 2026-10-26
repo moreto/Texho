@@ -13,7 +13,7 @@ services:
     environment:
       PORT: "3000"
       PGHOST: "192.168.1.45"
-      PGPORT: "6543"
+      PGPORT: "5432"
       PGDATABASE: biblia
       PGUSER: casaos
       PGPASSWORD: casaos
